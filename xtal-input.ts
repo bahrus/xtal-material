@@ -575,7 +575,9 @@ template.innerHTML = `
     <input id="field-uyzeji-352rnc-4rv3g1-bvlh88-9dewuz" class="form-element-field" placeholder=" " type="email" required/>
     <div class="form-element-bar"></div>
     <label class="form-element-label" for="field-uyzeji-352rnc-4rv3g1-bvlh88-9dewuz">Email</label>
-    <small class="form-element-hint">We will never spam you!</small>
+    <small class="form-element-hint">
+        <slot name="hint"></slot>
+    </small>
 </div>
 `;
 class XtalInput extends HTMLElement{
