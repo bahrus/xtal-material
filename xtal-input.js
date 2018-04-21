@@ -571,9 +571,9 @@ select.form-element-field {
     ${main_css}
 </style>
 <div class="form-element form-input">
-    <input id="field-uyzeji-352rnc-4rv3g1-bvlh88-9dewuz" class="form-element-field" placeholder=" " type="email" required/>
+    <input id="input_field" class="form-element-field" placeholder=" " type="email" required/>
     <div class="form-element-bar"></div>
-    <label class="form-element-label" for="field-uyzeji-352rnc-4rv3g1-bvlh88-9dewuz">Email</label>
+    <label class="form-element-label" for="input_field">Email</label>
     <small class="form-element-hint">
         <slot name="hint"></slot>
     </small>
