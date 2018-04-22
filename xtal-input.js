@@ -72,6 +72,14 @@
             set value(val) {
                 this._inputElement.value = val;
             }
+            addEventListener(eventName, callback) {
+                if (eventName.endsWith('-changed')) {
+                    super.addEventListener(eventName, callback);
+                }
+                else {
+                    this._inputElement.addEventListener(eventName, callback);
+                }
+            }
             addTemplate(type) {
                 const clonedCssNode = this.getCssTemplate().content.cloneNode(true);
                 this.shadowRoot.appendChild(clonedCssNode);

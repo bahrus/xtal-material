@@ -79,6 +79,13 @@ export interface IXtalInputProperties {
                 this._inputElement.value = val;
             }
             _inputElement: HTMLInputElement;
+            addEventListener(eventName: string, callback){
+                if(eventName.endsWith('-changed')){
+                    super.addEventListener(eventName, callback);
+                }else{
+                    this._inputElement.addEventListener(eventName, callback);
+                }
+            }
 
             addTemplate(type: string) {
                 const clonedCssNode = this.getCssTemplate().content.cloneNode(true) as DocumentFragment;
