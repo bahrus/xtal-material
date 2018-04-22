@@ -41,25 +41,45 @@
                 super();
                 this.attachShadow({ mode: 'open' });
                 this.addTemplate(this.getType());
-                // const slot = this.shadowRoot.querySelector('slot');
-                // slot.addEventListener('slotchange', e => {
-                //     this._slotted = true;
-                //     this.onPropsChange();
-                // });
             }
             getType() {
                 return 'input';
             }
+            get value() {
+                return this._inputElement.value;
+            }
+            set value(val) {
+                this._inputElement.value = val;
+            }
             addTemplate(type) {
                 const clonedNode = template.content.cloneNode(true);
-                // const inp = clonedNode.querySelector('input');
-                // inp.setAttribute('type', type);
+                this._inputElement = clonedNode.querySelector('input');
+                this._inputElement.setAttribute('type', type);
                 for (let i = 0, ii = this.attributes.length; i < ii; i++) {
                     const attrib = this.attributes[i];
-                    const inp = clonedNode.querySelector('input');
-                    inp.setAttribute(attrib.name, attrib.value);
+                    //const inp = clonedNode.querySelector('input');
+                    this._inputElement.setAttribute(attrib.name, attrib.value);
                 }
                 this.shadowRoot.appendChild(clonedNode);
+                this._inputElement.addEventListener('input', e => {
+                    const newEvent = new CustomEvent('value-changed', {
+                        detail: {
+                            value: this._inputElement.value
+                        },
+                        bubbles: true,
+                        composed: false
+                    });
+                    this.dispatchEvent(newEvent);
+                });
+            }
+            _upgradeProperties(props) {
+                props.forEach(prop => {
+                    if (this.hasOwnProperty(prop)) {
+                        let value = this[prop];
+                        delete this[prop];
+                        this[prop] = value;
+                    }
+                });
             }
         }
         customElements.define(XtalInput.is, XtalInput);

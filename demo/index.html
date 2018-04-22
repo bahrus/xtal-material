@@ -12,6 +12,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
     <!-- <link rel="import" href="../xtal-material.html"> -->
 
     <custom-style>
@@ -24,8 +25,10 @@
       <h3>Basic xtal-material demo</h3>
       <demo-snippet>
         <template>
-         
-          <xtal-input placeholder="Please fill in your full name">
+          <dom-bind>
+            <template>
+              <div>[[testing]]</div>
+          <xtal-input placeholder="Please fill in your full name" value="{{testing}}">
               <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener>
               <span slot="label">Name</span>
           </xtal-input>
@@ -33,6 +36,8 @@
               <span slot="label">Email</span>
               <span slot="hint">We will never spam you</span>
           </xtal-input-email>
+        </template>
+        </dom-bind>
           <script>
               document.body.addEventListener('testing', e=>{
                 //alert('received test1 message');
