@@ -145,7 +145,7 @@
             cssCheckBoxTemplate.innerHTML = `
     <style>
          :host {
-            display: block;
+            display: inline-block;
         }
         ${checkBoxCss}
     </style>
