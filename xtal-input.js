@@ -31,9 +31,17 @@
     </small>
 </div>
 `;
+        const templateCheckbox = document.createElement('template');
+        templateCheckbox.innerHTML = `
+        <label class="form-checkbox-label">
+            <input id="input_field class="form-checkbox-field" type="checkbox" />
+            <i class="form-checkbox-button"></i>
+            <slot name="label"></slot>
+        </label>
+        `;
         /**
          * `xtal-input`
-         *  Web component wrapper around billboard.js charting library
+         *  Web component wrapper around https://codepen.io/jonnitto/pen/OVmvPB
          *
          * @customElement
          * @polymer
@@ -95,13 +103,23 @@
             }
         }
         customElements.define(XtalInput.is, XtalInput);
-        class XtalEmailInput extends XtalInput {
+        class XtalInputEmail extends XtalInput {
             static get is() { return 'xtal-input-email'; }
             getType() {
                 return 'email';
             }
         }
-        customElements.define(XtalEmailInput.is, XtalEmailInput);
+        customElements.define(XtalInputEmail.is, XtalInputEmail);
+        class XtalInputCheckbox extends XtalInput {
+            static get is() { return 'xtal-input-checkbox'; }
+            gtType() {
+                return 'checkbox';
+            }
+            getTemplate() {
+                return templateCheckbox;
+            }
+        }
+        customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
     }
 })();
 //# sourceMappingURL=xtal-input.js.map
