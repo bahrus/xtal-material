@@ -1,5 +1,5 @@
 declare var xtal_input: HTMLLinkElement;
-export interface IXtalInputProperties{
+export interface IXtalInputProperties {
     value: string
 }
 (function () {
@@ -11,14 +11,18 @@ export interface IXtalInputProperties{
         })
     });
     function initXtalInput(css: string) {
-        const template = document.createElement('template');
-        template.innerHTML = `
+        const cssTemplate = document.createElement('template');
+        cssTemplate.innerHTML = `
 <style>
      :host {
         display: block;
     }
     ${css}
 </style>
+        `;
+        const template = document.createElement('template');
+        template.innerHTML = `
+
 <div class="form-element form-input">
     
     <input id="input_field" class="form-element-field" placeholder=" " required/>
@@ -50,15 +54,17 @@ export interface IXtalInputProperties{
             getType() {
                 return 'input';
             }
-            get value(){
+            get value() {
                 return this._inputElement.value;
             }
-            set value(val){
+            set value(val) {
                 this._inputElement.value = val;
             }
-            _inputElement : HTMLInputElement;
+            _inputElement: HTMLInputElement;
             addTemplate(type: string) {
-                const clonedNode = template.content.cloneNode(true) as HTMLFrameElement;
+                const clonedCssNode = cssTemplate.content.cloneNode(true) as DocumentFragment;
+                this.shadowRoot.appendChild(clonedCssNode);
+                const clonedNode = template.content.cloneNode(true) as DocumentFragment;
                 this._inputElement = clonedNode.querySelector('input');
                 this._inputElement.setAttribute('type', type);
                 for (let i = 0, ii = this.attributes.length; i < ii; i++) {
@@ -67,7 +73,7 @@ export interface IXtalInputProperties{
                     this._inputElement.setAttribute(attrib.name, attrib.value);
                 }
                 this.shadowRoot.appendChild(clonedNode);
-                this._inputElement.addEventListener('input', e =>{
+                this._inputElement.addEventListener('input', e => {
                     const newEvent = new CustomEvent('value-changed', {
                         detail: {
                             value: this._inputElement.value
@@ -79,14 +85,17 @@ export interface IXtalInputProperties{
                 })
             }
             _upgradeProperties(props: string[]) {
-                props.forEach(prop =>{
+                props.forEach(prop => {
                     if (this.hasOwnProperty(prop)) {
                         let value = this[prop];
                         delete this[prop];
                         this[prop] = value;
                     }
                 })
-           
+
+            }
+            connectedCallback() {
+                this._upgradeProperties(['value']);
             }
         }
         customElements.define(XtalInput.is, XtalInput);

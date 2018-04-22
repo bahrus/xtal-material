@@ -7,14 +7,18 @@
         });
     });
     function initXtalInput(css) {
-        const template = document.createElement('template');
-        template.innerHTML = `
+        const cssTemplate = document.createElement('template');
+        cssTemplate.innerHTML = `
 <style>
      :host {
         display: block;
     }
     ${css}
 </style>
+        `;
+        const template = document.createElement('template');
+        template.innerHTML = `
+
 <div class="form-element form-input">
     
     <input id="input_field" class="form-element-field" placeholder=" " required/>
@@ -52,6 +56,8 @@
                 this._inputElement.value = val;
             }
             addTemplate(type) {
+                const clonedCssNode = cssTemplate.content.cloneNode(true);
+                this.shadowRoot.appendChild(clonedCssNode);
                 const clonedNode = template.content.cloneNode(true);
                 this._inputElement = clonedNode.querySelector('input');
                 this._inputElement.setAttribute('type', type);
@@ -80,6 +86,9 @@
                         this[prop] = value;
                     }
                 });
+            }
+            connectedCallback() {
+                this._upgradeProperties(['value']);
             }
         }
         customElements.define(XtalInput.is, XtalInput);
