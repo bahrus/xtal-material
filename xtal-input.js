@@ -33,11 +33,13 @@
 `;
         const templateCheckbox = document.createElement('template');
         templateCheckbox.innerHTML = `
+        <div class="form-checkbox form-checkbox-inline">
         <label class="form-checkbox-label">
-            <input id="input_field class="form-checkbox-field" type="checkbox" />
+            <input id="input_field" class="form-checkbox-field" type="checkbox" />
             <i class="form-checkbox-button"></i>
             <slot name="label"></slot>
         </label>
+        </div>
         `;
         /**
          * `xtal-input`
@@ -88,6 +90,12 @@
                     });
                     this.dispatchEvent(newEvent);
                 });
+                this._inputElement.addEventListener('change', e => {
+                    let element = this._inputElement; // e.target as HTMLInputElement;
+                    if (element && element.matches(".form-element-field")) {
+                        element.classList[element.value ? "add" : "remove"]("-hasvalue");
+                    }
+                });
             }
             _upgradeProperties(props) {
                 props.forEach(prop => {
@@ -112,7 +120,7 @@
         customElements.define(XtalInputEmail.is, XtalInputEmail);
         class XtalInputCheckbox extends XtalInput {
             static get is() { return 'xtal-input-checkbox'; }
-            gtType() {
+            getType() {
                 return 'checkbox';
             }
             getTemplate() {
