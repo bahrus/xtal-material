@@ -33,13 +33,11 @@
 `;
         const templateCheckbox = document.createElement('template');
         templateCheckbox.innerHTML = `
-        <div class="form-checkbox form-checkbox-inline">
         <label class="form-checkbox-label">
             <input id="input_field" class="form-checkbox-field" type="checkbox" />
             <i class="form-checkbox-button"></i>
             <slot name="label"></slot>
         </label>
-        </div>
         `;
         /**
          * `xtal-input`
