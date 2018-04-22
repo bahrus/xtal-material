@@ -1,24 +1,25 @@
 (function () {
     const cs_src = self['xtal_input'] ? xtal_input.href : document.currentScript.src;
     const base = cs_src.split('/').slice(0, -1).join('/');
+    let materialCss;
     fetch(base + '/xtal-material.css', { credentials: 'include' }).then(resp => {
         resp.text().then(txt => {
-            initXtalInput(txt);
+            materialCss = txt;
+            initXtalInput();
         });
     });
-    function initXtalInput(css) {
+    function initXtalInput() {
         const cssTemplate = document.createElement('template');
         cssTemplate.innerHTML = `
 <style>
      :host {
         display: block;
     }
-    ${css}
+    ${materialCss}
 </style>
         `;
         const templateFormElement = document.createElement('template');
         templateFormElement.innerHTML = `
-
 <div class="form-element form-input">
     
     <input id="input_field" class="form-element-field" placeholder=" " required/>
@@ -31,14 +32,6 @@
     </small>
 </div>
 `;
-        const templateCheckbox = document.createElement('template');
-        templateCheckbox.innerHTML = `
-        <label class="form-checkbox-label">
-            <input id="input_field" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <slot name="label"></slot>
-        </label>
-        `;
         /**
          * `xtal-input`
          *  Web component wrapper around https://codepen.io/jonnitto/pen/OVmvPB
@@ -67,6 +60,9 @@
             getType() {
                 return 'input';
             }
+            getCssTemplate() {
+                return cssTemplate;
+            }
             getTemplate() {
                 return templateFormElement;
             }
@@ -77,7 +73,7 @@
                 this._inputElement.value = val;
             }
             addTemplate(type) {
-                const clonedCssNode = cssTemplate.content.cloneNode(true);
+                const clonedCssNode = this.getCssTemplate().content.cloneNode(true);
                 this.shadowRoot.appendChild(clonedCssNode);
                 const clonedNode = this.getTemplate().content.cloneNode(true);
                 this._inputElement = clonedNode.querySelector('input');
@@ -111,6 +107,8 @@
                 this._upgradeProperties(['value']);
             }
         }
+        if (customElements.get(XtalInput.is))
+            return;
         customElements.define(XtalInput.is, XtalInput);
         class XtalInputEmail extends XtalInput {
             static get is() { return 'xtal-input-email'; }
@@ -119,32 +117,61 @@
             }
         }
         customElements.define(XtalInputEmail.is, XtalInputEmail);
-        class XtalInputCheckbox extends XtalInput {
-            static get is() { return 'xtal-input-checkbox'; }
-            getType() {
-                return 'checkbox';
-            }
-            getTemplate() {
-                return templateCheckbox;
-            }
-            get checked() {
-                return this._inputElement.checked;
-            }
-            set checked(val) {
-                this._inputElement.checked = val;
-            }
-            emitEvent() {
-                const newEvent = new CustomEvent('checked-changed', {
-                    detail: {
-                        value: this._inputElement.checked
-                    },
-                    bubbles: true,
-                    composed: false
-                });
-                this.dispatchEvent(newEvent);
-            }
+        let checkBoxCss;
+        fetch(base + '/xtal-material-checkbox-radio.css', { credentials: 'include' }).then(resp => {
+            resp.text().then(txt => {
+                checkBoxCss = txt;
+                initCheckbox();
+            });
+        });
+        function initCheckbox() {
+            const templateCheckbox = document.createElement('template');
+            templateCheckbox.innerHTML = `
+            <label class="form-checkbox-label">
+                <input id="input_field" class="form-checkbox-field" type="checkbox" />
+                <i class="form-checkbox-button"></i>
+                <slot name="label"></slot>
+            </label>
+            `;
+            const cssCheckBoxTemplate = document.createElement('template');
+            cssCheckBoxTemplate.innerHTML = `
+    <style>
+         :host {
+            display: block;
         }
-        customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
+        ${checkBoxCss}
+    </style>
+            `;
+            class XtalInputCheckbox extends XtalInput {
+                static get is() { return 'xtal-input-checkbox'; }
+                getType() {
+                    return 'checkbox';
+                }
+                getTemplate() {
+                    return templateCheckbox;
+                }
+                get checked() {
+                    return this._inputElement.checked;
+                }
+                set checked(val) {
+                    this._inputElement.checked = val;
+                }
+                getCssTemplate() {
+                    return cssCheckBoxTemplate;
+                }
+                emitEvent() {
+                    const newEvent = new CustomEvent('checked-changed', {
+                        detail: {
+                            value: this._inputElement.checked
+                        },
+                        bubbles: true,
+                        composed: false
+                    });
+                    this.dispatchEvent(newEvent);
+                }
+            }
+            customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
+        }
     }
 })();
 //# sourceMappingURL=xtal-input.js.map

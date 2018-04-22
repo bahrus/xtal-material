@@ -5,24 +5,25 @@ export interface IXtalInputProperties {
 (function () {
     const cs_src = self['xtal_input'] ? xtal_input.href : (document.currentScript as HTMLScriptElement).src;
     const base = cs_src.split('/').slice(0, -1).join('/');
+    let materialCss: string;
     fetch(base + '/xtal-material.css', { credentials: 'include' }).then(resp => {
         resp.text().then(txt => {
-            initXtalInput(txt);
+            materialCss = txt;
+            initXtalInput();
         })
     });
-    function initXtalInput(css: string) {
+    function initXtalInput() {
         const cssTemplate = document.createElement('template');
         cssTemplate.innerHTML = `
 <style>
      :host {
         display: block;
     }
-    ${css}
+    ${materialCss}
 </style>
         `;
         const templateFormElement = document.createElement('template');
         templateFormElement.innerHTML = `
-
 <div class="form-element form-input">
     
     <input id="input_field" class="form-element-field" placeholder=" " required/>
@@ -35,14 +36,7 @@ export interface IXtalInputProperties {
     </small>
 </div>
 `;
-        const templateCheckbox = document.createElement('template');
-        templateCheckbox.innerHTML = `
-        <label class="form-checkbox-label">
-            <input id="input_field" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <slot name="label"></slot>
-        </label>
-        `;
+
         /**
          * `xtal-input`
          *  Web component wrapper around https://codepen.io/jonnitto/pen/OVmvPB
@@ -57,9 +51,9 @@ export interface IXtalInputProperties {
                 super();
                 this.attachShadow({ mode: 'open' });
                 this.addTemplate(this.getType());
-                
+
             }
-            emitEvent(){
+            emitEvent() {
                 const newEvent = new CustomEvent('value-changed', {
                     detail: {
                         value: this._inputElement.value
@@ -72,7 +66,10 @@ export interface IXtalInputProperties {
             getType() {
                 return 'input';
             }
-            getTemplate(){
+            getCssTemplate(){
+                return cssTemplate;
+            }
+            getTemplate() {
                 return templateFormElement;
             }
             get value() {
@@ -82,9 +79,9 @@ export interface IXtalInputProperties {
                 this._inputElement.value = val;
             }
             _inputElement: HTMLInputElement;
-           
+
             addTemplate(type: string) {
-                const clonedCssNode = cssTemplate.content.cloneNode(true) as DocumentFragment;
+                const clonedCssNode = this.getCssTemplate().content.cloneNode(true) as DocumentFragment;
                 this.shadowRoot.appendChild(clonedCssNode);
                 const clonedNode = this.getTemplate().content.cloneNode(true) as DocumentFragment;
                 this._inputElement = clonedNode.querySelector('input');
@@ -95,11 +92,12 @@ export interface IXtalInputProperties {
                     this._inputElement.setAttribute(attrib.name, attrib.value);
                 }
                 this.shadowRoot.appendChild(clonedNode);
-                this._inputElement.addEventListener('input', e =>{
-                    this.emitEvent()});
-                this._inputElement.addEventListener('change', e =>{
-                    
-                    let element =  this._inputElement;// e.target as HTMLInputElement;
+                this._inputElement.addEventListener('input', e => {
+                    this.emitEvent()
+                });
+                this._inputElement.addEventListener('change', e => {
+
+                    let element = this._inputElement;// e.target as HTMLInputElement;
                     if (element && element.matches(".form-element-field")) {
                         element.classList[element.value ? "add" : "remove"]("-hasvalue");
                     }
@@ -119,6 +117,7 @@ export interface IXtalInputProperties {
                 this._upgradeProperties(['value']);
             }
         }
+        if (customElements.get(XtalInput.is)) return;
         customElements.define(XtalInput.is, XtalInput);
         class XtalInputEmail extends XtalInput {
             static get is() { return 'xtal-input-email'; }
@@ -126,33 +125,63 @@ export interface IXtalInputProperties {
                 return 'email'
             }
         }
+
         customElements.define(XtalInputEmail.is, XtalInputEmail);
-        class XtalInputCheckbox extends XtalInput{
-            static get is(){return 'xtal-input-checkbox'}
-            getType(){
-                return 'checkbox';
-            }
-            getTemplate(){
-                return templateCheckbox;
-            }
-            get checked() {
-                return this._inputElement.checked;
-            }
-            set checked(val) {
-                this._inputElement.checked = val;
-            }
-            emitEvent(){
-                const newEvent = new CustomEvent('checked-changed', {
-                    detail: {
-                        value: this._inputElement.checked
-                    },
-                    bubbles: true,
-                    composed: false
-                } as CustomEventInit);
-                this.dispatchEvent(newEvent);
-            }
+        let checkBoxCss: string;
+        fetch(base + '/xtal-material-checkbox-radio.css', { credentials: 'include' }).then(resp => {
+            resp.text().then(txt => {
+                checkBoxCss = txt;
+                initCheckbox();
+            })
+        }); 
+        function initCheckbox() {
+            const templateCheckbox = document.createElement('template');
+            templateCheckbox.innerHTML = `
+            <label class="form-checkbox-label">
+                <input id="input_field" class="form-checkbox-field" type="checkbox" />
+                <i class="form-checkbox-button"></i>
+                <slot name="label"></slot>
+            </label>
+            `;
+            const cssCheckBoxTemplate = document.createElement('template');
+            cssCheckBoxTemplate.innerHTML = `
+    <style>
+         :host {
+            display: block;
         }
-        customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
+        ${checkBoxCss}
+    </style>
+            `;
+            class XtalInputCheckbox extends XtalInput {
+                static get is() { return 'xtal-input-checkbox' }
+                getType() {
+                    return 'checkbox';
+                }
+                getTemplate() {
+                    return templateCheckbox;
+                }
+                get checked() {
+                    return this._inputElement.checked;
+                }
+                set checked(val) {
+                    this._inputElement.checked = val;
+                }
+                getCssTemplate(){
+                    return cssCheckBoxTemplate;
+                }
+                emitEvent() {
+                    const newEvent = new CustomEvent('checked-changed', {
+                        detail: {
+                            value: this._inputElement.checked
+                        },
+                        bubbles: true,
+                        composed: false
+                    } as CustomEventInit);
+                    this.dispatchEvent(newEvent);
+                }
+            }
+            customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
+        }
     }
 
 

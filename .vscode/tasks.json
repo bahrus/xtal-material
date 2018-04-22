@@ -15,9 +15,18 @@
             }
         },
         {
-            "label": "Sass Compile",
+            "label": "Sass Compile Material",
             "type": "shell",
             "command": "node-sass xtal-material.scss xtal-material.css",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Sass Compile Material CheckboxRadioButton",
+            "type": "shell",
+            "command": "node-sass xtal-material-checkbox-radio.scss xtal-material-checkbox-radio.css",
             "group": {
                 "kind": "build",
                 "isDefault": true
