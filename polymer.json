@@ -1,7 +1,8 @@
 {
   "sources":[
     "xtal-input.js",
-    "xtal-material.css"
+    "xtal-material.css",
+    "xtal-material-checkbox-radio.css"
   ],
   "lint": {
     "rules": [
