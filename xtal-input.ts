@@ -572,9 +572,11 @@ template.innerHTML = `
     ${main_css}
 </style>
 <div class="form-element form-input">
-    <input id="input_field" class="form-element-field" placeholder=" " type="email" required/>
+    <input id="input_field" class="form-element-field" placeholder=" " required/>
     <div class="form-element-bar"></div>
-    <label class="form-element-label" for="input_field">Email</label>
+    <label class="form-element-label" for="input_field">
+    <slot name="label"></slot>
+    </label>
     <small class="form-element-hint">
         <slot name="hint"></slot>
     </small>
@@ -583,20 +585,36 @@ template.innerHTML = `
 class XtalInput extends HTMLElement{
     static get is(){return 'xtal-input';}
     constructor() {
-        
         super();
         this.attachShadow({ mode: 'open' });
-        this.addTemplate();
+        this.addTemplate(this.getType());
         // const slot = this.shadowRoot.querySelector('slot');
         // slot.addEventListener('slotchange', e => {
         //     this._slotted = true;
         //     this.onPropsChange();
         // });
     }
+    getType(){
+        return 'input';
+    }
 
-    addTemplate(){
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+    addTemplate(type: string){
+        const clonedNode = template.content.cloneNode(true) as HTMLFrameElement;
+        const inp = clonedNode.querySelector('input');
+        inp.setAttribute('type', type);
+        for(let i = 0, ii = this.attributes.length; i < ii; i++){
+            const attrib = this.attributes[i];
+            inp.setAttribute(attrib.name, attrib.value);
+        }
+        this.shadowRoot.appendChild(clonedNode);
     }
 }
 customElements.define(XtalInput.is, XtalInput);
+class XtalEmailInput extends XtalInput{
+    static get is(){return 'xtal-input-email';}
+    getType(){
+        return 'email'
+    }
+}
+customElements.define(XtalEmailInput.is, XtalEmailInput);
 })();

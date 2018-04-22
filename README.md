@@ -1,6 +1,6 @@
 # \<xtal-material\>
 
-Dependency free material design components
+Dependency free material design V1 web components, based on Jon Uhlmann's pure [CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB). 
 
 ## Install the Polymer-CLI
 

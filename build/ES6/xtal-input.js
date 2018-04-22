@@ -1,7 +1,4 @@
-(function () {
-    const cs_src = self['xtal_input'] ? xtal_input.href : document.currentScript.src;
-    const template = document.createElement('template');
-    const main_css = `
+(function(){const a=self.xtal_input?xtal_input.href:document.currentScript.src,b=document.createElement('template'),c=`
 .form-btn,
 .form-btn-cancel,
 .form-btn-error {
@@ -562,13 +559,12 @@ select.form-element-field {
   -webkit-appearance: none;
   margin: 0;
 } 
-`;
-    template.innerHTML = `
+`;b.innerHTML=`
 <style>
      :host {
         display: block;
     }
-    ${main_css}
+    ${c}
 </style>
 <div class="form-element form-input">
     <input id="input_field" class="form-element-field" placeholder=" " required/>
@@ -580,40 +576,4 @@ select.form-element-field {
         <slot name="hint"></slot>
     </small>
 </div>
-`;
-    class XtalInput extends HTMLElement {
-        static get is() { return 'xtal-input'; }
-        constructor() {
-            super();
-            this.attachShadow({ mode: 'open' });
-            this.addTemplate(this.getType());
-            // const slot = this.shadowRoot.querySelector('slot');
-            // slot.addEventListener('slotchange', e => {
-            //     this._slotted = true;
-            //     this.onPropsChange();
-            // });
-        }
-        getType() {
-            return 'input';
-        }
-        addTemplate(type) {
-            const clonedNode = template.content.cloneNode(true);
-            const inp = clonedNode.querySelector('input');
-            inp.setAttribute('type', type);
-            for (let i = 0, ii = this.attributes.length; i < ii; i++) {
-                const attrib = this.attributes[i];
-                inp.setAttribute(attrib.name, attrib.value);
-            }
-            this.shadowRoot.appendChild(clonedNode);
-        }
-    }
-    customElements.define(XtalInput.is, XtalInput);
-    class XtalEmailInput extends XtalInput {
-        static get is() { return 'xtal-input-email'; }
-        getType() {
-            return 'email';
-        }
-    }
-    customElements.define(XtalEmailInput.is, XtalEmailInput);
-})();
-//# sourceMappingURL=xtal-input.js.map
+`;class d extends HTMLElement{static get is(){return'xtal-input'}constructor(){super(),this.attachShadow({mode:'open'}),this.addTemplate(this.getType())}getType(){return'input'}addTemplate(a){const c=b.content.cloneNode(!0),d=c.querySelector('input');d.setAttribute('type',a),this.shadowRoot.appendChild(c)}}customElements.define(d.is,d)})();
