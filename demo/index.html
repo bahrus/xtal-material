@@ -6,8 +6,9 @@
 
     <title>xtal-material demo</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../xtal-input.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
+    <script async  src="../xtal-input.js"></script>
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -23,13 +24,22 @@
       <h3>Basic xtal-material demo</h3>
       <demo-snippet>
         <template>
+         
           <xtal-input placeholder="Please fill in your full name">
+              <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener>
               <span slot="label">Name</span>
           </xtal-input>
           <xtal-input-email>
               <span slot="label">Email</span>
               <span slot="hint">We will never spam you</span>
           </xtal-input-email>
+          <script>
+              document.body.addEventListener('testing', e=>{
+                //alert('received test1 message');
+  
+              })
+              
+            </script>
         </template>
       </demo-snippet>
     </div>

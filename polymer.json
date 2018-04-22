@@ -1,6 +1,7 @@
 {
   "sources":[
-    "xtal-input.js"
+    "xtal-input.js",
+    "xtal-material.css"
   ],
   "lint": {
     "rules": [
@@ -10,11 +11,13 @@
   "builds":[
     {
       "name": "ES5",
-      "js": {"minify": true, "compile": true}
+      "js": {"minify": true, "compile": true},
+      "css": {"minify": true}
     },
     {
       "name": "ES6",
-      "js": {"minify": true, "compile": false}
+      "js": {"minify": true, "compile": false},
+      "css": {"minify": true}
     }    
   ]
 }
