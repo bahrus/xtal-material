@@ -582,6 +582,14 @@ template.innerHTML = `
     </small>
 </div>
 `;
+/**
+ * `xtal-input`
+ *  Web component wrapper around billboard.js charting library
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 class XtalInput extends HTMLElement{
     static get is(){return 'xtal-input';}
     constructor() {
