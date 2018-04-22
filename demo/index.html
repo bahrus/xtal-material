@@ -13,7 +13,7 @@
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
-    <link rel="import" href="../xtal-material.html">
+    <!-- <link rel="import" href="../xtal-material.html"> -->
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -36,10 +36,11 @@
                   <span slot="label">Email</span>
                   <span slot="hint">We will never spam you</span>
               </xtal-input-email>
-              <xtal-input-checkbox>
+              <div>[[checkboxValue]]</div>
+              <xtal-input-checkbox checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
               </xtal-input-checkbox>
-              <xtal-material></xtal-material>
+              <!-- <xtal-material></xtal-material> -->
             </template>
           </dom-bind>
           <script>

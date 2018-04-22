@@ -56,6 +56,16 @@
                 this.attachShadow({ mode: 'open' });
                 this.addTemplate(this.getType());
             }
+            emitEvent() {
+                const newEvent = new CustomEvent('value-changed', {
+                    detail: {
+                        value: this._inputElement.value
+                    },
+                    bubbles: true,
+                    composed: false
+                });
+                this.dispatchEvent(newEvent);
+            }
             getType() {
                 return 'input';
             }
@@ -81,14 +91,7 @@
                 }
                 this.shadowRoot.appendChild(clonedNode);
                 this._inputElement.addEventListener('input', e => {
-                    const newEvent = new CustomEvent('value-changed', {
-                        detail: {
-                            value: this._inputElement.value
-                        },
-                        bubbles: true,
-                        composed: false
-                    });
-                    this.dispatchEvent(newEvent);
+                    this.emitEvent();
                 });
                 this._inputElement.addEventListener('change', e => {
                     let element = this._inputElement; // e.target as HTMLInputElement;
@@ -125,6 +128,22 @@
             }
             getTemplate() {
                 return templateCheckbox;
+            }
+            get checked() {
+                return this._inputElement.checked;
+            }
+            set checked(val) {
+                this._inputElement.checked = val;
+            }
+            emitEvent() {
+                const newEvent = new CustomEvent('checked-changed', {
+                    detail: {
+                        value: this._inputElement.checked
+                    },
+                    bubbles: true,
+                    composed: false
+                });
+                this.dispatchEvent(newEvent);
             }
         }
         customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);

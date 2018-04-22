@@ -1,6 +1,6 @@
 declare var xtal_input: HTMLLinkElement;
 export interface IXtalInputProperties {
-    value: string
+    value: string | boolean;
 }
 (function () {
     const cs_src = self['xtal_input'] ? xtal_input.href : (document.currentScript as HTMLScriptElement).src;
@@ -59,7 +59,17 @@ export interface IXtalInputProperties {
                 super();
                 this.attachShadow({ mode: 'open' });
                 this.addTemplate(this.getType());
-
+                
+            }
+            emitEvent(){
+                const newEvent = new CustomEvent('value-changed', {
+                    detail: {
+                        value: this._inputElement.value
+                    },
+                    bubbles: true,
+                    composed: false
+                } as CustomEventInit);
+                this.dispatchEvent(newEvent);
             }
             getType() {
                 return 'input';
@@ -74,6 +84,7 @@ export interface IXtalInputProperties {
                 this._inputElement.value = val;
             }
             _inputElement: HTMLInputElement;
+           
             addTemplate(type: string) {
                 const clonedCssNode = cssTemplate.content.cloneNode(true) as DocumentFragment;
                 this.shadowRoot.appendChild(clonedCssNode);
@@ -86,19 +97,8 @@ export interface IXtalInputProperties {
                     this._inputElement.setAttribute(attrib.name, attrib.value);
                 }
                 this.shadowRoot.appendChild(clonedNode);
-                this._inputElement.addEventListener('input', e => {
-                    const newEvent = new CustomEvent('value-changed', {
-                        detail: {
-                            value: this._inputElement.value
-                        },
-                        bubbles: true,
-                        composed: false
-                    } as CustomEventInit);
-                    this.dispatchEvent(newEvent);
-                    
-                    
-                     
-                })
+                this._inputElement.addEventListener('input', e =>{
+                    this.emitEvent()});
                 this._inputElement.addEventListener('change', e =>{
                     
                     let element =  this._inputElement;// e.target as HTMLInputElement;
@@ -136,6 +136,22 @@ export interface IXtalInputProperties {
             }
             getTemplate(){
                 return templateCheckbox;
+            }
+            get checked() {
+                return this._inputElement.checked;
+            }
+            set checked(val) {
+                this._inputElement.checked = val;
+            }
+            emitEvent(){
+                const newEvent = new CustomEvent('checked-changed', {
+                    detail: {
+                        value: this._inputElement.checked
+                    },
+                    bubbles: true,
+                    composed: false
+                } as CustomEventInit);
+                this.dispatchEvent(newEvent);
             }
         }
         customElements.define(XtalInputCheckbox.is, XtalInputCheckbox);
