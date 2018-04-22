@@ -16,8 +16,8 @@
     ${css}
 </style>
         `;
-        const template = document.createElement('template');
-        template.innerHTML = `
+        const templateFormElement = document.createElement('template');
+        templateFormElement.innerHTML = `
 
 <div class="form-element form-input">
     
@@ -49,6 +49,9 @@
             getType() {
                 return 'input';
             }
+            getTemplate() {
+                return templateFormElement;
+            }
             get value() {
                 return this._inputElement.value;
             }
@@ -58,7 +61,7 @@
             addTemplate(type) {
                 const clonedCssNode = cssTemplate.content.cloneNode(true);
                 this.shadowRoot.appendChild(clonedCssNode);
-                const clonedNode = template.content.cloneNode(true);
+                const clonedNode = this.getTemplate().content.cloneNode(true);
                 this._inputElement = clonedNode.querySelector('input');
                 this._inputElement.setAttribute('type', type);
                 for (let i = 0, ii = this.attributes.length; i < ii; i++) {
