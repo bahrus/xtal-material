@@ -1,0 +1,9 @@
+{
+  "name": "xtal-material",
+  "version": "0.0.0",
+  "description": "Dependency Free Material Components",
+  "main": "xtal-input.js",
+  "repository": "https://github.com/bahrus/xtal-material",
+  "author": "bahrus <anderson.bruce.b@gmail.com>",
+  "license": "MIT"
+}
