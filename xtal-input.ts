@@ -1,4 +1,6 @@
 declare var xtal_input: HTMLLinkElement;
+declare var _xtal_input_material_css: HTMLLinkElement;
+declare var _xtal_input_material_checkbox_radio_css: HTMLLinkElement;
 export interface IXtalInputProperties {
     value: string | boolean;
 }
@@ -6,7 +8,8 @@ export interface IXtalInputProperties {
     const cs_src = self['xtal_input'] ? xtal_input.href : (document.currentScript as HTMLScriptElement).src;
     const base = cs_src.split('/').slice(0, -1).join('/');
     let materialCss: string;
-    fetch(base + '/xtal-material.css', { credentials: 'include' }).then(resp => {
+    const materialCssPath = self['_xtal_input_material_css'] ? _xtal_input_material_css.href : base + '/xtal-material.css';
+    fetch(materialCssPath, { credentials: 'include' }).then(resp => {
         resp.text().then(txt => {
             materialCss = txt;
             initXtalInput();
@@ -135,7 +138,8 @@ export interface IXtalInputProperties {
 
         customElements.define(XtalInputEmail.is, XtalInputEmail);
         let checkBoxCss: string;
-        fetch(base + '/xtal-material-checkbox-radio.css', { credentials: 'include' }).then(resp => {
+        const materialCssPath2 = self['_xtal_input_material_checkbox_radio_css'] ? _xtal_input_material_checkbox_radio_css.href : base +  '/xtal-material-checkbox-radio.css';
+        fetch(materialCssPath2, { credentials: 'include' }).then(resp => {
             resp.text().then(txt => {
                 checkBoxCss = txt;
                 initCheckbox();

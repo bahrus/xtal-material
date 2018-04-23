@@ -143,8 +143,5 @@
 .form-has-error .form-radio-button {
   color: #d9534f; }
 
-span[slot="label"] {
-  line-height: 24px; }
-
 ::slotted(span) {
   line-height: 24px; }
