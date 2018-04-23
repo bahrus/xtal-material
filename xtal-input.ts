@@ -89,7 +89,11 @@ export interface IXtalInputProperties {
                     this._inputElement.addEventListener(eventName, callback);
                 }
             }
-
+            addInputListener(){
+                this._inputElement.addEventListener('input', e => {
+                    this.emitEvent()
+                });
+            }
             addTemplate(type: string) {
                 const clonedCssNode = this.getCssTemplate().content.cloneNode(true) as DocumentFragment;
                 this.shadowRoot.appendChild(clonedCssNode);
@@ -102,9 +106,7 @@ export interface IXtalInputProperties {
                     this._inputElement.setAttribute(attrib.name, attrib.value);
                 }
                 this.shadowRoot.appendChild(clonedNode);
-                this._inputElement.addEventListener('input', e => {
-                    this.emitEvent()
-                });
+                this.addInputListener();
                 this._inputElement.addEventListener('change', e => {
 
                     let element = this._inputElement;// e.target as HTMLInputElement;
@@ -193,6 +195,11 @@ export interface IXtalInputProperties {
                 }
                 getCssTemplate(){
                     return cssCheckBoxTemplate;
+                }
+                addInputListener(){
+                    this._inputElement.addEventListener('change', e => {
+                        this.emitEvent()
+                    });
                 }
                 emitEvent() {
                     const newEvent = new CustomEvent('checked-changed', {
