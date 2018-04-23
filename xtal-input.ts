@@ -125,6 +125,20 @@ export interface IXtalInputProperties {
             }
             connectedCallback() {
                 this._upgradeProperties(['value']);
+                this.addMutationObserver();
+            }
+            _observer: MutationObserver;
+            addMutationObserver(){
+                const config : MutationObserverInit = { attributes: true};
+                this._observer =  new MutationObserver((mutationsList: MutationRecord[]) =>{
+                    mutationsList.forEach(mutation =>{
+                        this._inputElement[mutation.attributeName] = this[mutation.attributeName];
+                    })
+                });
+                this._observer.observe(this, config);
+            }
+            disconnectedCallback(){
+                this._observer.disconnect();
             }
         }
         if (customElements.get(XtalInput.is)) return;

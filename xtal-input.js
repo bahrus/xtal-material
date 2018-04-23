@@ -114,6 +114,19 @@
             }
             connectedCallback() {
                 this._upgradeProperties(['value']);
+                this.addMutationObserver();
+            }
+            addMutationObserver() {
+                const config = { attributes: true };
+                this._observer = new MutationObserver((mutationsList) => {
+                    mutationsList.forEach(mutation => {
+                        this._inputElement[mutation.attributeName] = this[mutation.attributeName];
+                    });
+                });
+                this._observer.observe(this, config);
+            }
+            disconnectedCallback() {
+                this._observer.disconnect();
             }
         }
         if (customElements.get(XtalInput.is))
