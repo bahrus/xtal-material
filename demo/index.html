@@ -32,6 +32,24 @@
             </small>
         </div>
     </template>
+    <template id="xtal_material_email_input_template">
+        <style>
+            :host {
+               display: block;
+           }
+        </style>
+        <link rel="stylesheet" href="../xtal-material-input.css">
+        <div class="form-element form-input">
+            <input id="input_field" class="form-element-field" placeholder=" " required/>
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="input_field">
+            <slot name="label"></slot>
+            </label>
+            <small class="form-element-hint">
+                <slot name="hint"></slot>
+            </small>
+        </div>
+    </template>
     <script async type="module" src="../xtal-material-input.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -57,15 +75,12 @@
                   <span slot="label">Name</span>
               </xtal-material-input> 
               
-              <!-- <xtal-input placeholder="Please fill in your full name" value="{{testing}}">
-                  <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener>
-                  <span slot="label">Name</span>
-              </xtal-input> -->
-              <!-- <xtal-input-email>
+
+              <xtal-material-email-input>
                   <span slot="label">Email</span>
                   <span slot="hint">We will never spam you</span>
-              </xtal-input-email>
-              <div>[[checkboxValue]]</div>
+              </xtal-material-email-input>
+              <!--<div>[[checkboxValue]]</div>
               <xtal-input-checkbox checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
               </xtal-input-checkbox> -->

@@ -81,4 +81,11 @@ export class XtalMaterialInput extends XtalShadow {
     }
 }
 initCE(XtalMaterialInput.is, XtalMaterialInput);
+export class XtalMaterialEmailInput extends XtalMaterialInput {
+    static get is() { return 'xtal-material-email-input'; }
+    getType() {
+        return 'email';
+    }
+}
+initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput);
 //# sourceMappingURL=xtal-material-input.js.map

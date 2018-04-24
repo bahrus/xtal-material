@@ -85,4 +85,14 @@ export class XtalMaterialInput extends XtalShadow implements IXtalInputPropertie
         this._observer.disconnect();
     }
 }
+
 initCE(XtalMaterialInput.is, XtalMaterialInput);
+
+export class XtalMaterialEmailInput extends XtalMaterialInput{
+    static get is() { return 'xtal-material-email-input'; }
+    getType() {
+        return 'email';
+    }
+}
+
+initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput);
