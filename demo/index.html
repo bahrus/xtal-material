@@ -13,27 +13,8 @@
       I am here
     </template>
     <script async type="module" src="../xtal-shadow.js"></script> -->
-    <template id="xtal_material_input_template" data-src="../xtal-material-input.html">
-
-    </template>
-    <template id="xtal_material_email_input_template">
-        <style>
-            :host {
-               display: block;
-           }
-        </style>
-        <link rel="stylesheet" href="../xtal-material-input.css">
-        <div class="form-element form-input">
-            <input id="input_field" class="form-element-field" placeholder=" " required/>
-            <div class="form-element-bar"></div>
-            <label class="form-element-label" for="input_field">
-            <slot name="label"></slot>
-            </label>
-            <small class="form-element-hint">
-                <slot name="hint"></slot>
-            </small>
-        </div>
-    </template>
+    <template id="xtal_material_input_template" data-src="../xtal-material-input.html"></template>
+    <template id="xtal_material_email_input_template" data-src="../xtal-material-input.html"></template>
     <template id="xtal_material_checkbox_template">
         <style>
             :host {

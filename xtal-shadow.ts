@@ -29,6 +29,8 @@ export class XtalShadow extends HTMLElement{
         this.initShadowRoot();               
     }
 }
+const cachedTemplates : {[key:string] : string} = {};
+const fetchInProgress : {[key:string] : boolean} = {};
 export function initCE(tagName, cls){
     if(customElements.get(tagName)) return;
     const templateID = tagName.split('-').join('_') + '_template';
@@ -41,12 +43,29 @@ export function initCE(tagName, cls){
     }
     const src = template.dataset.src;
     if(src){
-        fetch(src).then(resp =>{
-            resp.text().then(txt =>{
-                template.innerHTML = txt;
-                customElements.define(tagName, cls);
+        if(cachedTemplates[src]){
+            template.innerHTML = cachedTemplates[src];
+            customElements.define(tagName, cls);
+        }else{
+            if(fetchInProgress[src]){
+                setTimeout(() =>{
+                    initCE(tagName, cls)
+                }, 100);
+                return;
+            }
+            fetchInProgress[src] = true;
+            fetch(src, {
+                credentials: 'include'
+            }).then(resp =>{
+                resp.text().then(txt =>{
+                    fetchInProgress[src] = false;
+                    cachedTemplates[src] = txt;
+                    template.innerHTML = txt;
+                    customElements.define(tagName, cls);
+                })
             })
-        })
+        }
+
     }else{
         customElements.define(tagName, cls);
     }
