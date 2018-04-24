@@ -17,7 +17,7 @@
         {
             "label": "Sass Compile Material",
             "type": "shell",
-            "command": "node-sass xtal-material.scss xtal-material.css",
+            "command": "node-sass xtal-material-input.scss xtal-material-input.css",
             "group": {
                 "kind": "build",
                 "isDefault": true
