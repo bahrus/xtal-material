@@ -1,6 +1,3 @@
-import { template } from "babel-core/index";
-
-
 export class XtalShadow extends HTMLElement{
     static get is(){return 'xtal-shadow';}
     get tn(){
