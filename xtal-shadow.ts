@@ -17,9 +17,13 @@ export class XtalShadow extends HTMLElement{
     initShadowRoot(){}
     addTemplate(){
         if(!this.CE._template){
-            this.CE._template = self[this.tn.split('-').join('_') + '_template'];
+            this.CE._template = {};
         }
-        const clonedNode = this.CE._template.content.cloneNode(true) as DocumentFragment;
+        const tn = this.tn;
+        if(!this.CE._template[tn]){
+            this.CE._template[tn] = self[tn.split('-').join('_') + '_template'];
+        }
+        const clonedNode = this.CE._template[tn].content.cloneNode(true) as DocumentFragment;
         this.customizeClone(clonedNode);
         this.shadowRoot.appendChild(clonedNode);
         this.initShadowRoot();               
