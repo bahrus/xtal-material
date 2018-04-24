@@ -186,6 +186,7 @@
                     return cssCheckBoxTemplate;
                 }
                 addInputListener() {
+                    //some browsers don't support 'input' change on checkbox yet
                     this._inputElement.addEventListener('change', e => {
                         this.emitEvent();
                     });

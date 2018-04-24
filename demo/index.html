@@ -8,8 +8,31 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
-    <script async  src="../xtal-input.js"></script>
-
+    <!-- <script async  src="../xtal-input.js"></script> -->
+    <!-- <template id="xtal_shadow_template">
+      I am here
+    </template>
+    <script async type="module" src="../xtal-shadow.js"></script> -->
+    <template id="xtal_material_input_template">
+        <style>
+            :host {
+               display: block;
+           }
+        </style>
+        <link rel="stylesheet" href="../xtal-material.css">
+        <div class="form-element form-input">
+    
+            <input id="input_field" class="form-element-field" placeholder=" " required/>
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="input_field">
+            <slot name="label"></slot>
+            </label>
+            <small class="form-element-hint">
+                <slot name="hint"></slot>
+            </small>
+        </div>
+    </template>
+    <script async type="module" src="../xtal-material-input.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
@@ -19,6 +42,7 @@
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
     </custom-style>
+    
   </head>
   <body>
     <div class="vertical-section-container centered">
@@ -28,18 +52,23 @@
           <dom-bind>
             <template>
               <div>[[testing]]</div>
-              <xtal-input placeholder="Please fill in your full name" value="{{testing}}">
+              <xtal-material-input placeholder="Please fill in your full name" value="{{testing}}">
+                  <!-- <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener> -->
+                  <span slot="label">Name</span>
+              </xtal-material-input> 
+              
+              <!-- <xtal-input placeholder="Please fill in your full name" value="{{testing}}">
                   <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener>
                   <span slot="label">Name</span>
-              </xtal-input>
-              <xtal-input-email>
+              </xtal-input> -->
+              <!-- <xtal-input-email>
                   <span slot="label">Email</span>
                   <span slot="hint">We will never spam you</span>
               </xtal-input-email>
               <div>[[checkboxValue]]</div>
               <xtal-input-checkbox checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
-              </xtal-input-checkbox>
+              </xtal-input-checkbox> -->
               <!-- <xtal-material></xtal-material> -->
             </template>
           </dom-bind>
