@@ -50,7 +50,21 @@
             </small>
         </div>
     </template>
+    <template id="xtal_material_checkbox_template">
+        <style>
+            :host {
+               display: block;
+           }
+        </style>
+        <link rel="stylesheet" href="../xtal-material-checkbox-radio.css">
+        <label class="form-checkbox-label">
+            <input id="input_field" class="form-checkbox-field" type="checkbox" />
+            <i class="form-checkbox-button"></i>
+            <slot name="label"></slot>
+        </label>
+    </template>
     <script async type="module" src="../xtal-material-input.js"></script>
+    <script async type="module" src="../xtal-material-checkbox-radio.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
@@ -80,11 +94,11 @@
                   <span slot="label">Email</span>
                   <span slot="hint">We will never spam you</span>
               </xtal-material-email-input>
-              <!--<div>[[checkboxValue]]</div>
-              <xtal-input-checkbox checked="{{checkboxValue}}">
+              <div>[[checkboxValue]]</div>
+              <xtal-material-checkbox checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
-              </xtal-input-checkbox> -->
-              <!-- <xtal-material></xtal-material> -->
+              </xtal-material-checkbox> 
+              
             </template>
           </dom-bind>
           <script>
