@@ -32,13 +32,26 @@ export class XtalShadow extends HTMLElement {
 export function initCE(tagName, cls) {
     if (customElements.get(tagName))
         return;
-    if (!self[tagName.split('-').join('_') + '_template']) {
+    const templateID = tagName.split('-').join('_') + '_template';
+    const template = self[templateID];
+    if (!template) {
         // setTimeout(() =>{
         //     initCE(tagName, cls);
         // }, 100);
         return;
     }
-    customElements.define(tagName, cls);
+    const src = template.dataset.src;
+    if (src) {
+        fetch(src).then(resp => {
+            resp.text().then(txt => {
+                template.innerHTML = txt;
+                customElements.define(tagName, cls);
+            });
+        });
+    }
+    else {
+        customElements.define(tagName, cls);
+    }
 }
 initCE(XtalShadow.is, XtalShadow);
 //# sourceMappingURL=xtal-shadow.js.map
