@@ -4,7 +4,8 @@
     "xtal-material-input.js",
     "xtal-material-input.html",
     "xtal-material-checkbox-radio.js",
-    "xtal-material-checkbox-radio.html"
+    "xtal-material-checkbox-radio.html",
+    "xtal-material.js"
   ],
   "lint": {
     "rules": [
