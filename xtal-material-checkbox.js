@@ -29,4 +29,4 @@ export class XtalMaterialCheckbox extends XtalMaterialInput {
     }
 }
 initCE(XtalMaterialCheckbox.is, XtalMaterialCheckbox);
-//# sourceMappingURL=xtal-material-checkbox-radio.js.map
+//# sourceMappingURL=xtal-material-checkbox.js.map

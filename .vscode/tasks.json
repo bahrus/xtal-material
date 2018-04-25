@@ -24,9 +24,9 @@
             }
         },
         {
-            "label": "Sass Compile Material CheckboxRadioButton",
+            "label": "Sass Compile Material Checkbox",
             "type": "shell",
-            "command": "node-sass xtal-material-checkbox-radio.scss xtal-material-checkbox-radio.css",
+            "command": "node-sass xtal-material-checkbox.scss xtal-material-checkbox.css",
             "group": {
                 "kind": "build",
                 "isDefault": true
