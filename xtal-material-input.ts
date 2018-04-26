@@ -1,4 +1,4 @@
-import { XtalShadow, initCE, basePath } from './xtal-shadow.js';
+import { XtalShadow, initCE, basePath } from './xtal-mark.js';
 
 export interface IXtalInputProperties {
     value: string | boolean;
@@ -93,6 +93,9 @@ export class XtalMaterialEmailInput extends XtalMaterialInput{
     getType() {
         return 'email';
     }
+    looksLike(){
+        return XtalMaterialInput.is;
+    }
 }
 
-initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput, basePath);
+initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput, basePath, XtalMaterialInput.is);

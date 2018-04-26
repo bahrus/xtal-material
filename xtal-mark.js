@@ -97,4 +97,4 @@ export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
 }
 export const basePath = getBasePath(XtalShadow.is);
 //initCE(XtalShadow.is, XtalShadow, basePath);
-//# sourceMappingURL=xtal-shadow.js.map
+//# sourceMappingURL=xtal-mark.js.map

@@ -23,6 +23,7 @@ export abstract class XtalShadow extends HTMLElement{
     get tn(){
         return this.tagName.toLowerCase();
     }
+    looksLike(){}
     _ce;
     get CE(){
         if(!this._ce) this._ce = customElements.get(this.tn);
@@ -39,7 +40,7 @@ export abstract class XtalShadow extends HTMLElement{
         if(!this.CE._template){
             this.CE._template = {};
         }
-        const tn = this.tn;
+        const tn = this.looksLike() || this.tn;
         if(!this.CE._template[tn]){
             const templateId = lispToSnakeCase(tn) + '_template';
             this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
@@ -52,9 +53,9 @@ export abstract class XtalShadow extends HTMLElement{
 }
 const cachedTemplates : {[key:string] : string} = {};
 const fetchInProgress : {[key:string] : boolean} = {};
-export function initCE(tagName: string, cls: any, basePath: string){
+export function initCE(tagName: string, cls: any, basePath: string, sharedTemplateTagName?: string){
     if(customElements.get(tagName)) return;
-    const templateID = tagName.split('-').join('_') + '_template';
+    const templateID = lispToSnakeCase( (sharedTemplateTagName || tagName)) + '_template';
     let template = self[templateID] as HTMLTemplateElement;
     if(!template){
         template = document.createElement('template');
