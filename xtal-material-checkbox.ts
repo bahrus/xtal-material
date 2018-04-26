@@ -1,5 +1,5 @@
 import {XtalMaterialInput} from './xtal-material-input.js';
-import {initCE} from './xtal-shadow.js';
+import {initCE, basePath} from './xtal-shadow.js';
 
 export class XtalMaterialCheckbox extends XtalMaterialInput{
     static get is() { return 'xtal-material-checkbox' }
@@ -32,4 +32,4 @@ export class XtalMaterialCheckbox extends XtalMaterialInput{
         });
     }
 }
-initCE(XtalMaterialCheckbox.is, XtalMaterialCheckbox);
+initCE(XtalMaterialCheckbox.is, XtalMaterialCheckbox, basePath);

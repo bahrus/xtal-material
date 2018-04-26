@@ -1,4 +1,4 @@
-import { XtalShadow, initCE } from './xtal-shadow.js';
+import { XtalShadow, initCE, basePath } from './xtal-shadow.js';
 export class XtalMaterialInput extends XtalShadow {
     static get is() { return 'xtal-material-input'; }
     customizeClone(clonedNode) {
@@ -80,12 +80,12 @@ export class XtalMaterialInput extends XtalShadow {
         this._observer.disconnect();
     }
 }
-initCE(XtalMaterialInput.is, XtalMaterialInput);
+initCE(XtalMaterialInput.is, XtalMaterialInput, basePath);
 export class XtalMaterialEmailInput extends XtalMaterialInput {
     static get is() { return 'xtal-material-email-input'; }
     getType() {
         return 'email';
     }
 }
-initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput);
+initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput, basePath);
 //# sourceMappingURL=xtal-material-input.js.map

@@ -1,3 +1,24 @@
+import { getESModuleUrl } from './xtal-temp-workaround.js';
+export function getBasePath(tagName) {
+    let path;
+    const link = self[lispToSnakeCase(tagName)];
+    if (link) {
+        path = link.href;
+    }
+    else {
+        const cs = document.currentScript;
+        if (cs) {
+            path = cs.src;
+        }
+        else {
+            path = getESModuleUrl();
+        }
+    }
+    return path.split('/').slice(0, -1).join('/');
+}
+export function lispToSnakeCase(s) {
+    return s.split('-').join('_');
+}
 export class XtalShadow extends HTMLElement {
     static get is() { return 'xtal-shadow'; }
     get tn() {
@@ -21,7 +42,8 @@ export class XtalShadow extends HTMLElement {
         }
         const tn = this.tn;
         if (!this.CE._template[tn]) {
-            this.CE._template[tn] = self[tn.split('-').join('_') + '_template'];
+            const templateId = lispToSnakeCase(tn) + '_template';
+            this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
         }
         const clonedNode = this.CE._template[tn].content.cloneNode(true);
         this.customizeClone(clonedNode);
@@ -31,16 +53,16 @@ export class XtalShadow extends HTMLElement {
 }
 const cachedTemplates = {};
 const fetchInProgress = {};
-export function initCE(tagName, cls) {
+export function initCE(tagName, cls, basePath) {
     if (customElements.get(tagName))
         return;
     const templateID = tagName.split('-').join('_') + '_template';
-    const template = self[templateID];
+    let template = self[templateID];
     if (!template) {
-        // setTimeout(() =>{
-        //     initCE(tagName, cls);
-        // }, 100);
-        return;
+        template = document.createElement('template');
+        template.id = templateID;
+        template.dataset.src = basePath + '/' + tagName + '.html';
+        document.head.appendChild(template);
     }
     const src = template.dataset.src;
     if (src) {
@@ -51,7 +73,7 @@ export function initCE(tagName, cls) {
         else {
             if (fetchInProgress[src]) {
                 setTimeout(() => {
-                    initCE(tagName, cls);
+                    initCE(tagName, cls, basePath);
                 }, 100);
                 return;
             }
@@ -72,5 +94,6 @@ export function initCE(tagName, cls) {
         customElements.define(tagName, cls);
     }
 }
-initCE(XtalShadow.is, XtalShadow);
+export const basePath = getBasePath(XtalShadow.is);
+//initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=xtal-shadow.js.map
