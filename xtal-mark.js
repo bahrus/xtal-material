@@ -19,8 +19,8 @@ export function getBasePath(tagName) {
 export function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
-export class XtalShadow extends HTMLElement {
-    static get is() { return 'xtal-shadow'; }
+export class XtalMark extends HTMLElement {
+    static get is() { return 'xtal-mark'; }
     get tn() {
         return this.tagName.toLowerCase();
     }
@@ -57,12 +57,13 @@ const fetchInProgress = {};
 export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
     if (customElements.get(tagName))
         return;
-    const templateID = lispToSnakeCase((sharedTemplateTagName || tagName)) + '_template';
+    const templateTagName = sharedTemplateTagName || tagName;
+    const templateID = lispToSnakeCase(templateTagName) + '_template';
     let template = self[templateID];
     if (!template) {
         template = document.createElement('template');
         template.id = templateID;
-        template.dataset.src = basePath + '/' + tagName + '.html';
+        template.dataset.src = basePath + '/' + templateTagName + '.html';
         document.head.appendChild(template);
     }
     const src = template.dataset.src;
@@ -74,7 +75,7 @@ export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         else {
             if (fetchInProgress[src]) {
                 setTimeout(() => {
-                    initCE(tagName, cls, basePath);
+                    initCE(tagName, cls, basePath, sharedTemplateTagName);
                 }, 100);
                 return;
             }
@@ -95,6 +96,6 @@ export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         customElements.define(tagName, cls);
     }
 }
-export const basePath = getBasePath(XtalShadow.is);
+export const basePath = getBasePath(XtalMark.is);
 //initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=xtal-mark.js.map

@@ -18,8 +18,8 @@ export function getBasePath(tagName: string){
 export function lispToSnakeCase(s: string){
     return s.split('-').join('_');
 }
-export abstract class XtalShadow extends HTMLElement{
-    static get is(){return 'xtal-shadow';}
+export abstract class XtalMark extends HTMLElement{
+    static get is(){return 'xtal-mark';}
     get tn(){
         return this.tagName.toLowerCase();
     }
@@ -55,12 +55,13 @@ const cachedTemplates : {[key:string] : string} = {};
 const fetchInProgress : {[key:string] : boolean} = {};
 export function initCE(tagName: string, cls: any, basePath: string, sharedTemplateTagName?: string){
     if(customElements.get(tagName)) return;
-    const templateID = lispToSnakeCase( (sharedTemplateTagName || tagName)) + '_template';
+    const templateTagName = sharedTemplateTagName || tagName;
+    const templateID = lispToSnakeCase( templateTagName) + '_template';
     let template = self[templateID] as HTMLTemplateElement;
     if(!template){
         template = document.createElement('template');
         template.id = templateID;
-        template.dataset.src = basePath + '/' + tagName + '.html';
+        template.dataset.src = basePath + '/' + templateTagName + '.html';
         document.head.appendChild(template);
     }
     const src = template.dataset.src;
@@ -71,7 +72,7 @@ export function initCE(tagName: string, cls: any, basePath: string, sharedTempla
         }else{
             if(fetchInProgress[src]){
                 setTimeout(() =>{
-                    initCE(tagName, cls, basePath)
+                    initCE(tagName, cls, basePath, sharedTemplateTagName)
                 }, 100);
                 return;
             }
@@ -93,5 +94,5 @@ export function initCE(tagName: string, cls: any, basePath: string, sharedTempla
     }
     
 }
-export const basePath = getBasePath(XtalShadow.is);
+export const basePath = getBasePath(XtalMark.is);
 //initCE(XtalShadow.is, XtalShadow, basePath);

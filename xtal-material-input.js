@@ -1,5 +1,5 @@
-import { XtalShadow, initCE, basePath } from './xtal-mark.js';
-export class XtalMaterialInput extends XtalShadow {
+import { XtalMark, initCE, basePath } from './xtal-mark.js';
+export class XtalMaterialInput extends XtalMark {
     static get is() { return 'xtal-material-input'; }
     customizeClone(clonedNode) {
         super.customizeClone(clonedNode);

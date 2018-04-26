@@ -1,9 +1,9 @@
-import { XtalShadow, initCE, basePath } from './xtal-mark.js';
+import { XtalMark, initCE, basePath } from './xtal-mark.js';
 
 export interface IXtalInputProperties {
     value: string | boolean;
 }
-export class XtalMaterialInput extends XtalShadow implements IXtalInputProperties {
+export class XtalMaterialInput extends XtalMark implements IXtalInputProperties {
     static get is() { return 'xtal-material-input'; }
     _inputElement: HTMLInputElement;
     customizeClone(clonedNode: DocumentFragment) {
