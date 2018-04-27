@@ -9,7 +9,7 @@
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
     <script async type="module" src="../xtal-text-input-md.js"></script>
-    <script async type="module" src="../xtal-material-checkbox.js"></script>
+    <script async type="module" src="../xtal-checkbox-input-md.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
@@ -40,9 +40,9 @@
                   <span slot="hint">We will never spam you</span>
               </xtal-email-input-md>
               <div>[[checkboxValue]]</div>
-              <xtal-material-checkbox checked="{{checkboxValue}}">
+              <xtal-checkbox-input-md checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
-              </xtal-material-checkbox> 
+              </xtal-checkbox-input-md> 
               
             </template>
           </dom-bind>

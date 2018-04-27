@@ -1,19 +1,16 @@
-import {XtalTextInputMD} from './xtal-text-input-md.js';
-import {initCE, basePath} from './xtal-mark.js';
-
-export class XtalMaterialCheckbox extends XtalTextInputMD{
-    static get is() { return 'xtal-material-checkbox' }
+import { XtalTextInputMD } from './xtal-text-input-md.js';
+import { initCE, basePath } from './xtal-mark.js';
+export class XtalCheckboxInputMD extends XtalTextInputMD {
+    static get is() { return 'xtal-checkbox-input-md'; }
     getType() {
         return 'checkbox';
     }
-
     get checked() {
         return this._inputElement.checked;
     }
     set checked(val) {
         this._inputElement.checked = val;
     }
-
     emitEvent() {
         const newEvent = new CustomEvent('checked-changed', {
             detail: {
@@ -21,15 +18,15 @@ export class XtalMaterialCheckbox extends XtalTextInputMD{
             },
             bubbles: true,
             composed: false
-        } as CustomEventInit);
+        });
         this.dispatchEvent(newEvent);
     }
-
-    addInputListener(){
+    addInputListener() {
         //some browsers don't support 'input' change on checkbox yet
         this._inputElement.addEventListener('change', e => {
-            this.emitEvent()
+            this.emitEvent();
         });
     }
 }
-initCE(XtalMaterialCheckbox.is, XtalMaterialCheckbox, basePath);
+initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath);
+//# sourceMappingURL=xtal-checkbox-input-md.js.map
