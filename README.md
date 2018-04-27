@@ -18,7 +18,7 @@ Or you can directly inline the template, to reduce one http request (at the expe
 
 The JS code is organized via ES6 Modules, and the demo will only work on browsers with native support for ES6 Modules built in. **It also requires support for import.meta**
 
-If you are targeting browsers that don't support either of these, and don't want to introduce an additional depenendency (like require.js), a single, bundled file (of the JS), xtal-material.js can be referenced either as a classic script.  It uses IIFE so as no to unnecessarily pollute the global namespace.
+If you are targeting browsers that don't support either of these, and don't want to introduce an additional depenendency (like require.js), a single, bundled file (of the JS), xtal-material.js which must be referenced as a classic script.  It uses IIFE so as to not unnecessarily pollute the global namespace.
 
 
 
