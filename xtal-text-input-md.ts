@@ -1,20 +1,20 @@
 import { XtalMark, initCE, basePath } from './xtal-mark.js';
 
 export interface IXtalInputProperties {
-    value: string | boolean;
+    value: string;
 }
-export class XtalMaterialInput extends XtalMark implements IXtalInputProperties {
-    static get is() { return 'xtal-material-input'; }
+export class XtalTextInputMD extends XtalMark implements IXtalInputProperties {
+    static get is() { return 'xtal-text-input-md'; }
     _inputElement: HTMLInputElement;
     customizeClone(clonedNode: DocumentFragment) {
         super.customizeClone(clonedNode);
-        this._inputElement = clonedNode.querySelector('input');
-        this._inputElement.setAttribute('type', this.getType());
+        const inputEl = this._inputElement = clonedNode.querySelector('input');
+        inputEl.setAttribute('type', this.getType());
         for (let i = 0, ii = this.attributes.length; i < ii; i++) {
             const attrib = this.attributes[i];
             //const inp = clonedNode.querySelector('input');
             if (attrib.name === 'type') continue;
-            this._inputElement.setAttribute(attrib.name, attrib.value);
+            inputEl.setAttribute(attrib.name, attrib.value);
         }
     }
     initShadowRoot() {
@@ -33,7 +33,7 @@ export class XtalMaterialInput extends XtalMark implements IXtalInputProperties 
         this._inputElement.value = val;
     }
     getType() {
-        return 'input';
+        return this.constructor['is'].split('-')[1];
     }
     addEventListener(eventName: string, callback) {
         if (eventName.endsWith('-changed')) {
@@ -86,16 +86,13 @@ export class XtalMaterialInput extends XtalMark implements IXtalInputProperties 
     }
 }
 
-initCE(XtalMaterialInput.is, XtalMaterialInput, basePath);
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath);
 
-export class XtalMaterialEmailInput extends XtalMaterialInput{
-    static get is() { return 'xtal-material-email-input'; }
-    getType() {
-        return 'email';
-    }
+export class XtalEmailInputMD extends XtalTextInputMD{
+    static get is() { return 'xtal-email-input-md'; }
     looksLike(){
-        return XtalMaterialInput.is;
+        return XtalTextInputMD.is;
     }
 }
 
-initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput, basePath, XtalMaterialInput.is);
+initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath, XtalTextInputMD.is);

@@ -1,6 +1,6 @@
-import { XtalMaterialInput } from './xtal-material-input.js';
+import { XtalTextInputMD } from './xtal-text-input-md.js';
 import { initCE, basePath } from './xtal-mark.js';
-export class XtalMaterialCheckbox extends XtalMaterialInput {
+export class XtalMaterialCheckbox extends XtalTextInputMD {
     static get is() { return 'xtal-material-checkbox'; }
     getType() {
         return 'checkbox';

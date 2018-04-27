@@ -8,7 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
-    <script async type="module" src="../xtal-material-input.js"></script>
+    <script async type="module" src="../xtal-text-input-md.js"></script>
     <script async type="module" src="../xtal-material-checkbox.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -29,16 +29,16 @@
           <dom-bind>
             <template>
               <div>[[testing]]</div>
-              <xtal-material-input placeholder="Please fill in your full name" value="{{testing}}">
+              <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <!-- <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener> -->
                   <span slot="label">Name</span>
-              </xtal-material-input> 
+              </xtal-text-input-md> 
               
 
-              <xtal-material-email-input>
+              <xtal-email-input-md>
                   <span slot="label">Email</span>
                   <span slot="hint">We will never spam you</span>
-              </xtal-material-email-input>
+              </xtal-email-input-md>
               <div>[[checkboxValue]]</div>
               <xtal-material-checkbox checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
