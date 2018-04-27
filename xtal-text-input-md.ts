@@ -1,9 +1,9 @@
-import { XtalMark, initCE, basePath } from './xtal-mark.js';
+import { BraKet, initCE, basePath } from './bra-ket.js';
 
 export interface IXtalInputProperties {
     value: string;
 }
-export class XtalTextInputMD extends XtalMark implements IXtalInputProperties {
+export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
     static get is() { return 'xtal-text-input-md'; }
     _inputElement: HTMLInputElement;
     customizeClone(clonedNode: DocumentFragment) {

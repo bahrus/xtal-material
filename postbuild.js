@@ -15,9 +15,9 @@ function processFile(filePath, newLines){
     })
 }
 const newLines = [];
-processFile('xtal-shadow.js', newLines);
-processFile('xtal-material-input.js', newLines);
-processFile('xtal-material-checkbox-radio.js', newLines);
+processFile('bra-ket.js', newLines);
+processFile('xtal-text-input-md.js', newLines);
+processFile('xtal-checkbox-input-md.js', newLines);
 let newContent = `
 //@ts-check
 (function () {

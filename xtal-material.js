@@ -1,11 +1,32 @@
 
 //@ts-check
 (function () {
-class XtalShadow extends HTMLElement {
-    static get is() { return 'xtal-shadow'; }
+function getBasePath(tagName) {
+    let path;
+    const link = self[lispToSnakeCase(tagName)];
+    if (link) {
+        path = link.href;
+    }
+    else {
+        const cs = document.currentScript;
+        if (cs) {
+            path = cs.src;
+        }
+        else {
+            throw 'not yet supported';
+        }
+    }
+    return path.split('/').slice(0, -1).join('/');
+}
+function lispToSnakeCase(s) {
+    return s.split('-').join('_');
+}
+class BraKet extends HTMLElement {
+    static get is() { return 'bra-ket'; }
     get tn() {
         return this.tagName.toLowerCase();
     }
+    looksLike() { }
     get CE() {
         if (!this._ce)
             this._ce = customElements.get(this.tn);
@@ -22,9 +43,10 @@ class XtalShadow extends HTMLElement {
         if (!this.CE._template) {
             this.CE._template = {};
         }
-        const tn = this.tn;
+        const tn = this.looksLike() || this.tn;
         if (!this.CE._template[tn]) {
-            this.CE._template[tn] = self[tn.split('-').join('_') + '_template'];
+            const templateId = lispToSnakeCase(tn) + '_template';
+            this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
         }
         const clonedNode = this.CE._template[tn].content.cloneNode(true);
         this.customizeClone(clonedNode);
@@ -34,16 +56,17 @@ class XtalShadow extends HTMLElement {
 }
 const cachedTemplates = {};
 const fetchInProgress = {};
-function initCE(tagName, cls) {
+function initCE(tagName, cls, basePath, sharedTemplateTagName) {
     if (customElements.get(tagName))
         return;
-    const templateID = tagName.split('-').join('_') + '_template';
-    const template = self[templateID];
+    const templateTagName = sharedTemplateTagName || tagName;
+    const templateID = lispToSnakeCase(templateTagName) + '_template';
+    let template = self[templateID];
     if (!template) {
-        // setTimeout(() =>{
-        //     initCE(tagName, cls);
-        // }, 100);
-        return;
+        template = document.createElement('template');
+        template.id = templateID;
+        template.dataset.src = basePath + '/' + templateTagName + '.html';
+        document.head.appendChild(template);
     }
     const src = template.dataset.src;
     if (src) {
@@ -54,7 +77,7 @@ function initCE(tagName, cls) {
         else {
             if (fetchInProgress[src]) {
                 setTimeout(() => {
-                    initCE(tagName, cls);
+                    initCE(tagName, cls, basePath, sharedTemplateTagName);
                 }, 100);
                 return;
             }
@@ -75,20 +98,21 @@ function initCE(tagName, cls) {
         customElements.define(tagName, cls);
     }
 }
-initCE(XtalShadow.is, XtalShadow);
-//# sourceMappingURL=xtal-shadow.js.map
-class XtalMaterialInput extends XtalShadow {
-    static get is() { return 'xtal-material-input'; }
+const basePath = getBasePath(BraKet.is);
+//initCE(XtalShadow.is, XtalShadow, basePath);
+//# sourceMappingURL=bra-ket.js.map
+class XtalTextInputMD extends BraKet {
+    static get is() { return 'xtal-text-input-md'; }
     customizeClone(clonedNode) {
         super.customizeClone(clonedNode);
-        this._inputElement = clonedNode.querySelector('input');
-        this._inputElement.setAttribute('type', this.getType());
+        const inputEl = this._inputElement = clonedNode.querySelector('input');
+        inputEl.setAttribute('type', this.getType());
         for (let i = 0, ii = this.attributes.length; i < ii; i++) {
             const attrib = this.attributes[i];
             //const inp = clonedNode.querySelector('input');
             if (attrib.name === 'type')
                 continue;
-            this._inputElement.setAttribute(attrib.name, attrib.value);
+            inputEl.setAttribute(attrib.name, attrib.value);
         }
     }
     initShadowRoot() {
@@ -107,7 +131,7 @@ class XtalMaterialInput extends XtalShadow {
         this._inputElement.value = val;
     }
     getType() {
-        return 'input';
+        return this.constructor['is'].split('-')[1];
     }
     addEventListener(eventName, callback) {
         if (eventName.endsWith('-changed')) {
@@ -158,17 +182,17 @@ class XtalMaterialInput extends XtalShadow {
         this._observer.disconnect();
     }
 }
-initCE(XtalMaterialInput.is, XtalMaterialInput);
-class XtalMaterialEmailInput extends XtalMaterialInput {
-    static get is() { return 'xtal-material-email-input'; }
-    getType() {
-        return 'email';
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath);
+class XtalEmailInputMD extends XtalTextInputMD {
+    static get is() { return 'xtal-email-input-md'; }
+    looksLike() {
+        return XtalTextInputMD.is;
     }
 }
-initCE(XtalMaterialEmailInput.is, XtalMaterialEmailInput);
-//# sourceMappingURL=xtal-material-input.js.map
-class XtalMaterialCheckbox extends XtalMaterialInput {
-    static get is() { return 'xtal-material-checkbox'; }
+initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath, XtalTextInputMD.is);
+//# sourceMappingURL=xtal-text-input-md.js.map
+class XtalCheckboxInputMD extends XtalTextInputMD {
+    static get is() { return 'xtal-checkbox-input-md'; }
     getType() {
         return 'checkbox';
     }
@@ -195,7 +219,7 @@ class XtalMaterialCheckbox extends XtalMaterialInput {
         });
     }
 }
-initCE(XtalMaterialCheckbox.is, XtalMaterialCheckbox);
-//# sourceMappingURL=xtal-material-checkbox-radio.js.map
+initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath);
+//# sourceMappingURL=xtal-checkbox-input-md.js.map
 })();  
     

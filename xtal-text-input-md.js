@@ -1,5 +1,5 @@
-import { XtalMark, initCE, basePath } from './xtal-mark.js';
-export class XtalTextInputMD extends XtalMark {
+import { BraKet, initCE, basePath } from './bra-ket.js';
+export class XtalTextInputMD extends BraKet {
     static get is() { return 'xtal-text-input-md'; }
     customizeClone(clonedNode) {
         super.customizeClone(clonedNode);
