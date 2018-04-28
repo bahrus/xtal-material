@@ -8,6 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
+    <script async type="module" src="../bra-ket.js"></script>
     <script async type="module" src="../xtal-text-input-md.js"></script>
     <script async type="module" src="../xtal-checkbox-input-md.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
@@ -19,7 +20,7 @@
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
     </custom-style>
-    
+    <template data-src="xtal-material"></template>
   </head>
   <body>
     <div class="vertical-section-container centered">
@@ -28,6 +29,7 @@
         <template>
           <dom-bind>
             <template>
+              <bra-ket></bra-ket>
               <div>[[testing]]</div>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <!-- <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener> -->

@@ -1,10 +1,10 @@
 {
   "sources":[
-    "xtal-shadow.js",
-    "xtal-material-input.js",
-    "xtal-material-input.html",
-    "xtal-material-checkbox-radio.js",
-    "xtal-material-checkbox-radio.html",
+    "bra-ket.js",
+    "xtal-text-input-md.js",
+    "xtal-text-input-md.html",
+    "xtal-checkbox-input-md.js",
+    "xtal-checkbox-input-md.html",
     "xtal-material.js"
   ],
   "lint": {

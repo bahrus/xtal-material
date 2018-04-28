@@ -16,6 +16,42 @@ export function getBasePath(tagName) {
     }
     return path.split('/').slice(0, -1).join('/');
 }
+function loadTemplate(template, params) {
+    const src = template.dataset.src;
+    if (src) {
+        if (_cachedTemplates[src]) {
+            template.innerHTML = _cachedTemplates[src];
+            if (params)
+                customElements.define(params.tagName, params.cls);
+        }
+        else {
+            if (fetchInProgress[src]) {
+                if (params) {
+                    setTimeout(() => {
+                        loadTemplate(template, params);
+                    }, 100);
+                }
+                return;
+            }
+            fetchInProgress[src] = true;
+            fetch(src, {
+                credentials: 'include'
+            }).then(resp => {
+                resp.text().then(txt => {
+                    fetchInProgress[src] = false;
+                    _cachedTemplates[src] = txt;
+                    template.innerHTML = txt;
+                    if (params)
+                        customElements.define(params.tagName, params.cls);
+                });
+            });
+        }
+    }
+    else {
+        if (params)
+            customElements.define(params.tagName, params.cls);
+    }
+}
 export function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
@@ -32,8 +68,16 @@ export class BraKet extends HTMLElement {
     }
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.addTemplate();
+        if (Object.getPrototypeOf(this) === BraKet.prototype) {
+            const externalRefTemplates = document.querySelectorAll('template[data-src]');
+            for (let i = 0, ii = externalRefTemplates.length; i < ii; i++) {
+                loadTemplate(externalRefTemplates[i]);
+            }
+        }
+        else {
+            this.attachShadow({ mode: 'open' });
+            this.addTemplate();
+        }
     }
     customizeClone(clonedNode) { }
     initShadowRoot() { }
@@ -52,7 +96,7 @@ export class BraKet extends HTMLElement {
         this.initShadowRoot();
     }
 }
-const cachedTemplates = {};
+const _cachedTemplates = {};
 const fetchInProgress = {};
 export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
     if (customElements.get(tagName))
@@ -66,36 +110,13 @@ export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         template.dataset.src = basePath + '/' + templateTagName + '.html';
         document.head.appendChild(template);
     }
-    const src = template.dataset.src;
-    if (src) {
-        if (cachedTemplates[src]) {
-            template.innerHTML = cachedTemplates[src];
-            customElements.define(tagName, cls);
-        }
-        else {
-            if (fetchInProgress[src]) {
-                setTimeout(() => {
-                    initCE(tagName, cls, basePath, sharedTemplateTagName);
-                }, 100);
-                return;
-            }
-            fetchInProgress[src] = true;
-            fetch(src, {
-                credentials: 'include'
-            }).then(resp => {
-                resp.text().then(txt => {
-                    fetchInProgress[src] = false;
-                    cachedTemplates[src] = txt;
-                    template.innerHTML = txt;
-                    customElements.define(tagName, cls);
-                });
-            });
-        }
-    }
-    else {
-        customElements.define(tagName, cls);
-    }
+    loadTemplate(template, {
+        cls: cls,
+        sharedTemplateTagName: sharedTemplateTagName,
+        tagName: tagName
+    });
 }
 export const basePath = getBasePath(BraKet.is);
+customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=bra-ket.js.map
