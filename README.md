@@ -38,7 +38,7 @@ If you are targeting browsers that don't support either ES6 Modules, including i
 
 The base class, BraKet, also defines a custom element, "bra-ket", which searches for template elements outside any Shadow DOM, with attribute data-src.  It preemptively downloads those template files.  Kind of a [link preload](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content) feature for HTML/CSS markup.  (For now, I find that preload only works well for JavaScript, and, from what I hear, fonts.  I've not had much luck with HTML, CSS, or (pre)fetch).
 
-The base class is designed to serve as a base class for any web component where the desire is to unite markup together with script, without blending it together in a kind of JavaScript markup salad.
+The base class is designed to serve as a base class for any web component where the desire is to unite markup together with script, without blending it together in a kind of JavaScript puree.  Not that there's anything wrong with that.
 
 The cost of this standalone ES6 module is only 999 bytes (usual conditions apply).
 
