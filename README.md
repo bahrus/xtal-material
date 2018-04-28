@@ -26,12 +26,12 @@ Note the use of data-src.  This is meant to remind you of the src attribute of t
 
 Or you can directly inline the template, to reduce one http request (at the expense of less granular caching).
 
-The JS code is organized via ES6 Modules, and the demo will only work on browsers with native support for ES6 Modules built in.
+The JS code is organized via ES6 Modules, and the demo will only work on browsers with native support for ES6 Modules built in, and also import.meta.
 
 If you 1) do **not** specify the location of the template as described above, and 2) you use the ES6 Module references,  **this will only work for browsers with support for import.meta**
 
 
-If you are targeting browsers that don't support either ES6 Modules, including import.meta,  a single, bundled file (of the JS), xtal-material.js is also availble. It must be referenced as a classic script (for now).  It uses IIFE so as to not unnecessarily pollute the global namespace.
+If you are targeting browsers that don't support either ES6 Modules or import.meta,  a single, bundled file (of the JS), xtal-material.js is also availble. It must be referenced as a classic script (for now).  It uses IIFE so as to not unnecessarily pollute the global namespace.
 
 ## Preloading templates
 
