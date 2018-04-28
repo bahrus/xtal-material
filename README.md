@@ -30,7 +30,6 @@ The JS code is organized via ES6 Modules, and the demo will only work on browser
 
 If you 1) do **not** specify the location of the template as described above, and 2) you use the ES6 Module references,  **this will only work for browsers with support for import.meta**
 
-If you are targeting a wider variety of older browsers, and are not utilizing other forms of providing downlevel support, then
 
 If you are targeting browsers that don't support either ES6 Modules, including import.meta,  a single, bundled file (of the JS), xtal-material.js is also availble. It must be referenced as a classic script (for now).  It uses IIFE so as to not unnecessarily pollute the global namespace.
 
