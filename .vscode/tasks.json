@@ -17,7 +17,7 @@
         {
             "label": "Sass Compile Material",
             "type": "shell",
-            "command": "node-sass xtal-material-input.scss xtal-material-input.css",
+            "command": "node-sass text-input-md.scss text-input-md.css",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -26,7 +26,16 @@
         {
             "label": "Sass Compile Material Checkbox",
             "type": "shell",
-            "command": "node-sass xtal-material-checkbox.scss xtal-material-checkbox.css",
+            "command": "node-sass checkbox-input-md.scss checkbox-input-md.css",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Sass Compile Material Radiobutton",
+            "type": "shell",
+            "command": "node-sass radio-input-md.scss radio-input-md.css",
             "group": {
                 "kind": "build",
                 "isDefault": true

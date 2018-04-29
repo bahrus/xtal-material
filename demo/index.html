@@ -12,6 +12,7 @@
     <script async type="module" src="../bra-ket.js"></script>
     <script async type="module" src="../xtal-text-input-md.js"></script>
     <script async type="module" src="../xtal-checkbox-input-md.js"></script>
+    <script async type="module" src="../xtal-radio-input-md.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
@@ -32,6 +33,9 @@
             <template>
               <bra-ket></bra-ket>
               <div>[[testing]]</div>
+              <xtal-radio-input-md>
+                <span slot="label">He</span>
+              </xtal-radio-input-md>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
                   <span slot="label">Name</span>
@@ -46,7 +50,7 @@
               <xtal-checkbox-input-md checked="{{checkboxValue}}">
                 <span slot="label">Rap</span>
               </xtal-checkbox-input-md> 
-              
+
             </template>
           </dom-bind>
           <script>

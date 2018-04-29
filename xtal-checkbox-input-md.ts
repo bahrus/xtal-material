@@ -3,9 +3,9 @@ import {initCE, basePath} from './bra-ket.js';
 
 export class XtalCheckboxInputMD extends XtalTextInputMD{
     static get is() { return 'xtal-checkbox-input-md'; }
-    getType() {
-        return 'checkbox';
-    }
+    // getType() {
+    //     return 'checkbox';
+    // }
 
     get checked() {
         return this._inputElement.checked;
