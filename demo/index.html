@@ -7,7 +7,8 @@
     <title>xtal-material demo</title>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in/add-event-listener.js"></script>
+    <!-- <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in@0.0.17/add-event-listener.js"></script> -->
+    <script async type="module" src="add-event-listener.js"></script>
     <script async type="module" src="../bra-ket.js"></script>
     <script async type="module" src="../xtal-text-input-md.js"></script>
     <script async type="module" src="../xtal-checkbox-input-md.js"></script>
@@ -32,7 +33,7 @@
               <bra-ket></bra-ket>
               <div>[[testing]]</div>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
-                  <!-- <add-event-listener on="click" dispatch event-name="testing" bubbles composed></add-event-listener> -->
+                  <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
                   <span slot="label">Name</span>
               </xtal-text-input-md> 
               
@@ -49,9 +50,9 @@
             </template>
           </dom-bind>
           <script>
-              document.body.addEventListener('testing', e=>{
+              document.body.addEventListener('hello', e=>{
                 //alert('received test1 message');
-  
+                console.log('received click event');
               })
               
             </script>
