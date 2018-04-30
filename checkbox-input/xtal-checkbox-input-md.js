@@ -1,4 +1,4 @@
-import { XtalTextInputMD } from '../xtal-text-input-md.js';
+import { XtalTextInputMD } from '../text-input/xtal-text-input-md.js';
 import { initCE, basePath } from '../bra-ket.js';
 export class XtalCheckboxInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-checkbox-input-md'; }

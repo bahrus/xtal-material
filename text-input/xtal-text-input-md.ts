@@ -1,4 +1,4 @@
-import { BraKet, initCE, basePath } from './bra-ket.js';
+import { BraKet, initCE, basePath } from '../bra-ket.js';
 
 export interface IXtalInputProperties {
     value: string;
@@ -95,4 +95,4 @@ export class XtalEmailInputMD extends XtalTextInputMD{
     }
 }
 
-initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath, XtalTextInputMD.is);
+initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
