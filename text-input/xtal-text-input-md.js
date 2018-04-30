@@ -80,7 +80,7 @@ export class XtalTextInputMD extends BraKet {
         this._observer.disconnect();
     }
 }
-initCE(XtalTextInputMD.is, XtalTextInputMD, basePath);
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
 export class XtalEmailInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-email-input-md'; }
     looksLike() {

@@ -86,7 +86,7 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
     }
 }
 
-initCE(XtalTextInputMD.is, XtalTextInputMD, basePath);
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath  + '/text-input');
 
 export class XtalEmailInputMD extends XtalTextInputMD{
     static get is() { return 'xtal-email-input-md'; }
