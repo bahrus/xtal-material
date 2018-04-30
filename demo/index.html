@@ -11,7 +11,7 @@
     <script async type="module" src="add-event-listener.js"></script>
     <script async type="module" src="../bra-ket.js"></script>
     <script async type="module" src="../xtal-text-input-md.js"></script>
-    <script async type="module" src="../xtal-checkbox-input-md.js"></script>
+    <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
     <script async type="module" src="../xtal-radio-input-md.js"></script>
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
@@ -23,8 +23,24 @@
       </style>
     </custom-style>
     <template data-src="xtal-material"></template>
+    <style>
+      .background {
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
+    <video width="1280" height="720" class="background" autoplay muted loop>
+        <source src="https://codepen.jonnitto.ch/BackgroundVideo.mp4" type="video/mp4">
+    </video>
     <div class="vertical-section-container centered">
       <h3>Basic xtal-material demo</h3>
       <demo-snippet>
@@ -33,9 +49,12 @@
             <template>
               <bra-ket></bra-ket>
               <div>[[testing]]</div>
-              <xtal-radio-input-md>
+              <xtal-radio-input-md name="pronoun">
                 <span slot="label">He</span>
               </xtal-radio-input-md>
+              <xtal-radio-input-md name="pronoun">
+                  <span slot="label">She</span>
+                </xtal-radio-input-md>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
                   <span slot="label">Name</span>
