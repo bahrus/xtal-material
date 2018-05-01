@@ -35,9 +35,24 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
 
 ## Preloading templates
 
-The base class, BraKet, also defines a custom element, "bra-ket", which searches for template elements outside any Shadow DOM, with attribute data-src.  It preemptively downloads those template files.  Kind of a [link preload](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content) feature for HTML/CSS markup.  (For now, I find that preload only works well for JavaScript, and, from what I hear, fonts.  I've not had much luck with HTML, CSS, or (pre)fetch).
+The class hierarchy begins with TemplMount, which specializes in loading templates from external URL's.
 
-The base class is designed to serve as a base class for any web component where the desire is to unite markup together with script, without blending it together in a kind of JavaScript puree.  Not that there's anything wrong with that.
+```html
+<templ-mount></templ-mount>
+```
+
+does the following:
+
+1)  It searches for template elements outside any Shadow DOM, with attribute data-src.  It preemptively downloads those template references.
+2)  It searches for template elements inside the hosting Shadow DOM.
+3)  It monitors the document.head element for additional template elements and loads them as they get added.
+4)  Once the template is downloaded and inserted into the template, the "loaded" attribute is set.
+
+The class BraKet also defines a custom element, "bra-ket", with two purposes:
+
+1)  It serves as a base class for any web component where the desire is to unite markup together with script, without blending it together in a kind of JavaScript puree.  Not that there's anything wrong with that.
+
+2)  It has two properties:  "bra" which points to a template, and "ket" which is a function property, which applies a function to the bra template.  The ket function could, for example, produce a new custom element, but the sky is the limit.
 
 The cost of this standalone ES6 module is only 999 bytes (usual conditions apply).
 
