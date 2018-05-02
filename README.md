@@ -6,6 +6,8 @@ The total size of the text input component is ~3kb gzip minified.  Despite being
 
 ## The Duality Principle
 
+>It seems as though we must use sometimes JavaScript and sometimes declarative markup, while at times we may use either. We are faced with a new kind of difficulty. We have two contradictory pictures of reality; separately neither of them fully explains the phenomena of good web design, but together they do. -- [Albert Einstein](https://en.wikipedia.org/wiki/Wave%E2%80%93particle_duality)
+
 One thing that makes these components a bit different, perhaps:
 
 These components decouple the markup from the core JavaScript.  That means that, out of the box, the JS is pure JS, and it makes a separate (one-time) fetch request for the markup file, bearing the same name as the element, in the same directory.  So, for example, xtal-text-input-md.js loads xtal-text-input-md.html from the same directory.  xtal-text-input-md.html contains the template definition as well as the CSS, basically the pure CSS markup of the link above.
@@ -48,13 +50,15 @@ does the following:
 3)  It monitors the document.head element for additional template elements and loads them as they get added.
 4)  Once the template is downloaded and inserted into the template, the "loaded" attribute is set.
 
+Size:  790 bytes gzipped / minified.
+
 The class BraKet also defines a custom element, "bra-ket", with two purposes:
 
 1)  It serves as a base class for any web component where the desire is to unite markup together with script, without blending it together in a kind of JavaScript puree.  Not that there's anything wrong with that.
 
 2)  It has two properties:  "bra" which points to a template, and "ket" which is a function property, which applies a function to the bra template.  The ket function could, for example, produce a new custom element, but the sky is the limit.
 
-The cost of this standalone ES6 module is only 999 bytes (usual conditions apply).
+The cost of this standalone ES6 module is only 780 bytes (usual conditions apply).
 
 ## Install the Polymer-CLI
 

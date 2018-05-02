@@ -85,8 +85,16 @@ export class TemplMount extends HTMLElement{
         if(!host) return;
         this.loadTemplates(host);
     }
+    _observer: MutationObserver;
     monitorHeadForTemplates(){
-
+        const config = { childList: true};
+        this._observer =  new MutationObserver((mutationsList: MutationRecord[]) =>{
+            mutationsList.forEach(mutationRecord =>{
+                mutationRecord.addedNodes.forEach((node: HTMLElement) =>{
+                    if(node.tagName === 'TEMPLATE') loadTemplate(node as HTMLTemplateElement);
+                })
+            })
+        });
     }
     connectedCallback(){
         this.loadTemplateInsideShadowDOM();

@@ -1,10 +1,11 @@
 {
   "sources":[
+    "templ-mount.js",
     "bra-ket.js",
-    "xtal-text-input-md.js",
-    "xtal-text-input-md.html",
-    "xtal-checkbox-input-md.js",
-    "xtal-checkbox-input-md.html",
+    "text-input/xtal-text-input-md.js",
+    "text-input/xtal-text-input-md.html",
+    "checkbox-input/xtal-checkbox-input-md.js",
+    "checkbox-input/xtal-checkbox-input-md.html",
     "xtal-material.js"
   ],
   "lint": {
