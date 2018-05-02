@@ -40,17 +40,23 @@ export function loadTemplate(template: HTMLTemplateElement, params?: ICEParams){
 }
 export class TemplMount extends HTMLElement{
     static get is(){return 'templ-mount';}
+    static _alreadyDidGlobalCheck = false;
     constructor() {
         super();
-        this.loadTemplatesOutsideShadowDOM();
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", e => {
-                this.loadTemplatesOutsideShadowDOM();
+        if(!TemplMount._alreadyDidGlobalCheck){
+            TemplMount._alreadyDidGlobalCheck = true;
+            this.loadTemplatesOutsideShadowDOM();
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", e => {
+                    this.loadTemplatesOutsideShadowDOM();
+                    this.monitorHeadForTemplates();
+                });
+            }else{
                 this.monitorHeadForTemplates();
-            });
-        }else{
-            this.monitorHeadForTemplates();
+            }
         }
+        
+
     }
 
     getHost(){

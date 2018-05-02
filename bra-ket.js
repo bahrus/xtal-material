@@ -69,6 +69,7 @@ export function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         template.dataset.src = basePath + '/' + templateTagName + '.html';
         document.head.appendChild(template);
     }
+    //TODO:  line below shouldn't be necessary with templ-mount?
     loadTemplate(template, {
         cls: cls,
         sharedTemplateTagName: sharedTemplateTagName,

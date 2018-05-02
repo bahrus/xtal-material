@@ -38,20 +38,23 @@ export function loadTemplate(template, params) {
     }
 }
 export class TemplMount extends HTMLElement {
-    static get is() { return 'templ-mount'; }
     constructor() {
         super();
-        this.loadTemplatesOutsideShadowDOM();
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", e => {
-                this.loadTemplatesOutsideShadowDOM();
+        if (!TemplMount._alreadyDidGlobalCheck) {
+            TemplMount._alreadyDidGlobalCheck = true;
+            this.loadTemplatesOutsideShadowDOM();
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", e => {
+                    this.loadTemplatesOutsideShadowDOM();
+                    this.monitorHeadForTemplates();
+                });
+            }
+            else {
                 this.monitorHeadForTemplates();
-            });
-        }
-        else {
-            this.monitorHeadForTemplates();
+            }
         }
     }
+    static get is() { return 'templ-mount'; }
     getHost() {
         const parent = this.parentNode;
         return parent['host'];
@@ -89,5 +92,6 @@ export class TemplMount extends HTMLElement {
         }
     }
 }
+TemplMount._alreadyDidGlobalCheck = false;
 customElements.define(TemplMount.is, TemplMount);
 //# sourceMappingURL=templ-mount.js.map
