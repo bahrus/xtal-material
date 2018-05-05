@@ -62,6 +62,18 @@ The class BraKet also defines a custom element, "bra-ket", with two purposes:
 
 The cost of this standalone ES6 module is only 780 bytes (usual conditions apply).
 
+## adopt-a-child
+
+I encountered an interesting snag when I got the implementing John Uhlman's radio buttons. At first, I thought I would just follow the same pattern I was following for the others (e.g. xtal-checkbox-input-md).
+
+The first issue is that radio buttons with the same name, but in different shadow DOM's, do not apply the "exclusive-or" logic that is the essence of radio buttons.
+
+Clearly, they would need to be grouped into one shadow DOM.  But then we lose all flexibility of defining multiple radio buttons, choosing how they be arranged, etc.
+
+So I opted to improvise a bit.  I used the [xtal-method](https://github.com/bahrus/xtal-method#adoption-services) [component](https://www.webcomponents.org/element/@@npm/xtal-method).
+
+It allows you pass in a markup "promise", which can then get dyanamically added directly into the shadow DOM.
+
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
