@@ -38,6 +38,9 @@ export function loadTemplate(template: HTMLTemplateElement, params?: ICEParams){
         if(params) customElements.define(params.tagName, params.cls);
     }
 }
+export function qsa(css, from?: HTMLElement | Document | DocumentFragment) : HTMLElement[]{
+    return  [].slice.call((from ? from : this).querySelectorAll(css));
+}
 export class TemplMount extends HTMLElement{
     static get is(){return 'templ-mount';}
     static _alreadyDidGlobalCheck = false;
@@ -68,17 +71,12 @@ export class TemplMount extends HTMLElement{
         
     }
     loadTemplates(from: DocumentFragment){
-        const externalRefTemplates = from.querySelectorAll('template[data-src]');
-        for(let i = 0, ii = externalRefTemplates.length; i < ii; i++){
-            loadTemplate(externalRefTemplates[i] as HTMLTemplateElement);
-        }        
+        qsa('template[data-src]', from).forEach(externalRefTemplate =>{
+            loadTemplate(externalRefTemplate as HTMLTemplateElement);
+        })
     }
     loadTemplatesOutsideShadowDOM(){
         this.loadTemplates(document);
-        // const externalRefTemplates = document.querySelectorAll('template[data-src]');
-        // for(let i = 0, ii = externalRefTemplates.length; i < ii; i++){
-        //     loadTemplate(externalRefTemplates[i] as HTMLTemplateElement);
-        // }
     }
     loadTemplateInsideShadowDOM(){
         const host = this.getHost();

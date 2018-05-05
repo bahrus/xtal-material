@@ -27,6 +27,9 @@ export class BraKet extends HTMLElement{
     }
     looksLike(){}
     _ce;
+    get dynamicSlots() : string[]{
+        return null;
+    }
     get CE(){
         if(!this._ce) this._ce = customElements.get(this.tn);
         return this._ce;

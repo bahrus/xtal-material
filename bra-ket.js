@@ -26,6 +26,9 @@ export class BraKet extends HTMLElement {
         return this.tagName.toLowerCase();
     }
     looksLike() { }
+    get dynamicSlots() {
+        return null;
+    }
     get CE() {
         if (!this._ce)
             this._ce = customElements.get(this.tn);

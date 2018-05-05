@@ -37,6 +37,9 @@ export function loadTemplate(template, params) {
             customElements.define(params.tagName, params.cls);
     }
 }
+export function qsa(css, from) {
+    return [].slice.call((from ? from : this).querySelectorAll(css));
+}
 export class TemplMount extends HTMLElement {
     constructor() {
         super();
@@ -63,17 +66,12 @@ export class TemplMount extends HTMLElement {
         // }
     }
     loadTemplates(from) {
-        const externalRefTemplates = from.querySelectorAll('template[data-src]');
-        for (let i = 0, ii = externalRefTemplates.length; i < ii; i++) {
-            loadTemplate(externalRefTemplates[i]);
-        }
+        qsa('template[data-src]', from).forEach(externalRefTemplate => {
+            loadTemplate(externalRefTemplate);
+        });
     }
     loadTemplatesOutsideShadowDOM() {
         this.loadTemplates(document);
-        // const externalRefTemplates = document.querySelectorAll('template[data-src]');
-        // for(let i = 0, ii = externalRefTemplates.length; i < ii; i++){
-        //     loadTemplate(externalRefTemplates[i] as HTMLTemplateElement);
-        // }
     }
     loadTemplateInsideShadowDOM() {
         const host = this.getHost();
