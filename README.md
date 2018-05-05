@@ -12,6 +12,8 @@ One thing that makes these components a bit different, perhaps:
 
 These components decouple the markup from the core JavaScript.  That means that, out of the box, the JS is pure JS, and it makes a separate (one-time) fetch request for the markup file, bearing the same name as the element, in the same directory.  So, for example, xtal-text-input-md.js loads xtal-text-input-md.html from the same directory.  xtal-text-input-md.html contains the template definition -- HTML as well as the CSS, basically the "pure CSS" + HTML markup of the link above.
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-material)
+
 Note that the author of the link above emphasizes that his solution is pure CSS (more or less).  The solution here sticks to that principle.
 
 The base class that helps pair the js file with the html file is BraKet, which serves a potentially larger purpose than these material design components (more on that below). 

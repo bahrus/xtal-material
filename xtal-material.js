@@ -1,23 +1,8 @@
 
 //@ts-check
 (function () {
-function getBasePath(tagName) {
-    let path;
-    const link = self[lispToSnakeCase(tagName)];
-    if (link) {
-        path = link.href;
-    }
-    else {
-        const cs = document.currentScript;
-        if (cs) {
-            path = cs.src;
-        }
-        else {
-            //path = getESModuleUrl();
-        }
-    }
-    return path.split('/').slice(0, -1).join('/');
-}
+const _cachedTemplates = {};
+const fetchInProgress = {};
 function loadTemplate(template, params) {
     const src = template.dataset.src;
     if (src) {
@@ -43,6 +28,7 @@ function loadTemplate(template, params) {
                     fetchInProgress[src] = false;
                     _cachedTemplates[src] = txt;
                     template.innerHTML = txt;
+                    template.setAttribute('loaded', '');
                     if (params)
                         customElements.define(params.tagName, params.cls);
                 });
@@ -53,6 +39,91 @@ function loadTemplate(template, params) {
         if (params)
             customElements.define(params.tagName, params.cls);
     }
+}
+class TemplMount extends HTMLElement {
+    constructor() {
+        super();
+        if (!TemplMount._alreadyDidGlobalCheck) {
+            TemplMount._alreadyDidGlobalCheck = true;
+            this.loadTemplatesOutsideShadowDOM();
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", e => {
+                    this.loadTemplatesOutsideShadowDOM();
+                    this.monitorHeadForTemplates();
+                });
+            }
+            else {
+                this.monitorHeadForTemplates();
+            }
+        }
+    }
+    static get is() { return 'templ-mount'; }
+    getHost() {
+        const parent = this.parentNode;
+        return parent['host'];
+        // if(parent.nodeType !== 11){
+        //     return;
+        // }
+    }
+    loadTemplates(from) {
+        const externalRefTemplates = from.querySelectorAll('template[data-src]');
+        for (let i = 0, ii = externalRefTemplates.length; i < ii; i++) {
+            loadTemplate(externalRefTemplates[i]);
+        }
+    }
+    loadTemplatesOutsideShadowDOM() {
+        this.loadTemplates(document);
+        // const externalRefTemplates = document.querySelectorAll('template[data-src]');
+        // for(let i = 0, ii = externalRefTemplates.length; i < ii; i++){
+        //     loadTemplate(externalRefTemplates[i] as HTMLTemplateElement);
+        // }
+    }
+    loadTemplateInsideShadowDOM() {
+        const host = this.getHost();
+        if (!host)
+            return;
+        this.loadTemplates(host);
+    }
+    monitorHeadForTemplates() {
+        const config = { childList: true };
+        this._observer = new MutationObserver((mutationsList) => {
+            mutationsList.forEach(mutationRecord => {
+                mutationRecord.addedNodes.forEach((node) => {
+                    if (node.tagName === 'TEMPLATE')
+                        loadTemplate(node);
+                });
+            });
+        });
+    }
+    connectedCallback() {
+        this.loadTemplateInsideShadowDOM();
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", e => {
+                this.loadTemplateInsideShadowDOM();
+            });
+        }
+    }
+}
+TemplMount._alreadyDidGlobalCheck = false;
+customElements.define(TemplMount.is, TemplMount);
+//# sourceMappingURL=templ-mount.js.map
+function getBasePath(tagName) {
+    let path;
+    const link = self[lispToSnakeCase(tagName)];
+    if (link) {
+        path = link.href;
+    }
+    else {
+        const cs = document.currentScript;
+        if (cs) {
+            path = cs.src;
+        }
+        else {
+            //path = getESModuleUrl();
+            throw 'not support'
+        }
+    }
+    return path.split('/').slice(0, -1).join('/');
 }
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
@@ -71,10 +142,6 @@ class BraKet extends HTMLElement {
     constructor() {
         super();
         if (Object.getPrototypeOf(this) === BraKet.prototype) {
-            const externalRefTemplates = document.querySelectorAll('template[data-src]');
-            for (let i = 0, ii = externalRefTemplates.length; i < ii; i++) {
-                loadTemplate(externalRefTemplates[i]);
-            }
         }
         else {
             this.attachShadow({ mode: 'open' });
@@ -98,8 +165,6 @@ class BraKet extends HTMLElement {
         this.initShadowRoot();
     }
 }
-const _cachedTemplates = {};
-const fetchInProgress = {};
 function initCE(tagName, cls, basePath, sharedTemplateTagName) {
     if (customElements.get(tagName))
         return;
@@ -112,6 +177,7 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         template.dataset.src = basePath + '/' + templateTagName + '.html';
         document.head.appendChild(template);
     }
+    //TODO:  line below shouldn't be necessary with templ-mount?
     loadTemplate(template, {
         cls: cls,
         sharedTemplateTagName: sharedTemplateTagName,
@@ -203,20 +269,20 @@ class XtalTextInputMD extends BraKet {
         this._observer.disconnect();
     }
 }
-initCE(XtalTextInputMD.is, XtalTextInputMD, basePath);
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
 class XtalEmailInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-email-input-md'; }
     looksLike() {
         return XtalTextInputMD.is;
     }
 }
-initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath, XtalTextInputMD.is);
+initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
 //# sourceMappingURL=xtal-text-input-md.js.map
 class XtalCheckboxInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-checkbox-input-md'; }
-    getType() {
-        return 'checkbox';
-    }
+    // getType() {
+    //     return 'checkbox';
+    // }
     get checked() {
         return this._inputElement.checked;
     }
@@ -240,7 +306,7 @@ class XtalCheckboxInputMD extends XtalTextInputMD {
         });
     }
 }
-initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath);
+initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath + '/checkbox-input');
 //# sourceMappingURL=xtal-checkbox-input-md.js.map
 })();  
     

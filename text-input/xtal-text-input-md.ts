@@ -3,6 +3,14 @@ import { BraKet, initCE, basePath } from '../bra-ket.js';
 export interface IXtalInputProperties {
     value: string;
 }
+/**
+ * `xtal-text-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
     static get is() { return 'xtal-text-input-md'; }
     _inputElement: HTMLInputElement;
@@ -87,7 +95,14 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
 }
 
 initCE(XtalTextInputMD.is, XtalTextInputMD, basePath  + '/text-input');
-
+/**
+ * `xtal-email-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 export class XtalEmailInputMD extends XtalTextInputMD{
     static get is() { return 'xtal-email-input-md'; }
     looksLike(){
