@@ -7,9 +7,13 @@ export class XtalRadioGroupMD extends BraKet {
         slot.addEventListener('slotchange', e => {
             slot['assignedElements']().forEach((node) => {
                 const div = document.createElement('div');
-                div.innerHTML = node.innerHTML;
+                div.innerHTML = node.outerHTML;
                 this.shadowRoot.appendChild(div);
-                //debugger;
+                const targetDiv = document.createElement('div');
+                this.shadowRoot.appendChild(targetDiv);
+                const imex = div.firstElementChild;
+                imex['target'] = targetDiv;
+                imex.removeAttribute('disabled');
             });
             //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
             //const template = this.querySelector('template');

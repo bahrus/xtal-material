@@ -8,6 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <!-- <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-in@0.0.17/add-event-listener.js"></script> -->
+    <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
     <script async type="module" src="add-event-listener.js"></script>
     <script async type="module" src="../bra-ket.js"></script>
     <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
@@ -36,6 +37,15 @@
         width: 100%;
       }
     </style>
+      <script type="module ish" id="_root_lit_html">
+          const root = 'https://cdn.jsdelivr.net/npm/lit-html/';
+        </script>
+        <script type="module ish" id="_lit_html">
+            const { html, render } = await import(root + 'lit-html.js');
+        </script>
+        <script type="module ish" id="_lit_repeat">
+          const { repeat } = await import(root + 'lib/repeat.js');
+        </script>
   </head>
   <body>
     <video width="1280" height="720" class="background" autoplay muted loop>
@@ -48,9 +58,13 @@
           <dom-bind>
             <template>
               <bra-ket></bra-ket>
-              <div>[[testing]]</div>iah
+              <div>[[testing]]</div>
               <xtal-radio-group-md name="pronoun">
-                  <script type="text/html">
+                <xtal-im-ex disabled input="[]">
+                  
+                  <script type="module ish">
+                    XtalIMEX.insert(_root_lit_html, _lit_html);
+                    const radioButtonListGenerator = items => html`
                     <div class="form-radio form-radio-inline">
                         <div class="form-radio-legend">Prefered Pronoun</div>
                         <label class="form-radio-label">
@@ -84,8 +98,10 @@
                             <span>No pronoun preference</span>
                         </label>
                         <small class="form-element-hint">Feel free to choose</small>
-                    </div>
+                    </div>`;
+                    export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                   </script>
+                </xtal-im-ex>
               </xtal-radio-group-md>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
