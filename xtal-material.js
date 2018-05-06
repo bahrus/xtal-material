@@ -40,6 +40,9 @@ function loadTemplate(template, params) {
             customElements.define(params.tagName, params.cls);
     }
 }
+function qsa(css, from) {
+    return [].slice.call((from ? from : this).querySelectorAll(css));
+}
 class TemplMount extends HTMLElement {
     constructor() {
         super();
@@ -66,17 +69,12 @@ class TemplMount extends HTMLElement {
         // }
     }
     loadTemplates(from) {
-        const externalRefTemplates = from.querySelectorAll('template[data-src]');
-        for (let i = 0, ii = externalRefTemplates.length; i < ii; i++) {
-            loadTemplate(externalRefTemplates[i]);
-        }
+        qsa('template[data-src]', from).forEach(externalRefTemplate => {
+            loadTemplate(externalRefTemplate);
+        });
     }
     loadTemplatesOutsideShadowDOM() {
         this.loadTemplates(document);
-        // const externalRefTemplates = document.querySelectorAll('template[data-src]');
-        // for(let i = 0, ii = externalRefTemplates.length; i < ii; i++){
-        //     loadTemplate(externalRefTemplates[i] as HTMLTemplateElement);
-        // }
     }
     loadTemplateInsideShadowDOM() {
         const host = this.getHost();
@@ -119,8 +117,7 @@ function getBasePath(tagName) {
             path = cs.src;
         }
         else {
-            //path = getESModuleUrl();
-            throw 'not support'
+            path = getESModuleUrl();
         }
     }
     return path.split('/').slice(0, -1).join('/');
@@ -134,6 +131,9 @@ class BraKet extends HTMLElement {
         return this.tagName.toLowerCase();
     }
     looksLike() { }
+    get dynamicSlots() {
+        return null;
+    }
     get CE() {
         if (!this._ce)
             this._ce = customElements.get(this.tn);
@@ -188,6 +188,14 @@ const basePath = getBasePath(BraKet.is);
 customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=bra-ket.js.map
+/**
+ * `xtal-text-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 class XtalTextInputMD extends BraKet {
     static get is() { return 'xtal-text-input-md'; }
     customizeClone(clonedNode) {
@@ -270,6 +278,14 @@ class XtalTextInputMD extends BraKet {
     }
 }
 initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
+/**
+ * `xtal-email-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 class XtalEmailInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-email-input-md'; }
     looksLike() {

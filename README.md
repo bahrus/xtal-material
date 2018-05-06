@@ -2,7 +2,7 @@
 
 <a href="https://nodei.co/npm/xtal-material/"><img src="https://nodei.co/npm/xtal-material.png"></a>
 
-<a href="demo/index.html">Demo</a>
+<a href="https://www.webcomponents.org/element/bahrus/xtal-material/demo/demo/index.html">Demo</a>
 
 # \<xtal-material\>
 
