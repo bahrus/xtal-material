@@ -1,5 +1,8 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-material)
-[![NPM(https://nodei.co/npm/xtal-material.png)]](https://npmjs.org/package/xtal-material)
+
+<a href="https://nodei.co/npm/xtal-material/"><img src="https://nodei.co/npm/xtal-material.png"></a>
+
+<a href="demo/index.html">Demo</a>
 
 # \<xtal-material\>
 
