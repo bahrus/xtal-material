@@ -1,3 +1,6 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-material)
+[![NPM]](https://npmjs.org/package/xtal-material)
+
 # \<xtal-material\>
 
 Dependency free material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB). 
@@ -12,7 +15,7 @@ One thing that makes these components a bit different, perhaps:
 
 These components decouple the markup from the core JavaScript.  That means that, out of the box, the JS is pure JS, and it makes a separate (one-time) fetch request for the markup file, bearing the same name as the element, in the same directory.  So, for example, xtal-text-input-md.js loads xtal-text-input-md.html from the same directory.  xtal-text-input-md.html contains the template definition -- HTML as well as the CSS, basically the "pure CSS" + HTML markup of the link above.
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bahrus/xtal-material)
+
 
 Note that the author of the link above emphasizes that his solution is pure CSS (more or less).  The solution here sticks to that principle.
 
@@ -73,6 +76,55 @@ Clearly, they would need to be grouped into one shadow DOM.  But then we lose al
 So I opted to improvise a bit.  I used the [xtal-method](https://github.com/bahrus/xtal-method#adoption-services) [component](https://www.webcomponents.org/element/@@npm/xtal-method).
 
 It allows you pass in a markup "promise", which can then get dyanamically added directly into the shadow DOM.
+
+The markup looks as follows:
+
+```html
+<xtal-radio-group-md name="pronoun">
+<xtal-im-ex disabled input="[]">
+    
+    <script type="module ish">
+    XtalIMEX.insert(_root_lit_html, _lit_html);
+    const radioButtonListGenerator = items => html`
+    <div class="form-radio form-radio-inline">
+        <div class="form-radio-legend">Prefered Pronoun</div>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="He" />
+            <i class="form-radio-button"></i>
+            <span>He</span>
+        </label>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="She" />
+            <i class="form-radio-button"></i>
+            <span>She</span>
+        </label>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="They" />
+            <i class="form-radio-button"></i>
+            <span>They</span>
+        </label>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="Ze" />
+            <i class="form-radio-button"></i>
+            <span>Ze</span>
+        </label>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="A pronoun not listed" />
+            <i class="form-radio-button"></i>
+            <span>A pronoun not listed</span>
+        </label>
+        <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="No pronoun preference" />
+            <i class="form-radio-button"></i>
+            <span>No pronoun preference</span>
+        </label>
+        <small class="form-element-hint">Feel free to choose</small>
+    </div>`;
+    export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+    </script>
+</xtal-im-ex>
+</xtal-radio-group-md>
+```
 
 ## Install the Polymer-CLI
 
