@@ -228,14 +228,6 @@ class XtalTextInputMD extends BraKet {
     getType() {
         return this.constructor['is'].split('-')[1];
     }
-    addEventListener(eventName, callback) {
-        if (eventName.endsWith('-changed')) {
-            super.addEventListener(eventName, callback);
-        }
-        else {
-            this._inputElement.addEventListener(eventName, callback);
-        }
-    }
     addInputListener() {
         this._inputElement.addEventListener('input', e => {
             this.emitEvent();
@@ -324,5 +316,34 @@ class XtalCheckboxInputMD extends XtalTextInputMD {
 }
 initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath + '/checkbox-input');
 //# sourceMappingURL=xtal-checkbox-input-md.js.map
+class XtalRadioGroupMD extends AdoptAChild {
+    static get is() { return 'xtal-radio-group-md'; }
+    constructor() {
+        super();
+    }
+}
+initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, basePath + '/radio-group');
+//# sourceMappingURL=xtal-radio-group-md.js.map
+/**
+ * `xtal-text-area-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
+class XtalTextAreaMD extends XtalTextInputMD {
+    static get is() { return 'xtal-text-area-md'; }
+    //_textArea: HTMLTextAreaElement;
+    customizeClone(clonedNode) {
+        const textArea = this._inputElement = clonedNode.querySelector('textarea');
+        for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+            const attrib = this.attributes[i];
+            textArea.setAttribute(attrib.name, attrib.value);
+        }
+    }
+}
+initCE(XtalTextAreaMD.is, XtalTextAreaMD, basePath + '/text-area');
+//# sourceMappingURL=xtal-text-area-md.js.map
 })();  
     

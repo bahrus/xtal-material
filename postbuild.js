@@ -19,6 +19,8 @@ processFile('templ-mount.js', newLines);
 processFile('bra-ket.js', newLines);
 processFile('text-input/xtal-text-input-md.js', newLines);
 processFile('checkbox-input/xtal-checkbox-input-md.js', newLines);
+processFile('radio-group/xtal-radio-group-md.js', newLines);
+processFile('text-area/xtal-text-area-md.js', newLines);
 let newContent = `
 //@ts-check
 (function () {

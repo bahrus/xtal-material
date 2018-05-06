@@ -6,6 +6,10 @@
     "text-input/xtal-text-input-md.html",
     "checkbox-input/xtal-checkbox-input-md.js",
     "checkbox-input/xtal-checkbox-input-md.html",
+    "radio-group/xtal-radio-group-md.js",
+    "radio-group/xtal-radio-group-md.html",
+    "text-area/xtal-text-area-md.js",
+    "text-area/xtal-text-area-md.html",
     "xtal-material.js"
   ],
   "lint": {
