@@ -20,44 +20,48 @@ export function getBasePath(tagName) {
 export function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
-export class BraKet extends HTMLElement {
-    static get is() { return 'bra-ket'; }
-    get tn() {
-        return this.tagName.toLowerCase();
-    }
-    looksLike() { }
-    get dynamicSlots() {
-        return null;
-    }
-    get CE() {
-        if (!this._ce)
-            this._ce = customElements.get(this.tn);
-        return this._ce;
-    }
+export function BraKetMixin(superClass) {
+    return class extends superClass {
+        static get is() { return 'bra-ket'; }
+        get tn() {
+            return this.tagName.toLowerCase();
+        }
+        looksLike() { }
+        get dynamicSlots() {
+            return null;
+        }
+        get CE() {
+            if (!this._ce)
+                this._ce = customElements.get(this.tn);
+            return this._ce;
+        }
+        customizeClone(clonedNode) { }
+        initShadowRoot() { }
+        addTemplate() {
+            this.attachShadow({ mode: 'open' });
+            if (!this.CE._template) {
+                this.CE._template = {};
+            }
+            const tn = this.looksLike() || this.tn;
+            if (!this.CE._template[tn]) {
+                const templateId = lispToSnakeCase(tn) + '_template';
+                this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
+            }
+            const clonedNode = this.CE._template[tn].content.cloneNode(true);
+            this.customizeClone(clonedNode);
+            this.shadowRoot.appendChild(clonedNode);
+            this.initShadowRoot();
+        }
+    };
+}
+export class BraKet extends BraKetMixin(HTMLElement) {
     constructor() {
         super();
         if (Object.getPrototypeOf(this) === BraKet.prototype) {
         }
         else {
-            this.attachShadow({ mode: 'open' });
             this.addTemplate();
         }
-    }
-    customizeClone(clonedNode) { }
-    initShadowRoot() { }
-    addTemplate() {
-        if (!this.CE._template) {
-            this.CE._template = {};
-        }
-        const tn = this.looksLike() || this.tn;
-        if (!this.CE._template[tn]) {
-            const templateId = lispToSnakeCase(tn) + '_template';
-            this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
-        }
-        const clonedNode = this.CE._template[tn].content.cloneNode(true);
-        this.customizeClone(clonedNode);
-        this.shadowRoot.appendChild(clonedNode);
-        this.initShadowRoot();
     }
 }
 export function initCE(tagName, cls, basePath, sharedTemplateTagName) {

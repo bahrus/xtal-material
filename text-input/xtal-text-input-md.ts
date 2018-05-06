@@ -1,4 +1,4 @@
-import { BraKet, initCE, basePath } from '../bra-ket.js';
+import { BraKet, initCE, basePath} from '../bra-ket.js';
 
 export interface IXtalInputProperties {
     value: string;
