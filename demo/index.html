@@ -97,12 +97,13 @@
                             <i class="form-radio-button"></i>
                             <span>No pronoun preference</span>
                         </label>
-                        <small class="form-element-hint">Feel free to choose</small>
+                        
                     </div>`;
                     export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                   </script>
                 </xtal-im-ex>
               </xtal-radio-group-md>
+              <small class="form-element-hint">Feel free to choose</small>
               <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
                   <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
                   <span slot="label">Name</span>
