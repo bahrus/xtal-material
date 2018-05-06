@@ -16,3 +16,4 @@ function combineFiles(root: string){
 }
 
 combineFiles('radio-group');
+combineFiles('text-area');

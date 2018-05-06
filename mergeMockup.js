@@ -12,4 +12,5 @@ function combineFiles(root) {
     fs.writeFileSync(outputFilePath, cssContents + '\n' + htmlContents, 'utf8');
 }
 combineFiles('radio-group');
+combineFiles('text-area');
 //# sourceMappingURL=mergeMockup.js.map

@@ -40,6 +40,15 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Sass Compile Material Text area",
+            "type": "shell",
+            "command": "node-sass text-area/text-area-md.scss text-area/text-area-md.css",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

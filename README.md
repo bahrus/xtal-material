@@ -8,7 +8,7 @@
 
 Dependency free material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB). 
 
-The total size of the text input component is ~3kb gzip minified.  Despite being dependency free, the components are able to partake in Polymer's powerful binding mechanisms.
+The total size of the text input component is ~3.5kb gzip minified.  Despite being dependency free, the components are able to partake in Polymer's powerful binding mechanisms.
 
 ## The Duality Principle
 

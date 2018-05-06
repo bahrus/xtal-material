@@ -13,7 +13,7 @@ export interface IXtalInputProperties {
  */
 export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
     static get is() { return 'xtal-text-input-md'; }
-    _inputElement: HTMLInputElement;
+    _inputElement: HTMLInputElement | HTMLTextAreaElement;
     customizeClone(clonedNode: DocumentFragment) {
         super.customizeClone(clonedNode);
         const inputEl = this._inputElement = clonedNode.querySelector('input');
@@ -43,13 +43,7 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
     getType() {
         return this.constructor['is'].split('-')[1];
     }
-    addEventListener(eventName: string, callback) {
-        if (eventName.endsWith('-changed')) {
-            super.addEventListener(eventName, callback);
-        } else {
-            this._inputElement.addEventListener(eventName, callback);
-        }
-    }
+    
     addInputListener() {
         this._inputElement.addEventListener('input', e => {
             this.emitEvent()

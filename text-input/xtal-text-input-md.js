@@ -39,14 +39,6 @@ export class XtalTextInputMD extends BraKet {
     getType() {
         return this.constructor['is'].split('-')[1];
     }
-    addEventListener(eventName, callback) {
-        if (eventName.endsWith('-changed')) {
-            super.addEventListener(eventName, callback);
-        }
-        else {
-            this._inputElement.addEventListener(eventName, callback);
-        }
-    }
     addInputListener() {
         this._inputElement.addEventListener('input', e => {
             this.emitEvent();
