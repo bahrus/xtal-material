@@ -31,7 +31,10 @@
   color: #337ab7; }
 
 .form-radio-label span {
-  display: block; }
+  display: block;
+  padding-top:4px;
+  padding-left:4px; 
+}
 
 .form-radio-label input {
   width: auto;
@@ -83,8 +86,3 @@
 
 .form-has-error .form-radio-button {
   color: #d9534f; }
-
-
-  ::slotted(span) {
-      line-height:24px;
-  }

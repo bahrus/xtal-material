@@ -33,9 +33,9 @@
             }
         },
         {
-            "label": "Sass Compile Material Radiobutton",
+            "label": "Sass Compile Material Radio Group",
             "type": "shell",
-            "command": "node-sass radio-input-md.scss radio-input-md.css",
+            "command": "node-sass radio-group/radio-group-md.scss radio-group/radio-group-md.css",
             "group": {
                 "kind": "build",
                 "isDefault": true
