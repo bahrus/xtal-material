@@ -84,44 +84,20 @@ The markup looks as follows:
 
 ```html
 <xtal-radio-group-md name="pronoun">
-<xtal-im-ex disabled input="[]">
+<xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
     
     <script type="module ish">
-    XtalIMEX.insert(_root_lit_html, _lit_html);
+    XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
     const radioButtonListGenerator = items => html`
     <div class="form-radio form-radio-inline">
         <div class="form-radio-legend">Prefered Pronoun</div>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="He" />
+        ${repeat(items, item => item.length.toString(), item => html`
+            <label class="form-radio-label">
+            <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
             <i class="form-radio-button"></i>
-            <span>He</span>
-        </label>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="She" />
-            <i class="form-radio-button"></i>
-            <span>She</span>
-        </label>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="They" />
-            <i class="form-radio-button"></i>
-            <span>They</span>
-        </label>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="Ze" />
-            <i class="form-radio-button"></i>
-            <span>Ze</span>
-        </label>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="A pronoun not listed" />
-            <i class="form-radio-button"></i>
-            <span>A pronoun not listed</span>
-        </label>
-        <label class="form-radio-label">
-            <input name=pronoun class="form-radio-field" type="radio" required value="No pronoun preference" />
-            <i class="form-radio-button"></i>
-            <span>No pronoun preference</span>
-        </label>
-        <small class="form-element-hint">Feel free to choose</small>
+            <span>${item}</span>
+            </label>`
+        )}
     </div>`;
     export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
     </script>
