@@ -81,7 +81,7 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
                 this._inputElement[mutation.attributeName] = this[mutation.attributeName];
             })
         });
-        this._observer.observe(this, config);
+        this._observer.observe(<any>this as Node, config);
     }
     disconnectedCallback(){
         this._observer.disconnect();

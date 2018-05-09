@@ -1,5 +1,6 @@
 import { getESModuleUrl } from './xtal-temp-workaround.js';
 import { loadTemplate } from './templ-mount.js';
+import { TSConstructorType } from 'babel-types/index.js';
 export function getBasePath(tagName: string) {
     let path: string;
     const link = self[lispToSnakeCase(tagName)];
@@ -55,7 +56,7 @@ export function BraKetMixin(superClass) {
         }
     }
 }
-export class BraKet extends BraKetMixin(HTMLElement) {
+export class BraKet extends BraKetMixin(HTMLElement){
     constructor() {
         super();
         if (Object.getPrototypeOf(this) === BraKet.prototype) {
