@@ -8,16 +8,16 @@ export class XtalCheckboxInputMD extends XtalTextInputMD{
     // }
 
     get checked() {
-        return this._inputElement.checked;
+        return (this._inputElement as HTMLInputElement).checked;
     }
     set checked(val) {
-        this._inputElement.checked = val;
+        (this._inputElement as HTMLInputElement).checked = val;
     }
 
     emitEvent() {
         const newEvent = new CustomEvent('checked-changed', {
             detail: {
-                value: this._inputElement.checked
+                value: (this._inputElement as HTMLInputElement).checked
             },
             bubbles: true,
             composed: false
