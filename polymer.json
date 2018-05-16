@@ -1,34 +1,8 @@
 {
-  "sources":[
-    "templ-mount.js",
-    "bra-ket.js",
-    "text-input/xtal-text-input-md.js",
-    "text-input/xtal-text-input-md.html",
-    "checkbox-input/xtal-checkbox-input-md.js",
-    "checkbox-input/xtal-checkbox-input-md.html",
-    "radio-group/xtal-radio-group-md.js",
-    "radio-group/xtal-radio-group-md.html",
-    "text-area/xtal-text-area-md.js",
-    "text-area/xtal-text-area-md.html",
-    "xtal-material.js"
-  ],
+  "npm": true,
   "lint": {
     "rules": [
-      "polymer-2"
+      "polymer-3"
     ]
-  },
-  "builds":[
-    {
-      "name": "ES5",
-      "js": {"minify": true, "compile": true},
-      "html": {"minify": true},
-      "css" : {"minify": true}
-    },
-    {
-      "name": "ES6",
-      "js": {"minify": true, "compile": false},
-      "html": {"minify": true},
-      "css" : {"minify": true}
-    }    
-  ]
+  }
 }

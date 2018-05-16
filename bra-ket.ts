@@ -1,6 +1,5 @@
 import { getESModuleUrl } from './xtal-temp-workaround.js';
 import { loadTemplate } from './templ-mount.js';
-import { TSConstructorType } from 'babel-types/index.js';
 export function getBasePath(tagName: string) {
     let path: string;
     const link = self[lispToSnakeCase(tagName)];
