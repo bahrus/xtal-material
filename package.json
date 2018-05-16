@@ -1,5 +1,6 @@
 {
   "name": "xtal-material",
+  "version": "0.0.3",
   "description": "Dependency Free Material Components",
   "main": "xtal-material.js",
   "dependencies": {
@@ -10,5 +11,8 @@
     "@polymer/iron-demo-helpers": "^3.0.0-pre.12",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "wct-browser-legacy": "^1.0.0"
+  },
+  "scripts": {
+    "preversion": "node postbuild.js"
   }
 }
