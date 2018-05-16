@@ -1,5 +1,5 @@
 import {BraKet} from './bra-ket.js';
-import {qsa} from './templ-mount.js';
+import {qsa} from 'templ-mount/templ-mount.js';
 
 export class AdoptAChild extends BraKet{
     constructor(){
