@@ -1,7 +1,7 @@
 {
   "sources":[
-    "templ-mount.js",
-    "bra-ket.js",
+    "getBasePath.js",
+    "adopt-a-child.js",
     "text-input/xtal-text-input-md.js",
     "text-input/xtal-text-input-md.html",
     "checkbox-input/xtal-checkbox-input-md.js",

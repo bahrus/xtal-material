@@ -1,4 +1,5 @@
-import { BraKet, initCE, basePath } from '../bra-ket.js';
+import { BraKet, initCE} from 'bra-ket/bra-ket.js';
+import {getBasePath} from '../getBasePath.js';
 import {XtalTextInputMD} from '../text-input/xtal-text-input-md.js';
 
 /**
@@ -21,4 +22,4 @@ export class XtalTextAreaMD extends XtalTextInputMD{
     }
 }
 
-initCE(XtalTextAreaMD.is, XtalTextAreaMD, basePath  + '/text-area');
+initCE(XtalTextAreaMD.is, XtalTextAreaMD, getBasePath(XtalTextAreaMD.is)  + '/text-area');

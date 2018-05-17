@@ -1,5 +1,6 @@
 import { XtalTextInputMD } from '../text-input/xtal-text-input-md.js';
-import { initCE, basePath } from '../bra-ket.js';
+import { initCE } from 'bra-ket/bra-ket.js';
+import { getBasePath } from '../getBasePath.js';
 export class XtalCheckboxInputMD extends XtalTextInputMD {
     static get is() { return 'xtal-checkbox-input-md'; }
     // getType() {
@@ -28,5 +29,5 @@ export class XtalCheckboxInputMD extends XtalTextInputMD {
         });
     }
 }
-initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath + '/checkbox-input');
+initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
 //# sourceMappingURL=xtal-checkbox-input-md.js.map

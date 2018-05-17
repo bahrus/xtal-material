@@ -1,4 +1,5 @@
-import { BraKet, initCE, basePath } from '../bra-ket.js';
+import { BraKet, initCE } from 'bra-ket/bra-ket.js';
+import { getBasePath } from '../getBasePath.js';
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -80,6 +81,7 @@ export class XtalTextInputMD extends BraKet {
         this._observer.disconnect();
     }
 }
+const basePath = getBasePath(XtalTextInputMD.is);
 initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
 /**
  * `xtal-email-input-md`

@@ -1,4 +1,5 @@
-import { BraKet, initCE, basePath} from '../bra-ket.js';
+import { BraKet, initCE} from 'bra-ket/bra-ket.js';
+import {getBasePath} from '../getBasePath.js';
 
 export interface IXtalInputProperties {
     value: string;
@@ -87,7 +88,7 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
         this._observer.disconnect();
     }
 }
-
+const basePath = getBasePath(XtalTextInputMD.is);
 initCE(XtalTextInputMD.is, XtalTextInputMD, basePath  + '/text-input');
 /**
  * `xtal-email-input-md`

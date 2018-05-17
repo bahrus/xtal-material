@@ -105,23 +105,6 @@ class TemplMount extends HTMLElement {
 TemplMount._alreadyDidGlobalCheck = false;
 customElements.define(TemplMount.is, TemplMount);
 //# sourceMappingURL=templ-mount.js.map
-function getBasePath(tagName) {
-    let path;
-    const link = self[lispToSnakeCase(tagName)];
-    if (link) {
-        path = link.href;
-    }
-    else {
-        const cs = document.currentScript;
-        if (cs) {
-            path = cs.src;
-        }
-        else {
-            path = getESModuleUrl();
-        }
-    }
-    return path.split('/').slice(0, -1).join('/');
-}
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
@@ -188,8 +171,8 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
         tagName: tagName
     });
 }
-const basePath = getBasePath(BraKet.is);
-customElements.define(BraKet.is, BraKet);
+// export const basePath = getBasePath(BraKet.is);
+// customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=bra-ket.js.map
 /**
@@ -273,6 +256,7 @@ class XtalTextInputMD extends BraKet {
         this._observer.disconnect();
     }
 }
+const basePath = getBasePath(XtalTextInputMD.is);
 initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
 /**
  * `xtal-email-input-md`
@@ -318,7 +302,7 @@ class XtalCheckboxInputMD extends XtalTextInputMD {
         });
     }
 }
-initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, basePath + '/checkbox-input');
+initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
 //# sourceMappingURL=xtal-checkbox-input-md.js.map
 class XtalRadioGroupMD extends AdoptAChild {
     static get is() { return 'xtal-radio-group-md'; }
@@ -326,7 +310,7 @@ class XtalRadioGroupMD extends AdoptAChild {
         super();
     }
 }
-initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, basePath + '/radio-group');
+initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
 //# sourceMappingURL=xtal-radio-group-md.js.map
 /**
  * `xtal-text-area-md`
@@ -347,7 +331,7 @@ class XtalTextAreaMD extends XtalTextInputMD {
         }
     }
 }
-initCE(XtalTextAreaMD.is, XtalTextAreaMD, basePath + '/text-area');
+initCE(XtalTextAreaMD.is, XtalTextAreaMD, getBasePath(XtalTextAreaMD.is) + '/text-area');
 //# sourceMappingURL=xtal-text-area-md.js.map
 })();  
     

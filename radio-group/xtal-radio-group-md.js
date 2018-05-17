@@ -1,4 +1,5 @@
-import { initCE, basePath } from '../bra-ket.js';
+import { initCE } from 'bra-ket/bra-ket.js';
+import { getBasePath } from '../getBasePath.js';
 import { AdoptAChild } from '../adopt-a-child.js';
 export class XtalRadioGroupMD extends AdoptAChild {
     static get is() { return 'xtal-radio-group-md'; }
@@ -6,5 +7,5 @@ export class XtalRadioGroupMD extends AdoptAChild {
         super();
     }
 }
-initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, basePath + '/radio-group');
+initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
 //# sourceMappingURL=xtal-radio-group-md.js.map
