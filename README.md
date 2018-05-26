@@ -7,6 +7,8 @@
 
 Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB). 
 
+NB:  There are a number of [far](https://github.com/material-components/material-components-web-components) [more](https://vaadin.com/components/browse) [robust](https://www.webcomponents.org/collection/PolymerElements/paper-elements) alternative material design web components you should definitely check out.
+
 The total size of the text input component is ~3.5kb gzip minified.  The components do not depend on Polymer, but they are able to partake in Polymer's powerful binding mechanisms.
 
 ## The Duality Principle
