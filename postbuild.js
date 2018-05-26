@@ -15,8 +15,10 @@ function processFile(filePath, newLines){
     })
 }
 const newLines = [];
+processFile('getBasePath.js', newLines);
 processFile('node_modules/templ-mount/templ-mount.js', newLines);
 processFile('node_modules/bra-ket/bra-ket.js', newLines);
+processFile('adopt-a-child.js', newLines);
 processFile('text-input/xtal-text-input-md.js', newLines);
 processFile('checkbox-input/xtal-checkbox-input-md.js', newLines);
 processFile('radio-group/xtal-radio-group-md.js', newLines);

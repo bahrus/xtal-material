@@ -1,6 +1,25 @@
 
 //@ts-check
 (function () {
+function getBasePath(tagName) {
+    let path;
+    const link = self[lispToSnakeCase(tagName)];
+    if (link) {
+        path = link.href;
+    } else {
+        const cs = document.currentScript;
+        if (cs) {
+            path = cs.src;
+        } else {
+            path = import.meta.url;
+        }
+    }
+    return path.split('/').slice(0, -1).join('/');
+}
+
+function lispToSnakeCase(s) {
+    return s.split('-').join('_');
+}
 const _cachedTemplates = {};
 const fetchInProgress = {};
 function loadTemplate(template, params) {
@@ -175,6 +194,41 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
 // customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
 //# sourceMappingURL=bra-ket.js.map
+class AdoptAChild extends BraKet {
+    constructor() {
+        super();
+        this._rootElement = 'div';
+        this._targetElement = 'div';
+    }
+    get dynamicSlots() {
+        return ['slot'];
+    }
+    addTemplate() {
+        super.addTemplate();
+        if (!this.dynamicSlots)
+            return;
+        this.dynamicSlots.forEach(slotSelector => {
+            const slots = qsa(slotSelector, this.shadowRoot).forEach(slot => {
+                slot.addEventListener('slotchange', e => {
+                    slot['assignedElements']().forEach((node) => {
+                        const rootEl = document.createElement(this._rootElement);
+                        rootEl.innerHTML = node.outerHTML;
+                        this.shadowRoot.appendChild(rootEl);
+                        const targetEl = document.createElement(this._targetElement);
+                        this.shadowRoot.appendChild(targetEl);
+                        const imex = rootEl.firstElementChild;
+                        imex['target'] = targetEl;
+                        imex.removeAttribute('disabled');
+                    });
+                    //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
+                    //const template = this.querySelector('template');
+                    // this.shadowRoot.appendChild(template.content.cloneNode(true)['content'].cloneNode(true));
+                });
+            });
+        });
+    }
+}
+//# sourceMappingURL=adopt-a-child.js.map
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
