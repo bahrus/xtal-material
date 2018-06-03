@@ -22,11 +22,15 @@ export class AdoptAChild extends BraKet{
                         const rootEl = document.createElement(this._rootElement);
                         rootEl.innerHTML = node.outerHTML;
                         this.shadowRoot.appendChild(rootEl);
+                        
                         const targetEl = document.createElement(this._targetElement);
                         this.shadowRoot.appendChild(targetEl);
                         const imex = rootEl.firstElementChild;
-                        imex['target'] = targetEl;
-                        imex.removeAttribute('disabled');
+                        if(imex['disabled'] && (typeof(imex['target'] !== 'undefined'))){
+                            imex['target'] = targetEl;
+                            imex.removeAttribute('disabled');
+                        }
+                        
                     });
                     //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
                     //const template = this.querySelector('template');
