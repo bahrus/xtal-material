@@ -11,7 +11,7 @@ export class AdoptAChild extends BraKet{
     }
     
     _rootElement = 'div';
-    _targetElement = 'div'
+    _targetElementSelector = '[target]'
     addTemplate() {
         super.addTemplate();
         if(!this.dynamicSlots) return;
@@ -23,8 +23,10 @@ export class AdoptAChild extends BraKet{
                         rootEl.innerHTML = node.outerHTML;
                         this.shadowRoot.appendChild(rootEl);
                         
-                        const targetEl = document.createElement(this._targetElement);
-                        this.shadowRoot.appendChild(targetEl);
+                        //const targetEl = document.createElement(this._targetElement);
+                        const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
+                        //slot.insertAdjacentElement('afterend', targetEl);
+                        //this.shadowRoot.appendChild(targetEl);
                         const imex = rootEl.firstElementChild;
                         if(imex['disabled'] && (typeof(imex['target'] !== 'undefined'))){
                             imex['target'] = targetEl;

@@ -68,13 +68,14 @@
                     </script>
               </xtal-im-ex>
             </xtal-radio-group-md>
+            <small class="form-element-hint">Feel free to choose</small>
             <xtal-radio-tabs-md name="pronoun">
               <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
 
                 <script type="module ish">
                       XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
                       const radioButtonListGenerator = items => html`
-                      <div class="tab-wrap">
+                      
                           
                           ${repeat(items, item => item.length.toString(), (item, idx) => html`
                             <input type="radio" name="tabs" id="tab${idx}">
@@ -84,15 +85,15 @@
                             </div>
                             `
                           )}
-                          <div class="slide"></div>
-                      </div>
+                          
+                          <div class="slide"></div
                       
                       `;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                     </script>
               </xtal-im-ex>
-            </xtal-radio-group-md>
-            <small class="form-element-hint">Feel free to choose</small>
+            </xtal-radio-tabs-md>
+            
             <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
               <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
               <span slot="label">Name</span>
