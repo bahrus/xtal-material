@@ -8,7 +8,7 @@ export function getBasePath(tagName) {
         if (cs) {
             path = cs.src;
         } else {
-            path = import.meta.url;
+            path = eval('import.meta.url');
         }
     }
     return path.split('/').slice(0, -1).join('/');
