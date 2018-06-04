@@ -128,11 +128,12 @@ class AdoptAChild extends BraKet {
     constructor() {
         super();
         this._rootElement = 'div';
-        this._targetElement = 'div';
+        this._targetElementSelector = '[target]';
     }
     get dynamicSlots() {
         return ['slot'];
     }
+    postAdopt() { }
     addTemplate() {
         super.addTemplate();
         if (!this.dynamicSlots)
@@ -144,8 +145,10 @@ class AdoptAChild extends BraKet {
                         const rootEl = document.createElement(this._rootElement);
                         rootEl.innerHTML = node.outerHTML;
                         this.shadowRoot.appendChild(rootEl);
-                        const targetEl = document.createElement(this._targetElement);
-                        this.shadowRoot.appendChild(targetEl);
+                        //const targetEl = document.createElement(this._targetElement);
+                        const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
+                        //slot.insertAdjacentElement('afterend', targetEl);
+                        //this.shadowRoot.appendChild(targetEl);
                         const imex = rootEl.firstElementChild;
                         if (imex['disabled'] && (typeof (imex['target'] !== 'undefined'))) {
                             imex['target'] = targetEl;
@@ -155,16 +158,9 @@ class AdoptAChild extends BraKet {
                             const imexnew = rootEl.removeChild(rootEl.firstElementChild);
                             targetEl.appendChild(imexnew.cloneNode(true));
                             slot.style.display = 'none';
-                            //targetEl.innerHTML = imexnew.outerHTML;
-                            // while(imex.firstChild){
-                            //     const firstChild = imex.removeChild(imex.firstChild);
-                            //     targetEl.appendChild(firstChild.cloneNode(true));
-                            // }
                         }
+                        this.postAdopt();
                     });
-                    //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
-                    //const template = this.querySelector('template');
-                    // this.shadowRoot.appendChild(template.content.cloneNode(true)['content'].cloneNode(true));
                 });
             });
         });
@@ -226,15 +222,15 @@ class XtalTextInputMD extends BraKet {
         });
         this.dispatchEvent(newEvent);
     }
-    _upgradeProperties(props) {
-        props.forEach(prop => {
-            if (this.hasOwnProperty(prop)) {
-                let value = this[prop];
-                delete this[prop];
-                this[prop] = value;
-            }
-        });
-    }
+    // _upgradeProperties(props: string[]) {
+    //     props.forEach(prop => {
+    //         if (this.hasOwnProperty(prop)) {
+    //             let value = this[prop];
+    //             delete this[prop];
+    //             this[prop] = value;
+    //         }
+    //     })
+    // }
     connectedCallback() {
         this._upgradeProperties(['value']);
         this.addMutationObserver();
