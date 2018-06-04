@@ -27,6 +27,16 @@ export class AdoptAChild extends BraKet {
                             imex['target'] = targetEl;
                             imex.removeAttribute('disabled');
                         }
+                        else {
+                            const imexnew = rootEl.removeChild(rootEl.firstElementChild);
+                            targetEl.appendChild(imexnew.cloneNode(true));
+                            slot.style.display = 'none';
+                            //targetEl.innerHTML = imexnew.outerHTML;
+                            // while(imex.firstChild){
+                            //     const firstChild = imex.removeChild(imex.firstChild);
+                            //     targetEl.appendChild(firstChild.cloneNode(true));
+                            // }
+                        }
                     });
                     //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
                     //const template = this.querySelector('template');

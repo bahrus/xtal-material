@@ -10,6 +10,7 @@
     "@polymer/polymer": "^3.0.0",
     "@types/node": "^10.1.0",
     "bra-ket": "0.0.3",
+    "jiife": "0.0.0",
     "templ-mount": "0.0.1"
   },
   "devDependencies": {

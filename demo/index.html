@@ -10,11 +10,12 @@
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
   <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
   <script async type="module" src="add-event-listener.js"></script>
-  <!-- <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
+  <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
   <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
   <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
-  <script async type="module" src="../text-area/xtal-text-area-md.js"></script> -->
-  <script async type="module" src="../xtal-material.js"></script>
+  <script async type="module" src="../text-area/xtal-text-area-md.js"></script>
+  <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
+  <!-- <script async type="module" src="../xtal-material.js"></script> -->
   
   <script type="module">
       import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-pages-shared-styles.js?module";
@@ -63,6 +64,30 @@
                             </label>`
                           )}
                       </div>`;
+                      export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+                    </script>
+              </xtal-im-ex>
+            </xtal-radio-group-md>
+            <xtal-radio-tabs-md name="pronoun">
+              <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
+
+                <script type="module ish">
+                      XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+                      const radioButtonListGenerator = items => html`
+                      <div class="tab-wrap">
+                          
+                          ${repeat(items, item => item.length.toString(), (item, idx) => html`
+                            <input type="radio" name="tabs" id="tab${idx}">
+                            <div class="tab-label-content" id="tab${idx}-content">
+                              <label for="tab${idx}">${item}</label>
+                              <div class="tab-content">tbd</div>
+                            </div>
+                            `
+                          )}
+                          <div class="slide"></div>
+                      </div>
+                      
+                      `;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                     </script>
               </xtal-im-ex>

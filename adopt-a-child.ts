@@ -29,6 +29,15 @@ export class AdoptAChild extends BraKet{
                         if(imex['disabled'] && (typeof(imex['target'] !== 'undefined'))){
                             imex['target'] = targetEl;
                             imex.removeAttribute('disabled');
+                        }else{
+                            const imexnew = rootEl.removeChild(rootEl.firstElementChild) as HTMLElement;
+                            targetEl.appendChild(imexnew.cloneNode(true));
+                            slot.style.display = 'none';
+                            //targetEl.innerHTML = imexnew.outerHTML;
+                            // while(imex.firstChild){
+                            //     const firstChild = imex.removeChild(imex.firstChild);
+                            //     targetEl.appendChild(firstChild.cloneNode(true));
+                            // }
                         }
                         
                     });

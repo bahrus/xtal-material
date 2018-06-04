@@ -1,7 +1,7 @@
 
-//@ts-check
-(function () {
-function getBasePath(tagName) {
+    //@ts-check
+    (function () {
+    function getBasePath(tagName) {
     let path;
     const link = self[lispToSnakeCase(tagName)];
     if (link) {
@@ -124,76 +124,6 @@ class TemplMount extends HTMLElement {
 TemplMount._alreadyDidGlobalCheck = false;
 customElements.define(TemplMount.is, TemplMount);
 //# sourceMappingURL=templ-mount.js.map
-function lispToSnakeCase(s) {
-    return s.split('-').join('_');
-}
-function BraKetMixin(superClass) {
-    return class extends superClass {
-        static get is() { return 'bra-ket'; }
-        get tn() {
-            return this.tagName.toLowerCase();
-        }
-        looksLike() { }
-        get dynamicSlots() {
-            return null;
-        }
-        get CE() {
-            if (!this._ce)
-                this._ce = customElements.get(this.tn);
-            return this._ce;
-        }
-        customizeClone(clonedNode) { }
-        initShadowRoot() { }
-        addTemplate() {
-            this.attachShadow({ mode: 'open' });
-            if (!this.CE._template) {
-                this.CE._template = {};
-            }
-            const tn = this.looksLike() || this.tn;
-            if (!this.CE._template[tn]) {
-                const templateId = lispToSnakeCase(tn) + '_template';
-                this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
-            }
-            const clonedNode = this.CE._template[tn].content.cloneNode(true);
-            this.customizeClone(clonedNode);
-            this.shadowRoot.appendChild(clonedNode);
-            this.initShadowRoot();
-        }
-    };
-}
-class BraKet extends BraKetMixin(HTMLElement) {
-    constructor() {
-        super();
-        if (Object.getPrototypeOf(this) === BraKet.prototype) {
-        }
-        else {
-            this.addTemplate();
-        }
-    }
-}
-function initCE(tagName, cls, basePath, sharedTemplateTagName) {
-    if (customElements.get(tagName))
-        return;
-    const templateTagName = sharedTemplateTagName || tagName;
-    const templateID = lispToSnakeCase(templateTagName) + '_template';
-    let template = self[templateID];
-    if (!template) {
-        template = document.createElement('template');
-        template.id = templateID;
-        template.dataset.src = basePath + '/' + templateTagName + '.html';
-        document.head.appendChild(template);
-    }
-    //TODO:  line below shouldn't be necessary with templ-mount?
-    loadTemplate(template, {
-        cls: cls,
-        sharedTemplateTagName: sharedTemplateTagName,
-        tagName: tagName
-    });
-}
-// export const basePath = getBasePath(BraKet.is);
-// customElements.define(BraKet.is, BraKet);
-//initCE(XtalShadow.is, XtalShadow, basePath);
-//# sourceMappingURL=bra-ket.js.map
 class AdoptAChild extends BraKet {
     constructor() {
         super();
@@ -217,8 +147,20 @@ class AdoptAChild extends BraKet {
                         const targetEl = document.createElement(this._targetElement);
                         this.shadowRoot.appendChild(targetEl);
                         const imex = rootEl.firstElementChild;
-                        imex['target'] = targetEl;
-                        imex.removeAttribute('disabled');
+                        if (imex['disabled'] && (typeof (imex['target'] !== 'undefined'))) {
+                            imex['target'] = targetEl;
+                            imex.removeAttribute('disabled');
+                        }
+                        else {
+                            const imexnew = rootEl.removeChild(rootEl.firstElementChild);
+                            targetEl.appendChild(imexnew.cloneNode(true));
+                            slot.style.display = 'none';
+                            //targetEl.innerHTML = imexnew.outerHTML;
+                            // while(imex.firstChild){
+                            //     const firstChild = imex.removeChild(imex.firstChild);
+                            //     targetEl.appendChild(firstChild.cloneNode(true));
+                            // }
+                        }
                     });
                     //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
                     //const template = this.querySelector('template');
@@ -387,5 +329,5 @@ class XtalTextAreaMD extends XtalTextInputMD {
 }
 initCE(XtalTextAreaMD.is, XtalTextAreaMD, getBasePath(XtalTextAreaMD.is) + '/text-area');
 //# sourceMappingURL=xtal-text-area-md.js.map
-})();  
-    
+    })();  
+        
