@@ -1,6 +1,6 @@
 {
   "name": "xtal-material",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Dependency Free Material Components",
   "main": "xtal-material.js",
   "repository": "https://github.com/bahrus/xtal-material",
@@ -19,7 +19,5 @@
     "wct-browser-legacy": "^1.0.0",
     "jiife": "0.0.0"
   },
-  "scripts": {
-    
-  }
+  "scripts": {}
 }
