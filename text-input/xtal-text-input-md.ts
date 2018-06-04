@@ -1,4 +1,5 @@
 import { BraKet, initCE} from 'bra-ket/bra-ket.js';
+import {XtallatX} from 'xtal-latx/xtal-latx.js';
 import {getBasePath} from '../getBasePath.js';
 
 export interface IXtalInputProperties {
@@ -60,16 +61,16 @@ export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
         } as CustomEventInit);
         this.dispatchEvent(newEvent);
     }
-    _upgradeProperties(props: string[]) {
-        props.forEach(prop => {
-            if (this.hasOwnProperty(prop)) {
-                let value = this[prop];
-                delete this[prop];
-                this[prop] = value;
-            }
-        })
+    // _upgradeProperties(props: string[]) {
+    //     props.forEach(prop => {
+    //         if (this.hasOwnProperty(prop)) {
+    //             let value = this[prop];
+    //             delete this[prop];
+    //             this[prop] = value;
+    //         }
+    //     })
 
-    }
+    // }
     connectedCallback() {
         this._upgradeProperties(['value']);
         this.addMutationObserver();

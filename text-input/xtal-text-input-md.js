@@ -55,15 +55,15 @@ export class XtalTextInputMD extends BraKet {
         });
         this.dispatchEvent(newEvent);
     }
-    _upgradeProperties(props) {
-        props.forEach(prop => {
-            if (this.hasOwnProperty(prop)) {
-                let value = this[prop];
-                delete this[prop];
-                this[prop] = value;
-            }
-        });
-    }
+    // _upgradeProperties(props: string[]) {
+    //     props.forEach(prop => {
+    //         if (this.hasOwnProperty(prop)) {
+    //             let value = this[prop];
+    //             delete this[prop];
+    //             this[prop] = value;
+    //         }
+    //     })
+    // }
     connectedCallback() {
         this._upgradeProperties(['value']);
         this.addMutationObserver();

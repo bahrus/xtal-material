@@ -5,7 +5,7 @@
 <a href="https://www.webcomponents.org/element/bahrus/xtal-material/demo/demo/index.html">Demo</a>
 # \<xtal-material\>
 
-Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB). 
+Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB).  For tabs we build on Ben Mildren's [Material Design CSS Only Tabs](https://codepen.io/mildrenben/pen/bdGdOb)
 
 NB:  There are a number of [far](https://github.com/material-components/material-components-web-components) [more](https://vaadin.com/components/browse) [robust](https://www.webcomponents.org/collection/PolymerElements/paper-elements) alternative material design web components you should definitely check out.
 
