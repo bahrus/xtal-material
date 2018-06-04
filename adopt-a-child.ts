@@ -11,7 +11,8 @@ export class AdoptAChild extends BraKet{
     }
     
     _rootElement = 'div';
-    _targetElementSelector = '[target]'
+    _targetElementSelector = '[target]';
+    postAdopt(){}
     addTemplate() {
         super.addTemplate();
         if(!this.dynamicSlots) return;
@@ -35,19 +36,14 @@ export class AdoptAChild extends BraKet{
                             const imexnew = rootEl.removeChild(rootEl.firstElementChild) as HTMLElement;
                             targetEl.appendChild(imexnew.cloneNode(true));
                             slot.style.display = 'none';
-                            //targetEl.innerHTML = imexnew.outerHTML;
-                            // while(imex.firstChild){
-                            //     const firstChild = imex.removeChild(imex.firstChild);
-                            //     targetEl.appendChild(firstChild.cloneNode(true));
-                            // }
+
                         }
-                        
+                        this.postAdopt();
                     });
-                    //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
-                    //const template = this.querySelector('template');
-                    // this.shadowRoot.appendChild(template.content.cloneNode(true)['content'].cloneNode(true));
+                   
                 });
-            })
+            });
+            
         })
 
     }

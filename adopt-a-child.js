@@ -9,6 +9,7 @@ export class AdoptAChild extends BraKet {
     get dynamicSlots() {
         return ['slot'];
     }
+    postAdopt() { }
     addTemplate() {
         super.addTemplate();
         if (!this.dynamicSlots)
@@ -33,16 +34,9 @@ export class AdoptAChild extends BraKet {
                             const imexnew = rootEl.removeChild(rootEl.firstElementChild);
                             targetEl.appendChild(imexnew.cloneNode(true));
                             slot.style.display = 'none';
-                            //targetEl.innerHTML = imexnew.outerHTML;
-                            // while(imex.firstChild){
-                            //     const firstChild = imex.removeChild(imex.firstChild);
-                            //     targetEl.appendChild(firstChild.cloneNode(true));
-                            // }
                         }
+                        this.postAdopt();
                     });
-                    //this.shadowRoot.appendChild(this.querySelector('template').content.cloneNode(true));
-                    //const template = this.querySelector('template');
-                    // this.shadowRoot.appendChild(template.content.cloneNode(true)['content'].cloneNode(true));
                 });
             });
         });
