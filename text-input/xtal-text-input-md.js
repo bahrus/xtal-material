@@ -1,4 +1,5 @@
 import { BraKet, initCE } from 'bra-ket/bra-ket.js';
+import { XtallatX } from 'xtal-latx/xtal-latx.js';
 import { getBasePath } from '../getBasePath.js';
 /**
  * `xtal-text-input-md`
@@ -8,7 +9,7 @@ import { getBasePath } from '../getBasePath.js';
  * @polymer
  * @demo demo/index.html
  */
-export class XtalTextInputMD extends BraKet {
+export class XtalTextInputMD extends XtallatX(BraKet) {
     static get is() { return 'xtal-text-input-md'; }
     customizeClone(clonedNode) {
         super.customizeClone(clonedNode);

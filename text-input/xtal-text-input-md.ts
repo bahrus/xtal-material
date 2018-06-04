@@ -13,7 +13,7 @@ export interface IXtalInputProperties {
  * @polymer
  * @demo demo/index.html
  */
-export class XtalTextInputMD extends BraKet implements IXtalInputProperties {
+export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputProperties {
     static get is() { return 'xtal-text-input-md'; }
     _inputElement: HTMLInputElement | HTMLTextAreaElement;
     customizeClone(clonedNode: DocumentFragment) {

@@ -11,7 +11,7 @@
         if (cs) {
             path = cs.src;
         } else {
-            path = import.meta.url;
+            //path = import.meta.url;
         }
     }
     return path.split('/').slice(0, -1).join('/');
@@ -124,6 +124,172 @@ class TemplMount extends HTMLElement {
 TemplMount._alreadyDidGlobalCheck = false;
 customElements.define(TemplMount.is, TemplMount);
 //# sourceMappingURL=templ-mount.js.map
+const pass_down = 'pass-down';
+const disabled = 'disabled';
+function XtallatX(superClass) {
+    return class extends superClass {
+        static get observedAttributes() {
+            return [disabled, pass_down];
+        }
+        get passDown() {
+            return this._passDown;
+        }
+        set passDown(val) {
+            this.setAttribute(pass_down, val);
+        }
+        get disabled() {
+            return this._disabled;
+        }
+        set disabled(val) {
+            if (val) {
+                this.setAttribute(disabled, '');
+            }
+            else {
+                this.removeAttribute(disabled);
+            }
+        }
+        attributeChangedCallback(name, oldVal, newVal) {
+            switch (name) {
+                case pass_down:
+                    if (newVal && newVal.endsWith('}'))
+                        newVal += ';';
+                    this._passDown = newVal;
+                    this.parsePassDown();
+                    break;
+                case disabled:
+                    this._disabled = newVal !== null;
+                    break;
+            }
+        }
+        de(name, detail) {
+            const newEvent = new CustomEvent(name + '-changed', {
+                detail: detail,
+                bubbles: true,
+                composed: false,
+            });
+            this.dispatchEvent(newEvent);
+            return newEvent;
+        }
+        updateResultProp(val, eventName, propName, callBackFn) {
+            if (callBackFn) {
+                val = callBackFn(val, this);
+                if (!val)
+                    return;
+            }
+            this[propName] = val;
+            if (this._cssPropMap) {
+                this.passDownProp(val);
+            }
+            else {
+                this.de(eventName, val);
+            }
+        }
+        parsePassDown() {
+            this._cssPropMap = [];
+            const splitPassDown = this._passDown.split('};');
+            splitPassDown.forEach(passDownSelectorAndProp => {
+                if (!passDownSelectorAndProp)
+                    return;
+                const splitPassTo2 = passDownSelectorAndProp.split('{');
+                this._cssPropMap.push({
+                    cssSelector: splitPassTo2[0],
+                    propTarget: splitPassTo2[1]
+                });
+            });
+        }
+        passDownProp(val) {
+            let nextSibling = this.nextElementSibling;
+            while (nextSibling) {
+                this._cssPropMap.forEach(map => {
+                    if (nextSibling.matches(map.cssSelector)) {
+                        nextSibling[map.propTarget] = val;
+                    }
+                });
+                nextSibling = nextSibling.nextElementSibling;
+            }
+        }
+        _upgradeProperties(props) {
+            props.forEach(prop => {
+                if (this.hasOwnProperty(prop)) {
+                    let value = this[prop];
+                    delete this[prop];
+                    this[prop] = value;
+                }
+            });
+        }
+    };
+}
+//# sourceMappingURL=xtal-latx.js.map
+function lispToSnakeCase(s) {
+    return s.split('-').join('_');
+}
+function BraKetMixin(superClass) {
+    return class extends superClass {
+        static get is() { return 'bra-ket'; }
+        get tn() {
+            return this.tagName.toLowerCase();
+        }
+        looksLike() { }
+        get dynamicSlots() {
+            return null;
+        }
+        get CE() {
+            if (!this._ce)
+                this._ce = customElements.get(this.tn);
+            return this._ce;
+        }
+        customizeClone(clonedNode) { }
+        initShadowRoot() { }
+        addTemplate() {
+            this.attachShadow({ mode: 'open' });
+            if (!this.CE._template) {
+                this.CE._template = {};
+            }
+            const tn = this.looksLike() || this.tn;
+            if (!this.CE._template[tn]) {
+                const templateId = lispToSnakeCase(tn) + '_template';
+                this.CE._template[tn] = self[lispToSnakeCase(tn) + '_template'];
+            }
+            const clonedNode = this.CE._template[tn].content.cloneNode(true);
+            this.customizeClone(clonedNode);
+            this.shadowRoot.appendChild(clonedNode);
+            this.initShadowRoot();
+        }
+    };
+}
+class BraKet extends BraKetMixin(HTMLElement) {
+    constructor() {
+        super();
+        if (Object.getPrototypeOf(this) === BraKet.prototype) {
+        }
+        else {
+            this.addTemplate();
+        }
+    }
+}
+function initCE(tagName, cls, basePath, sharedTemplateTagName) {
+    if (customElements.get(tagName))
+        return;
+    const templateTagName = sharedTemplateTagName || tagName;
+    const templateID = lispToSnakeCase(templateTagName) + '_template';
+    let template = self[templateID];
+    if (!template) {
+        template = document.createElement('template');
+        template.id = templateID;
+        template.dataset.src = basePath + '/' + templateTagName + '.html';
+        document.head.appendChild(template);
+    }
+    //TODO:  line below shouldn't be necessary with templ-mount?
+    loadTemplate(template, {
+        cls: cls,
+        sharedTemplateTagName: sharedTemplateTagName,
+        tagName: tagName
+    });
+}
+// export const basePath = getBasePath(BraKet.is);
+// customElements.define(BraKet.is, BraKet);
+//initCE(XtalShadow.is, XtalShadow, basePath);
+//# sourceMappingURL=bra-ket.js.map
 class AdoptAChild extends BraKet {
     constructor() {
         super();
@@ -175,7 +341,7 @@ class AdoptAChild extends BraKet {
  * @polymer
  * @demo demo/index.html
  */
-class XtalTextInputMD extends BraKet {
+class XtalTextInputMD extends XtallatX(BraKet) {
     static get is() { return 'xtal-text-input-md'; }
     customizeClone(clonedNode) {
         super.customizeClone(clonedNode);
@@ -304,6 +470,35 @@ class XtalRadioGroupMD extends AdoptAChild {
 }
 initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
 //# sourceMappingURL=xtal-radio-group-md.js.map
+const styleFn = (n, t) => `
+input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
+    left: calc((100% / ${t}) * ${n});
+}
+`;
+class XtalRadioTabsMD extends AdoptAChild {
+    static get is() { return 'xtal-radio-tabs-md'; }
+    constructor() {
+        super();
+    }
+    postAdopt() {
+        const q = qsa('input', this.shadowRoot);
+        if (q.length === 0) {
+            setTimeout(() => {
+                this.postAdopt();
+            }, 100);
+            return;
+        }
+        const styles = [];
+        for (let i = 0, ii = q.length; i < ii; i++) {
+            styles.push(styleFn(i, ii));
+        }
+        const style = document.createElement('style');
+        style.innerHTML = styles.join('');
+        this.shadowRoot.appendChild(style);
+    }
+}
+initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
+//# sourceMappingURL=xtal-radio-tabs-md.js.map
 /**
  * `xtal-text-area-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
