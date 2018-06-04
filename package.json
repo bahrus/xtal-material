@@ -20,6 +20,6 @@
     "jiife": "0.0.0"
   },
   "scripts": {
-    "preversion": "node postbuild.js"
+    
   }
 }
