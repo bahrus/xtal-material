@@ -15,9 +15,15 @@ export class AdoptAChild extends BraKet {
         if (!this.dynamicSlots)
             return;
         this.dynamicSlots.forEach(slotSelector => {
-            const slots = qsa(slotSelector, this.shadowRoot).forEach(slot => {
+            const slots = qsa(slotSelector, this.shadowRoot).forEach((slot) => {
                 slot.addEventListener('slotchange', e => {
-                    slot['assignedElements']().forEach((node) => {
+                    // console.log({
+                    //     assignedNodes: slot.assignedNodes(),
+                    //     assignedElements: slot['assignedElements']()
+                    // })
+                    slot.assignedNodes().forEach((node) => {
+                        if (node.nodeType !== 1)
+                            return;
                         const rootEl = document.createElement(this._rootElement);
                         rootEl.innerHTML = node.outerHTML;
                         this.shadowRoot.appendChild(rootEl);
