@@ -93,12 +93,12 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-bra-ket@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/bra-ket/-/bra-ket-0.0.4.tgz#25e16894f60c853e5daf8d5fad48f3f929cdc9b7"
+bra-ket@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/bra-ket/-/bra-ket-0.0.5.tgz#a14fdbbd2bfc8e7e6815740edf01e7e8348c1263"
   dependencies:
     "@polymer/polymer" "^3.0.0"
-    templ-mount "0.0.1"
+    templ-mount "0.0.5"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -399,11 +399,12 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-templ-mount@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/templ-mount/-/templ-mount-0.0.1.tgz#7b47900daa3bccc5c2342b435d52876f8016bfbc"
+templ-mount@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/templ-mount/-/templ-mount-0.0.5.tgz#d6a185c64c092524a6dfb2de09ea78a53cdc21d8"
   dependencies:
     "@polymer/polymer" "^3.0.0"
+    "@types/node" "^10.1.0"
 
 tiny-emitter@^2.0.0:
   version "2.0.2"

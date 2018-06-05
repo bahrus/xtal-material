@@ -9,8 +9,8 @@
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
     "@types/node": "^10.1.0",
-    "bra-ket": "0.0.4",
-    "templ-mount": "0.0.1",
+    "bra-ket": "0.0.5",
+    "templ-mount": "0.0.5",
     "xtal-latx": "0.0.5"
   },
   "devDependencies": {
