@@ -231,9 +231,9 @@ inherits@2, inherits@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
-jiife@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/jiife/-/jiife-0.0.0.tgz#43fde478b4255be1c35df282c2daa5eaabb8c159"
+jiife@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/jiife/-/jiife-0.0.1.tgz#1f6bc8b45887f8f88c2fb97b0620654a693a2f8c"
 
 json3@3.3.2:
   version "3.3.2"

@@ -11,7 +11,6 @@
         if (cs) {
             path = cs.src;
         } else {
-            //path = import.meta.url;
         }
     }
     return path.split('/').slice(0, -1).join('/');
@@ -319,31 +318,27 @@ class AdoptAChild extends BraKet {
         this.dynamicSlots.forEach(slotSelector => {
             const slots = qsa(slotSelector, this.shadowRoot).forEach((slot) => {
                 slot.addEventListener('slotchange', e => {
-                    // console.log({
-                    //     assignedNodes: slot.assignedNodes(),
-                    //     shadowRoot: this.shadowRoot
-                    // })
-                    //const rootEl = document.createElement(this._rootElement);
                     slot.assignedNodes().forEach((node) => {
-                        //if(node.nodeType !==1) return;
-                        //rootEl.innerHTML = node.outerHTML;
-                        //const targetEl = document.createElement(this._targetElement);
                         const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
-                        //slot.insertAdjacentElement('afterend', targetEl);
-                        //this.shadowRoot.appendChild(targetEl);
-                        //const imex = rootEl.firstElementChild;
                         if (node['disabled'] && (typeof (node['target'] !== 'undefined'))) {
-                            console.log(node);
                             node['target'] = targetEl;
                             node.removeAttribute('disabled');
                         }
                         else {
                             targetEl.appendChild(node.cloneNode(true));
-                            node.parentElement.removeChild(node);
-                            //slot.style.display = 'none'; 
+                            //node.parentElement.removeChild(node);
+                            if (node.parentElement) {
+                                node.parentElement.removeChild(node);
+                            }
+                            else {
+                                if (node.nodeType === 1) {
+                                    node.innerHTML = '';
+                                    node.style.display = 'none';
+                                    node.removeAttribute('id');
+                                }
+                            }
                         }
                     });
-                    //this.shadowRoot.appendChild(rootEl);
                     this.postAdopt();
                 });
             });
