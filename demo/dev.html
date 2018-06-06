@@ -76,7 +76,7 @@
                       XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
                       const radioButtonListGenerator = items => html`
                       
-                          
+                      <div class="tab-wrap">
                           ${repeat(items, item => Math.random().toString(), (item, idx) => html`
                             <input type="radio" name="tabs" id="tab${idx}">
                             <div class="tab-label-content" id="tab${idx}-content">
@@ -87,7 +87,7 @@
                           )}
                           
                           <div class="slide"></div
-                      
+                      </div>
                       `;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                     </script>
