@@ -11,6 +11,7 @@ export class AdoptAChild extends BraKet {
     }
     postAdopt() { }
     addTemplate() {
+        console.log('addTemplate');
         super.addTemplate();
         if (!this.dynamicSlots)
             return;
@@ -19,30 +20,30 @@ export class AdoptAChild extends BraKet {
                 slot.addEventListener('slotchange', e => {
                     // console.log({
                     //     assignedNodes: slot.assignedNodes(),
-                    //     assignedElements: slot['assignedElements']()
+                    //     shadowRoot: this.shadowRoot
                     // })
+                    //const rootEl = document.createElement(this._rootElement);
                     slot.assignedNodes().forEach((node) => {
-                        if (node.nodeType !== 1)
-                            return;
-                        const rootEl = document.createElement(this._rootElement);
-                        rootEl.innerHTML = node.outerHTML;
-                        this.shadowRoot.appendChild(rootEl);
+                        //if(node.nodeType !==1) return;
+                        //rootEl.innerHTML = node.outerHTML;
                         //const targetEl = document.createElement(this._targetElement);
                         const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
                         //slot.insertAdjacentElement('afterend', targetEl);
                         //this.shadowRoot.appendChild(targetEl);
-                        const imex = rootEl.firstElementChild;
-                        if (imex['disabled'] && (typeof (imex['target'] !== 'undefined'))) {
-                            imex['target'] = targetEl;
-                            imex.removeAttribute('disabled');
+                        //const imex = rootEl.firstElementChild;
+                        if (node['disabled'] && (typeof (node['target'] !== 'undefined'))) {
+                            console.log(node);
+                            node['target'] = targetEl;
+                            node.removeAttribute('disabled');
                         }
                         else {
-                            const imexnew = rootEl.removeChild(rootEl.firstElementChild);
-                            targetEl.appendChild(imexnew.cloneNode(true));
-                            slot.style.display = 'none';
+                            targetEl.appendChild(node.cloneNode(true));
+                            node.parentElement.removeChild(node);
+                            //slot.style.display = 'none'; 
                         }
-                        this.postAdopt();
                     });
+                    //this.shadowRoot.appendChild(rootEl);
+                    this.postAdopt();
                 });
             });
         });

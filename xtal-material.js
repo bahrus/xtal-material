@@ -312,32 +312,39 @@ class AdoptAChild extends BraKet {
     }
     postAdopt() { }
     addTemplate() {
+        console.log('addTemplate');
         super.addTemplate();
         if (!this.dynamicSlots)
             return;
         this.dynamicSlots.forEach(slotSelector => {
-            const slots = qsa(slotSelector, this.shadowRoot).forEach(slot => {
+            const slots = qsa(slotSelector, this.shadowRoot).forEach((slot) => {
                 slot.addEventListener('slotchange', e => {
-                    slot['assignedElements']().forEach((node) => {
-                        const rootEl = document.createElement(this._rootElement);
-                        rootEl.innerHTML = node.outerHTML;
-                        this.shadowRoot.appendChild(rootEl);
+                    // console.log({
+                    //     assignedNodes: slot.assignedNodes(),
+                    //     shadowRoot: this.shadowRoot
+                    // })
+                    //const rootEl = document.createElement(this._rootElement);
+                    slot.assignedNodes().forEach((node) => {
+                        //if(node.nodeType !==1) return;
+                        //rootEl.innerHTML = node.outerHTML;
                         //const targetEl = document.createElement(this._targetElement);
                         const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
                         //slot.insertAdjacentElement('afterend', targetEl);
                         //this.shadowRoot.appendChild(targetEl);
-                        const imex = rootEl.firstElementChild;
-                        if (imex['disabled'] && (typeof (imex['target'] !== 'undefined'))) {
-                            imex['target'] = targetEl;
-                            imex.removeAttribute('disabled');
+                        //const imex = rootEl.firstElementChild;
+                        if (node['disabled'] && (typeof (node['target'] !== 'undefined'))) {
+                            console.log(node);
+                            node['target'] = targetEl;
+                            node.removeAttribute('disabled');
                         }
                         else {
-                            const imexnew = rootEl.removeChild(rootEl.firstElementChild);
-                            targetEl.appendChild(imexnew.cloneNode(true));
-                            slot.style.display = 'none';
+                            targetEl.appendChild(node.cloneNode(true));
+                            node.parentElement.removeChild(node);
+                            //slot.style.display = 'none'; 
                         }
-                        this.postAdopt();
                     });
+                    //this.shadowRoot.appendChild(rootEl);
+                    this.postAdopt();
                 });
             });
         });
@@ -500,9 +507,15 @@ class XtalRadioTabsMD extends AdoptAChild {
             return;
         }
         const styles = [];
+        console.log('length  = ' + q.length);
         for (let i = 0, ii = q.length; i < ii; i++) {
             styles.push(styleFn(i, ii));
         }
+        styles.push(`
+        .slide {
+            width: calc(100% / ${q.length});
+        }
+        `);
         const style = document.createElement('style');
         style.innerHTML = styles.join('');
         this.shadowRoot.appendChild(style);

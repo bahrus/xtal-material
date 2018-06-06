@@ -9,13 +9,6 @@
 
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
   <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
-  <script async type="module" src="add-event-listener.js"></script>
-
-  <!-- <script async type="module" src="https://unpkg.com/xtal-material@0.0.11/text-input/xtal-text-input-md.js?module"></script>
-  <script async type="module" src="https://unpkg.com/xtal-material@0.0.11/checkbox-input/xtal-checkbox-input-md.js?module"></script>
-  <script async type="module" src="https://unpkg.com/xtal-material@0.0.11/radio-group/xtal-radio-group-md.js?module"></script>
-  <script async type="module" src="https://unpkg.com/xtal-material@0.0.11/text-area/xtal-text-area-md.js?module"></script>
-  <script async type="module" src="https://unpkg.com/xtal-material@0.0.11/radio-tabs/xtal-radio-tabs-md.js?module"></script> -->
   <script async src="../xtal-material.js"></script>
   
   <script type="module">
@@ -70,7 +63,7 @@
               </xtal-im-ex>
             </xtal-radio-group-md>
             <small class="form-element-hint">Feel free to choose</small>
-            <xtal-radio-tabs-md name="pronoun">
+            <xtal-radio-tabs-md>
               <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
 
                 <script type="module ish">
@@ -87,7 +80,7 @@
                             `
                           )}
                           
-                          <div class="slide"></div
+                          <div class="slide"></div>
                       
                       `;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);

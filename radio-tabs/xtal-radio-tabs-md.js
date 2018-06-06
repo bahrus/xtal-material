@@ -21,6 +21,7 @@ export class XtalRadioTabsMD extends AdoptAChild {
             return;
         }
         const styles = [];
+        console.log('length  = ' + q.length);
         for (let i = 0, ii = q.length; i < ii; i++) {
             styles.push(styleFn(i, ii));
         }
