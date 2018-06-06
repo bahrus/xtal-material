@@ -1,18 +1,22 @@
 import { initCE, BraKet } from 'bra-ket/bra-ket.js';
 import {getBasePath} from '../getBasePath.js';
 import {AdoptAChild} from '../adopt-a-child.js';
+import {XtallatX} from 'xtal-latx/xtal-latx.js'
 import {qsa} from 'templ-mount/templ-mount.js';
 const styleFn = (n, t) => `
 input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
     left: calc((100% / ${t}) * ${n});
 }
 `
-export class XtalRadioTabsMD extends AdoptAChild {
+export class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
     static get is() { return 'xtal-radio-tabs-md'; }
     constructor(){
         super();
     }
-
+    handleChange(e){
+        this.de('selected-tab', e.target);
+    }
+    _changeHandler;
     postAdopt(){
         const q= qsa('input', this.shadowRoot);
         if(q.length === 0){
@@ -21,6 +25,10 @@ export class XtalRadioTabsMD extends AdoptAChild {
             }, 100);
             return;
         }
+        this._changeHandler = this.handleChange.bind(this);
+        q.forEach(radio =>{
+            radio.addEventListener('change', this._changeHandler);
+        })
         const styles = [];
         console.log('length  = ' + q.length);
         for(let i = 0, ii = q.length; i < ii; i++){
@@ -34,6 +42,16 @@ export class XtalRadioTabsMD extends AdoptAChild {
         const style = document.createElement('style');
         style.innerHTML = styles.join('');
         this.shadowRoot.appendChild(style);
+        this.addEventListener('input', e =>{
+            debugger;
+        })
+    }
+    disconnectedCallback(){
+        super.disconnectedCallback();
+        const q = qsa('input', this.shadowRoot);
+        q.forEach(radio => {
+            radio.removeEventListener('change', this._changeHandler);
+        })
     }
 }
 initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');

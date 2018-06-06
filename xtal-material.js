@@ -488,10 +488,13 @@ input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
     left: calc((100% / ${t}) * ${n});
 }
 `;
-class XtalRadioTabsMD extends AdoptAChild {
+class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
     static get is() { return 'xtal-radio-tabs-md'; }
     constructor() {
         super();
+    }
+    handleChange(e) {
+        this.de('selected-tab', e.target);
     }
     postAdopt() {
         const q = qsa('input', this.shadowRoot);
@@ -501,6 +504,10 @@ class XtalRadioTabsMD extends AdoptAChild {
             }, 100);
             return;
         }
+        this._changeHandler = this.handleChange.bind(this);
+        q.forEach(radio => {
+            radio.addEventListener('change', this._changeHandler);
+        });
         const styles = [];
         console.log('length  = ' + q.length);
         for (let i = 0, ii = q.length; i < ii; i++) {
@@ -514,6 +521,16 @@ class XtalRadioTabsMD extends AdoptAChild {
         const style = document.createElement('style');
         style.innerHTML = styles.join('');
         this.shadowRoot.appendChild(style);
+        this.addEventListener('input', e => {
+            debugger;
+        });
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        const q = qsa('input', this.shadowRoot);
+        q.forEach(radio => {
+            radio.removeEventListener('change', this._changeHandler);
+        });
     }
 }
 initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
