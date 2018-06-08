@@ -1,6 +1,6 @@
 export function getBasePath(tagName) {
     let path;
-    const link = self[lispToSnakeCase(tagName)];
+    const link = self['xtal_material'];
     if (link) {
         path = link.href;
     } else {
