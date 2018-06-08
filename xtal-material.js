@@ -325,16 +325,18 @@ class AdoptAChild extends BraKet {
                             node.removeAttribute('disabled');
                         }
                         else {
-                            targetEl.appendChild(node.cloneNode(true));
-                            //node.parentElement.removeChild(node);
-                            if (node.parentElement) {
-                                node.parentElement.removeChild(node);
-                            }
-                            else {
-                                if (node.nodeType === 1) {
-                                    node.innerHTML = '';
-                                    node.style.display = 'none';
-                                    node.removeAttribute('id');
+                            if (node.nodeType === 1) {
+                                targetEl.innerHTML = '';
+                                targetEl.appendChild(node.cloneNode(true));
+                                if (node.parentElement) {
+                                    node.parentElement.removeChild(node);
+                                }
+                                else {
+                                    if (node.nodeType === 1) {
+                                        node.innerHTML = '';
+                                        node.style.display = 'none';
+                                        node.removeAttribute('id');
+                                    }
                                 }
                             }
                         }
