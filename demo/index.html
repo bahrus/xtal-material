@@ -121,6 +121,27 @@
             </xtal-text-area-md>
           </template>
         </dom-bind>
+        <xtal-side-nav>
+            <style>
+              a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+              }
+  
+              a:hover {
+                color: #f1f1f1;
+              }
+            </style>
+            <span slot="title">Hello</span>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+          </xtal-side-nav>
       </template>
     </demo-snippet>
   </div>

@@ -2,7 +2,8 @@
 const jiife = require('jiife');
 jiife.processFiles(['getBasePath.js', 'node_modules/templ-mount/first-templ.js', 'node_modules/templ-mount/templ-mount.js', 'node_modules/xtal-latx/xtal-latx.js', 
     'node_modules/bra-ket/bra-ket.js', 'adopt-a-child.js', 'text-input/xtal-text-input-md.js', 
-    'checkbox-input/xtal-checkbox-input-md.js', 'radio-group/xtal-radio-group-md.js', 'radio-tabs/xtal-radio-tabs-md.js', 'text-area/xtal-text-area-md.js'], 'xtal-material.js');
+    'checkbox-input/xtal-checkbox-input-md.js', 'radio-group/xtal-radio-group-md.js', 'radio-tabs/xtal-radio-tabs-md.js', 
+    'text-area/xtal-text-area-md.js', 'side-nav/xtal-side-nav.js'], 'xtal-material.js');
 
 
 

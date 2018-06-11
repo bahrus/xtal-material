@@ -3,7 +3,7 @@
     (function () {
     function getBasePath(tagName) {
     let path;
-    const link = self[lispToSnakeCase(tagName)];
+    const link = self['xtal_material'];
     if (link) {
         path = link.href;
     } else {
@@ -127,18 +127,11 @@ if (!customElements.get(TemplMount.is)) {
     customElements.define(TemplMount.is, TemplMount);
 }
 //# sourceMappingURL=templ-mount.js.map
-const pass_down = 'pass-down';
 const disabled = 'disabled';
 function XtallatX(superClass) {
     return class extends superClass {
         static get observedAttributes() {
-            return [disabled, pass_down];
-        }
-        get passDown() {
-            return this._passDown;
-        }
-        set passDown(val) {
-            this.setAttribute(pass_down, val);
+            return [disabled];
         }
         get disabled() {
             return this._disabled;
@@ -153,12 +146,6 @@ function XtallatX(superClass) {
         }
         attributeChangedCallback(name, oldVal, newVal) {
             switch (name) {
-                case pass_down:
-                    if (newVal && newVal.endsWith('}'))
-                        newVal += ';';
-                    this._passDown = newVal;
-                    this.parsePassDown();
-                    break;
                 case disabled:
                     this._disabled = newVal !== null;
                     break;
@@ -172,44 +159,6 @@ function XtallatX(superClass) {
             });
             this.dispatchEvent(newEvent);
             return newEvent;
-        }
-        updateResultProp(val, eventName, propName, callBackFn) {
-            if (callBackFn) {
-                val = callBackFn(val, this);
-                if (!val)
-                    return;
-            }
-            this[propName] = val;
-            if (this._cssPropMap) {
-                this.passDownProp(val);
-            }
-            else {
-                this.de(eventName, val);
-            }
-        }
-        parsePassDown() {
-            this._cssPropMap = [];
-            const splitPassDown = this._passDown.split('};');
-            splitPassDown.forEach(passDownSelectorAndProp => {
-                if (!passDownSelectorAndProp)
-                    return;
-                const splitPassTo2 = passDownSelectorAndProp.split('{');
-                this._cssPropMap.push({
-                    cssSelector: splitPassTo2[0],
-                    propTarget: splitPassTo2[1]
-                });
-            });
-        }
-        passDownProp(val) {
-            let nextSibling = this.nextElementSibling;
-            while (nextSibling) {
-                this._cssPropMap.forEach(map => {
-                    if (nextSibling.matches(map.cssSelector)) {
-                        nextSibling[map.propTarget] = val;
-                    }
-                });
-                nextSibling = nextSibling.nextElementSibling;
-            }
         }
         _upgradeProperties(props) {
             props.forEach(prop => {
@@ -558,5 +507,31 @@ class XtalTextAreaMD extends XtalTextInputMD {
 }
 initCE(XtalTextAreaMD.is, XtalTextAreaMD, getBasePath(XtalTextAreaMD.is) + '/text-area');
 //# sourceMappingURL=xtal-text-area-md.js.map
+class XtalSideNav extends XtallatX(BraKet) {
+    static get is() { return 'xtal-side-nav'; }
+    openMenu(e) {
+        this.setWidth(250);
+    }
+    setWidth(width) {
+        this.shadowRoot.getElementById('mySidenav').style.width = width + 'px';
+    }
+    closeMenu(e) {
+        this.setWidth(0);
+    }
+    initShadowRoot() {
+        this._opener = this.shadowRoot.getElementById('opener');
+        this._boundOpener = this.openMenu.bind(this);
+        this._opener.addEventListener('click', this._boundOpener);
+        this._closer = this.shadowRoot.getElementById('closebtn');
+        this._boundCloser = this.closeMenu.bind(this);
+        this._closer.addEventListener('click', this._boundCloser);
+    }
+    disconnectedCallback() {
+        this._opener.removeEventListener('click', this._boundOpener);
+        this._closer.removeEventListener('click', this._boundCloser);
+    }
+}
+initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
+//# sourceMappingURL=xtal-side-nav.js.map
     })();  
         

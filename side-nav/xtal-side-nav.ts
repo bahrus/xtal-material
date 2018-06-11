@@ -31,5 +31,4 @@ export class XtalSideNav extends XtallatX(BraKet){
     }
 }
 
-const basePath = getBasePath(XtalSideNav.is);
-initCE(XtalSideNav.is, XtalSideNav, basePath  + '/side-nav');
+initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');

@@ -25,6 +25,5 @@ export class XtalSideNav extends XtallatX(BraKet) {
         this._closer.removeEventListener('click', this._boundCloser);
     }
 }
-const basePath = getBasePath(XtalSideNav.is);
-initCE(XtalSideNav.is, XtalSideNav, basePath + '/side-nav');
+initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
 //# sourceMappingURL=xtal-side-nav.js.map
