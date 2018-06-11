@@ -15,12 +15,12 @@
   <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
   <script async type="module" src="../text-area/xtal-text-area-md.js"></script>
   <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
+  <script async type="module" src="../side-nav/xtal-side-nav.js"></script>
 
-  
   <script type="module">
-      import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-pages-shared-styles.js?module";
-      import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-snippet.js?module";
-      import "https://unpkg.com/@polymer/polymer@3.0.2/lib/elements/dom-bind.js?module";
+    import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-pages-shared-styles.js?module";
+    import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-snippet.js?module";
+    import "https://unpkg.com/@polymer/polymer@3.0.2/lib/elements/dom-bind.js?module";
   </script>
 
 
@@ -93,7 +93,7 @@
                     </script>
               </xtal-im-ex>
             </xtal-radio-tabs-md>
-            
+
             <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
               <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
               <span slot="label">Name</span>
@@ -126,6 +126,27 @@
             </xtal-text-area-md>
           </template>
         </dom-bind>
+        <xtal-side-nav>
+          <style>
+            a {
+              padding: 8px 8px 8px 32px;
+              text-decoration: none;
+              font-size: 25px;
+              color: #818181;
+              display: block;
+              transition: 0.3s;
+            }
+
+            a:hover {
+              color: #f1f1f1;
+            }
+          </style>
+          <span slot="title">Hello</span>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Clients</a>
+          <a href="#">Contact</a>
+        </xtal-side-nav>
       </template>
     </demo-snippet>
   </div>
