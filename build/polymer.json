@@ -13,6 +13,7 @@
     "text-area/xtal-text-area-md.js",
     "text-area/xtal-text-area-md.html",
     "xtal-material.js",
+    "xtal-side-nav.iife.js",
     "index.html"
   ],
   "extraDependencies": [
@@ -43,6 +44,19 @@
       },
       "css": {
         "minify": true
+      }
+    },
+    {
+      "name": "ES5-no-mini",
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "html": {
+        "minify": false
+      },
+      "css": {
+        "minify": false
       }
     }
   ],
