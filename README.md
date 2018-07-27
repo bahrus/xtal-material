@@ -42,6 +42,129 @@ If you 1) do **not** specify the location of the template as described above, an
 
 If you are targeting browsers that don't support either ES6 Modules or import.meta,  a single, bundled file (of the JS), xtal-material.js is also availble. It must be referenced as a classic script (for now).  It uses IIFE so as to not unnecessarily pollute the global namespace.
 
+<!--
+```
+<custom-element-demo>
+  <template>
+    <div class="vertical-section-container centered">
+    <h3>Basic xtal-material demo</h3>
+    <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <link id="xtal_material" rel="preload" as="script" href="https://unpkg.com/xtal-material@0.0.24/xtal-material.js">
+    <script type="module" src="https://unpkg.com/xtal-method@0.0.13/xtal-im-ex.js"></script>
+    <script type="module" src="https://unpkg.com/xtal-material@0.0.24/xtal-material.js"></script>
+
+    <script nomodule id="_root_lit_html">
+      //const root = 'https://unpkg.com/lit-html/';
+      const root = 'https://cdn.jsdelivr.net/npm/lit-html/'
+    </script>
+    <script nomodule id="_lit_html">
+      const { html, render } = await import(root + 'lit-html.js');
+    </script>
+    <script nomodule id="_lit_repeat">
+      const { repeat } = await import(root + 'lib/repeat.js');
+    </script>
+    
+    <xtal-radio-group-md name="pronoun">
+      <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
+
+        <script nomodule>
+            XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+            const radioButtonListGenerator = items => html`
+            <div class="form-radio form-radio-inline">
+                <div class="form-radio-legend">Prefered Pronoun</div>
+                ${repeat(items, item => Math.random().toString(), item => html`
+                  <label class="form-radio-label">
+                    <input name=pronoun class="form-radio-field" type="radio" required .value="${item}" />
+                    <i class="form-radio-button"></i>
+                    <span>${item}</span>
+                  </label>`
+                )}
+            </div>`;
+            export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+        </script>
+      </xtal-im-ex>
+    </xtal-radio-group-md>
+    <small class="form-element-hint">Feel free to choose</small>
+    <xtal-radio-tabs-md>
+      <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
+        <script nomodule>
+          XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+          const radioButtonListGenerator = items => html`
+            <div class="tab-wrap">
+              ${repeat(items, item => Math.random().toString(), (item, idx) => html`
+                <input type="radio" name="tabs" id="tab${idx}">
+                <div class="tab-label-content" id="tab${idx}-content">
+                  <label for="tab${idx}">${item}</label>
+                  
+                </div>
+                `
+              )}
+              <div class="slide"></div>
+            </div>
+          `;
+          export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+        </script>
+      </xtal-im-ex>
+    </xtal-radio-tabs-md>
+
+    <xtal-text-input-md placeholder="Please fill in your full name">
+      <span slot="label">Name</span>
+    </xtal-text-input-md>
+    <p-d on="value-changed" to="{innerText}"></p-d>
+    <div></div>
+
+    <xtal-email-input-md>
+      <span slot="label">Email</span>
+      <span slot="hint">We will never spam you</span>
+    </xtal-email-input-md>
+    <div>[[likes_rap]]</div>
+    <div>Which type of music do you like?</div>
+    <xtal-checkbox-input-md checked="{{likes_rap}}">
+      <span slot="label">Rap</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_pop}}">
+      <span slot="label">Pop</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_rock}}">
+      <span slot="label">Rock</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_metal}}">
+      <span slot="label">Metal</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_r_and_b}}">
+      <span slot="label">R&amp;B</span>
+    </xtal-checkbox-input-md>
+    <xtal-text-area-md>
+      <span slot="label">Your Message</span>
+    </xtal-text-area-md>
+    </template>
+    </dom-bind>
+    <xtal-side-nav>
+      <style>
+        a {
+          padding: 8px 8px 8px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+        }
+
+        a:hover {
+          color: #f1f1f1;
+        }
+      </style>
+      <span slot="title">Hello</span>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#clients">Clients</a>
+      <a href="#contact">Contact</a>
+    </xtal-side-nav>
+  </div>
+  </template>
+</custom-element-demo>
+```
+-->
 
 ## Install the Polymer-CLI
 
