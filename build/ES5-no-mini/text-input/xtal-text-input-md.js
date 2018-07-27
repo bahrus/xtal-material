@@ -66,24 +66,11 @@ function (_XtallatX) {
   }, {
     key: "emitEvent",
     value: function emitEvent() {
-      var newEvent = new CustomEvent('value-changed', {
-        detail: {
-          value: this._inputElement.value
-        },
-        bubbles: true,
-        composed: false
+      this.value = this._inputElement.value;
+      this.de('value', {
+        value: this.value
       });
-      this.dispatchEvent(newEvent);
-    } // _upgradeProperties(props: string[]) {
-    //     props.forEach(prop => {
-    //         if (this.hasOwnProperty(prop)) {
-    //             let value = this[prop];
-    //             delete this[prop];
-    //             this[prop] = value;
-    //         }
-    //     })
-    // }
-
+    }
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {

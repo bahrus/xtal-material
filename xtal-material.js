@@ -386,24 +386,11 @@ class XtalTextInputMD extends XtallatX(BraKet) {
         });
     }
     emitEvent() {
-        const newEvent = new CustomEvent('value-changed', {
-            detail: {
-                value: this._inputElement.value
-            },
-            bubbles: true,
-            composed: false
+        this.value = this._inputElement.value;
+        this.de('value', {
+            value: this.value
         });
-        this.dispatchEvent(newEvent);
     }
-    // _upgradeProperties(props: string[]) {
-    //     props.forEach(prop => {
-    //         if (this.hasOwnProperty(prop)) {
-    //             let value = this[prop];
-    //             delete this[prop];
-    //             this[prop] = value;
-    //         }
-    //     })
-    // }
     connectedCallback() {
         this._upgradeProperties(['value']);
         this.addMutationObserver();
@@ -451,14 +438,11 @@ class XtalCheckboxInputMD extends XtalTextInputMD {
         this._inputElement.checked = val;
     }
     emitEvent() {
-        const newEvent = new CustomEvent('checked-changed', {
-            detail: {
-                value: this._inputElement.checked
-            },
-            bubbles: true,
-            composed: false
+        const val = this._inputElement.checked;
+        this.value = val ? 'on' : 'off';
+        this.de('value', {
+            value: val
         });
-        this.dispatchEvent(newEvent);
     }
     addInputListener() {
         //some browsers don't support 'input' change on checkbox yet

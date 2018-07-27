@@ -16,14 +16,12 @@ export class XtalCheckboxInputMD extends XtalTextInputMD{
     }
 
     emitEvent() {
-        const newEvent = new CustomEvent('checked-changed', {
-            detail: {
-                value: (this._inputElement as HTMLInputElement).checked
-            },
-            bubbles: true,
-            composed: false
-        } as CustomEventInit);
-        this.dispatchEvent(newEvent);
+        const val = (this._inputElement as HTMLInputElement).checked;
+        this.value = val? 'on' : 'off';
+        this.de('value', {
+            value: val
+        })
+        
     }
 
     addInputListener(){

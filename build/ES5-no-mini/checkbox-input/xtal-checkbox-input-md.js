@@ -14,14 +14,11 @@ function (_XtalTextInputMD) {
   babelHelpers.createClass(XtalCheckboxInputMD, [{
     key: "emitEvent",
     value: function emitEvent() {
-      var newEvent = new CustomEvent('checked-changed', {
-        detail: {
-          value: this._inputElement.checked
-        },
-        bubbles: true,
-        composed: false
+      var val = this._inputElement.checked;
+      this.value = val ? 'on' : 'off';
+      this.de('value', {
+        value: val
       });
-      this.dispatchEvent(newEvent);
     }
   }, {
     key: "addInputListener",

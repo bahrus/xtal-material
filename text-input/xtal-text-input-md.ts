@@ -52,25 +52,11 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
         });
     }
     emitEvent() {
-        const newEvent = new CustomEvent('value-changed', {
-            detail: {
-                value: this._inputElement.value
-            },
-            bubbles: true,
-            composed: false
-        } as CustomEventInit);
-        this.dispatchEvent(newEvent);
+        this.value = this._inputElement.value;
+        this.de('value',{
+            value: this.value
+        })
     }
-    // _upgradeProperties(props: string[]) {
-    //     props.forEach(prop => {
-    //         if (this.hasOwnProperty(prop)) {
-    //             let value = this[prop];
-    //             delete this[prop];
-    //             this[prop] = value;
-    //         }
-    //     })
-
-    // }
     connectedCallback() {
         this._upgradeProperties(['value']);
         this.addMutationObserver();
