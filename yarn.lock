@@ -93,12 +93,11 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
-bra-ket@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/bra-ket/-/bra-ket-0.0.5.tgz#a14fdbbd2bfc8e7e6815740edf01e7e8348c1263"
+bra-ket@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/bra-ket/-/bra-ket-0.0.7.tgz#e11d1d164805b5bb44599a412424ec93188f12e7"
   dependencies:
-    "@polymer/polymer" "^3.0.0"
-    templ-mount "0.0.5"
+    templ-mount "0.0.11"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -202,9 +201,9 @@ good-listener@^1.2.2:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-growl@1.10.2:
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
+growl@1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
 
 has-ansi@^2.0.0:
   version "2.0.0"
@@ -324,7 +323,7 @@ mocha@^3.4.2:
     diff "3.2.0"
     escape-string-regexp "1.0.5"
     glob "7.1.1"
-    growl "1.10.2"
+    growl "1.9.2"
     he "1.1.1"
     json3 "3.3.2"
     lodash.create "3.1.1"
@@ -399,16 +398,9 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-templ-mount@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/templ-mount/-/templ-mount-0.0.5.tgz#d6a185c64c092524a6dfb2de09ea78a53cdc21d8"
-  dependencies:
-    "@polymer/polymer" "^3.0.0"
-    "@types/node" "^10.1.0"
-
-templ-mount@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/templ-mount/-/templ-mount-0.0.6.tgz#36a36254b4e649db840d45929adb23ed29a6b69f"
+templ-mount@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/templ-mount/-/templ-mount-0.0.11.tgz#bc85b9053b07d9d9ad03159ef5a4c77c4e9d5e38"
   dependencies:
     "@polymer/polymer" "^3.0.0"
     "@types/node" "^10.1.0"

@@ -23,7 +23,6 @@ function (_BraKet) {
     value: function addTemplate() {
       var _this2 = this;
 
-      console.log('addTemplate');
       babelHelpers.get(AdoptAChild.prototype.__proto__ || Object.getPrototypeOf(AdoptAChild.prototype), "addTemplate", this).call(this);
       if (!this.dynamicSlots) return;
       this.dynamicSlots.forEach(function (slotSelector) {

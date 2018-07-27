@@ -14,7 +14,6 @@ export class AdoptAChild extends BraKet{
     _targetElementSelector = '[target]';
     postAdopt(){}
     addTemplate() {
-        console.log('addTemplate')
         super.addTemplate();
         if(!this.dynamicSlots) return;
         this.dynamicSlots.forEach(slotSelector =>{

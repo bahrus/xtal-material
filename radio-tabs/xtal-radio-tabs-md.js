@@ -29,7 +29,6 @@ export class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
             radio.addEventListener('change', this._changeHandler);
         });
         const styles = [];
-        console.log('length  = ' + q.length);
         for (let i = 0, ii = q.length; i < ii; i++) {
             styles.push(styleFn(i, ii));
         }

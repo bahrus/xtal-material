@@ -7,8 +7,8 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bra-ket": "0.0.5",
-    "templ-mount": "0.0.6",
+    "bra-ket": "0.0.7",
+    "templ-mount": "0.0.11",
     "xtal-latx": "0.0.17"
   },
   "devDependencies": {

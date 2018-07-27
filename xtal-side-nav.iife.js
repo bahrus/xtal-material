@@ -21,8 +21,13 @@ function lispToSnakeCase(s) {
 }
 const _cachedTemplates = {};
 const fetchInProgress = {};
+function delayedLoad(template, delay, params) {
+    setTimeout(() => {
+        loadTemplate(template, params);
+    }, delay);
+}
 function loadTemplate(template, params) {
-    const src = template.dataset.src;
+    const src = template.dataset.src || template.getAttribute('href');
     if (src) {
         if (_cachedTemplates[src]) {
             template.innerHTML = _cachedTemplates[src];
@@ -46,6 +51,10 @@ function loadTemplate(template, params) {
                     fetchInProgress[src] = false;
                     if (params && params.preProcessor)
                         txt = params.preProcessor.process(txt);
+                    const split = txt.split('<!---->');
+                    if (split.length > 1) {
+                        txt = split[1];
+                    }
                     _cachedTemplates[src] = txt;
                     template.innerHTML = txt;
                     template.setAttribute('loaded', '');
@@ -89,8 +98,22 @@ class TemplMount extends HTMLElement {
         return parent['host'];
     }
     loadTemplates(from) {
-        qsa('template[data-src]', from).forEach(externalRefTemplate => {
-            loadTemplate(externalRefTemplate);
+        qsa('template[data-src]', from).forEach((externalRefTemplate) => {
+            const ds = externalRefTemplate.dataset;
+            const ua = ds.ua;
+            if (ua && navigator.userAgent.indexOf(ua) === -1)
+                return;
+            if (!ds.dumped) {
+                document.head.appendChild(externalRefTemplate.content.cloneNode(true));
+                ds.dumped = 'true';
+            }
+            const delay = ds.delay;
+            if (delay) {
+                delayedLoad(externalRefTemplate, parseInt(delay));
+            }
+            else {
+                loadTemplate(externalRefTemplate);
+            }
         });
     }
     loadTemplatesOutsideShadowDOM() {
@@ -233,6 +256,7 @@ function BraKetMixin(superClass) {
             else {
                 this.appendChild(clonedNode);
             }
+            this.setAttribute("shadowed", true);
         }
     };
 }
