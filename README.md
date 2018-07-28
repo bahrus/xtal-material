@@ -44,7 +44,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
 ```
 <custom-element-demo>
   <template>
-    <div class="vertical-section-container centered">
+  <div class="vertical-section-container centered">
     <h3>Basic xtal-material demo</h3>
     <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
     <link id="xtal_material" rel="preload" as="script" href="https://unpkg.com/xtal-material@0.0.24/xtal-material.js">
@@ -72,7 +72,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
                 <div class="form-radio-legend">Prefered Pronoun</div>
                 ${repeat(items, item => Math.random().toString(), item => html`
                   <label class="form-radio-label">
-                    <input name=pronoun class="form-radio-field" type="radio" required .value="${item}" />
+                    <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
                     <i class="form-radio-button"></i>
                     <span>${item}</span>
                   </label>`
@@ -115,7 +115,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
       <span slot="label">Email</span>
       <span slot="hint">We will never spam you</span>
     </xtal-email-input-md>
-    <div>[[likes_rap]]</div>
+    
     <div>Which type of music do you like?</div>
     <xtal-checkbox-input-md checked="{{likes_rap}}">
       <span slot="label">Rap</span>
@@ -135,8 +135,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
     <xtal-text-area-md>
       <span slot="label">Your Message</span>
     </xtal-text-area-md>
-    </template>
-    </dom-bind>
+    <div></div>
     <xtal-side-nav>
       <style>
         a {

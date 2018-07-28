@@ -39,7 +39,7 @@
                 <div class="form-radio-legend">Prefered Pronoun</div>
                 ${repeat(items, item => Math.random().toString(), item => html`
                   <label class="form-radio-label">
-                    <input name=pronoun class="form-radio-field" type="radio" required .value="${item}" />
+                    <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
                     <i class="form-radio-button"></i>
                     <span>${item}</span>
                   </label>`
@@ -82,7 +82,7 @@
       <span slot="label">Email</span>
       <span slot="hint">We will never spam you</span>
     </xtal-email-input-md>
-    <div>[[likes_rap]]</div>
+    
     <div>Which type of music do you like?</div>
     <xtal-checkbox-input-md checked="{{likes_rap}}">
       <span slot="label">Rap</span>
@@ -102,8 +102,7 @@
     <xtal-text-area-md>
       <span slot="label">Your Message</span>
     </xtal-text-area-md>
-    </template>
-    </dom-bind>
+    <div></div>
     <xtal-side-nav>
       <style>
         a {
