@@ -2,8 +2,6 @@
 
 <a href="https://nodei.co/npm/xtal-material/"><img src="https://nodei.co/npm/xtal-material.png"></a>
 
-<a href="https://www.webcomponents.org/element/bahrus/xtal-material/demo/demo/index.html">Demo</a>
-# \<xtal-material\>
 
 Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB).  For tabs we build on Ben Mildren's [Material Design CSS Only Tabs](https://codepen.io/mildrenben/pen/bdGdOb).
 
