@@ -9,7 +9,6 @@
 
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
   <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
-  <script async type="module" src="add-event-listener.js"></script>
   <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
   <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
   <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
@@ -17,17 +16,9 @@
   <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
   <script async type="module" src="../side-nav/xtal-side-nav.js"></script>
 
-  <script type="module">
-    import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-pages-shared-styles.js?module";
-    import "https://unpkg.com/@polymer/iron-demo-helpers@3.0.0-pre.19/demo-snippet.js?module";
-    import "https://unpkg.com/@polymer/polymer@3.0.2/lib/elements/dom-bind.js?module";
-  </script>
 
 
-  <custom-style>
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
-  </custom-style>
+
   <script type="module ish" id="_root_lit_html">
         const root = 'https://cdn.jsdelivr.net/npm/lit-html/';
       </script>
@@ -42,16 +33,11 @@
 <body>
   <div class="vertical-section-container centered">
     <h3>Basic xtal-material demo</h3>
-    <demo-snippet>
-      <template>
-        <dom-bind>
-          <template>
-            <bra-ket></bra-ket>
-            <div>[[testing]]</div>
-            <xtal-radio-group-md name="pronoun">
-              <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
+    <div>[[testing]]</div>
+    <xtal-radio-group-md name="pronoun">
+      <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
 
-                <script type="module ish">
+        <script type="module ish">
                       XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
                       const radioButtonListGenerator = items => html`
                       <div class="form-radio form-radio-inline">
@@ -66,13 +52,13 @@
                       </div>`;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                     </script>
-              </xtal-im-ex>
-            </xtal-radio-group-md>
-            <small class="form-element-hint">Feel free to choose</small>
-            <xtal-radio-tabs-md name="pronoun">
-              <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
+      </xtal-im-ex>
+    </xtal-radio-group-md>
+    <small class="form-element-hint">Feel free to choose</small>
+    <xtal-radio-tabs-md name="pronoun">
+      <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
 
-                <script type="module ish">
+        <script type="module ish">
                       XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
                       const radioButtonListGenerator = items => html`
                       
@@ -91,64 +77,62 @@
                       `;
                       export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
                     </script>
-              </xtal-im-ex>
-            </xtal-radio-tabs-md>
+      </xtal-im-ex>
+    </xtal-radio-tabs-md>
 
-            <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
-              <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
-              <span slot="label">Name</span>
-            </xtal-text-input-md>
+    <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
+      <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
+      <span slot="label">Name</span>
+    </xtal-text-input-md>
 
 
-            <xtal-email-input-md>
-              <span slot="label">Email</span>
-              <span slot="hint">We will never spam you</span>
-            </xtal-email-input-md>
-            <div>[[likes_rap]]</div>
-            <div>Which type of music do you like?</div>
-            <xtal-checkbox-input-md checked="{{likes_rap}}">
-              <span slot="label">Rap</span>
-            </xtal-checkbox-input-md>
-            <xtal-checkbox-input-md checked="{{likes_pop}}">
-              <span slot="label">Pop</span>
-            </xtal-checkbox-input-md>
-            <xtal-checkbox-input-md checked="{{likes_rock}}">
-              <span slot="label">Rock</span>
-            </xtal-checkbox-input-md>
-            <xtal-checkbox-input-md checked="{{likes_metal}}">
-              <span slot="label">Metal</span>
-            </xtal-checkbox-input-md>
-            <xtal-checkbox-input-md checked="{{likes_r_and_b}}">
-              <span slot="label">R&amp;B</span>
-            </xtal-checkbox-input-md>
-            <xtal-text-area-md>
-              <span slot="label">Your Message</span>
-            </xtal-text-area-md>
-          </template>
-        </dom-bind>
-        <xtal-side-nav>
-          <style>
-            a {
-              padding: 8px 8px 8px 32px;
-              text-decoration: none;
-              font-size: 25px;
-              color: #818181;
-              display: block;
-              transition: 0.3s;
-            }
+    <xtal-email-input-md>
+      <span slot="label">Email</span>
+      <span slot="hint">We will never spam you</span>
+    </xtal-email-input-md>
+    <div>[[likes_rap]]</div>
+    <div>Which type of music do you like?</div>
+    <xtal-checkbox-input-md checked="{{likes_rap}}">
+      <span slot="label">Rap</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_pop}}">
+      <span slot="label">Pop</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_rock}}">
+      <span slot="label">Rock</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_metal}}">
+      <span slot="label">Metal</span>
+    </xtal-checkbox-input-md>
+    <xtal-checkbox-input-md checked="{{likes_r_and_b}}">
+      <span slot="label">R&amp;B</span>
+    </xtal-checkbox-input-md>
+    <xtal-text-area-md>
+      <span slot="label">Your Message</span>
+    </xtal-text-area-md>
+    </template>
+    </dom-bind>
+    <xtal-side-nav>
+      <style>
+        a {
+          padding: 8px 8px 8px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+        }
 
-            a:hover {
-              color: #f1f1f1;
-            }
-          </style>
-          <span slot="title">Hello</span>
-          <a href="#about">About</a>
-          <a href="#services">Services</a>
-          <a href="#clients">Clients</a>
-          <a href="#contact">Contact</a>
-        </xtal-side-nav>
-      </template>
-    </demo-snippet>
+        a:hover {
+          color: #f1f1f1;
+        }
+      </style>
+      <span slot="title">Hello</span>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#clients">Clients</a>
+      <a href="#contact">Contact</a>
+    </xtal-side-nav>
   </div>
 </body>
 
