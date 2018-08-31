@@ -33,7 +33,6 @@
 <body>
   <div class="vertical-section-container centered">
     <h3>Basic xtal-material demo</h3>
-    <div>[[testing]]</div>
     <xtal-radio-group-md name="pronoun">
       <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
 
@@ -58,29 +57,29 @@
     <xtal-radio-tabs-md name="pronoun">
       <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
 
-        <script type="module ish">
-                      XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
-                      const radioButtonListGenerator = items => html`
+        <script nomodule>
+              XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+              const radioButtonListGenerator = items => html`
+              
+              <div class="tab-wrap">
+                  ${repeat(items, item => Math.random().toString(), (item, idx) => html`
+                    <input type="radio" name="tabs" id="tab${idx}">
+                    <div class="tab-label-content" id="tab${idx}-content">
+                      <label for="tab${idx}">${item}</label>
                       
-                      <div class="tab-wrap">
-                          ${repeat(items, item => Math.random().toString(), (item, idx) => html`
-                            <input type="radio" name="tabs" id="tab${idx}">
-                            <div class="tab-label-content" id="tab${idx}-content">
-                              <label for="tab${idx}">${item}</label>
-                              
-                            </div>
-                            `
-                          )}
-                          
-                          <div class="slide"></div
-                      </div>
-                      `;
-                      export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
-                    </script>
+                    </div>
+                    `
+                  )}
+                  
+                  <div class="slide"></div>
+              </div>
+              `;
+              export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+        </script>
       </xtal-im-ex>
     </xtal-radio-tabs-md>
 
-    <xtal-text-input-md placeholder="Please fill in your full name" value="{{testing}}">
+    <xtal-text-input-md placeholder="Please fill in your full name" >
       <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
       <span slot="label">Name</span>
     </xtal-text-input-md>
@@ -90,7 +89,6 @@
       <span slot="label">Email</span>
       <span slot="hint">We will never spam you</span>
     </xtal-email-input-md>
-    <div>[[likes_rap]]</div>
     <div>Which type of music do you like?</div>
     <xtal-checkbox-input-md checked="{{likes_rap}}">
       <span slot="label">Rap</span>

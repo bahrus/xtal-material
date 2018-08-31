@@ -19,138 +19,179 @@
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
-const _cachedTemplates = {};
-const fetchInProgress = {};
-function delayedLoad(template, delay, params) {
-    setTimeout(() => {
-        loadTemplate(template, params);
-    }, delay);
-}
-function loadTemplate(template, params) {
-    const src = template.dataset.src || template.getAttribute('href');
-    if (src) {
-        if (_cachedTemplates[src]) {
-            template.innerHTML = _cachedTemplates[src];
-            if (params)
-                customElements.define(params.tagName, params.cls);
+const _cT = {}; //cachedTemplates
+const fip = {}; //fetch in progress
+function def(p) {
+    if (p && p.tagName && p.cls) {
+        if (customElements.get(p.tagName)) {
+            console.warn(p.tagName + '!!');
         }
         else {
-            if (fetchInProgress[src]) {
-                if (params) {
+            customElements.define(p.tagName, p.cls);
+        }
+    }
+}
+function loadTemplate(t, p) {
+    const src = t.dataset.src || t.getAttribute('href');
+    if (src) {
+        if (_cT[src]) {
+            t.innerHTML = _cT[src];
+            def(p);
+        }
+        else {
+            if (fip[src]) {
+                if (p) {
                     setTimeout(() => {
-                        loadTemplate(template, params);
+                        loadTemplate(t, p);
                     }, 100);
                 }
                 return;
             }
-            fetchInProgress[src] = true;
+            fip[src] = true;
             fetch(src, {
                 credentials: 'same-origin'
             }).then(resp => {
                 resp.text().then(txt => {
-                    fetchInProgress[src] = false;
-                    if (params && params.preProcessor)
-                        txt = params.preProcessor.process(txt);
-                    const split = txt.split('<!---->');
-                    if (split.length > 1) {
-                        txt = split[1];
+                    fip[src] = false;
+                    if (p && p.preProcessor)
+                        txt = p.preProcessor.process(txt);
+                    if (!p || !p.noSnip) {
+                        const split = txt.split('<!---->');
+                        if (split.length > 1) {
+                            txt = split[1];
+                        }
                     }
-                    _cachedTemplates[src] = txt;
-                    template.innerHTML = txt;
-                    template.setAttribute('loaded', '');
-                    if (params)
-                        customElements.define(params.tagName, params.cls);
+                    _cT[src] = txt;
+                    t.innerHTML = txt;
+                    t.setAttribute('loaded', '');
+                    def(p);
                 });
             });
         }
     }
     else {
-        if (params && params.tagName)
-            customElements.define(params.tagName, params.cls);
+        def(p);
     }
 }
-//# sourceMappingURL=first-templ.js.map
-// const _cachedTemplates : {[key:string] : string} = {};
-// const fetchInProgress : {[key:string] : boolean} = {};
 function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
 }
+/**
+* `templ-mount`
+* Dependency free web component that loads templates from data-src (optionally href) attribute
+*
+* @customElement
+* @polymer
+* @demo demo/index.html
+*/
 class TemplMount extends HTMLElement {
     constructor() {
         super();
-        if (!TemplMount._alreadyDidGlobalCheck) {
-            TemplMount._alreadyDidGlobalCheck = true;
-            this.loadTemplatesOutsideShadowDOM();
+        if (!TemplMount._adgc) {
+            TemplMount._adgc = true;
             if (document.readyState === "loading") {
                 document.addEventListener("DOMContentLoaded", e => {
-                    this.loadTemplatesOutsideShadowDOM();
-                    this.monitorHeadForTemplates();
+                    this.mhft();
+                    this.ltosd();
                 });
             }
             else {
-                this.monitorHeadForTemplates();
+                this.mhft();
             }
         }
     }
     static get is() { return 'templ-mount'; }
+    /**
+     * Gets host from parent
+     */
     getHost() {
-        const parent = this.parentNode;
-        return parent['host'];
+        return this.parentNode;
     }
-    loadTemplates(from) {
-        qsa('template[data-src]', from).forEach((externalRefTemplate) => {
-            const ds = externalRefTemplate.dataset;
-            const ua = ds.ua;
-            if (ua && navigator.userAgent.indexOf(ua) === -1)
+    copyAttrs(src, dest, attrs) {
+        attrs.forEach(attr => {
+            if (!src.hasAttribute(attr))
                 return;
-            if (!ds.dumped) {
-                document.head.appendChild(externalRefTemplate.content.cloneNode(true));
-                ds.dumped = 'true';
-            }
-            const delay = ds.delay;
-            if (delay) {
-                delayedLoad(externalRefTemplate, parseInt(delay));
-            }
-            else {
-                loadTemplate(externalRefTemplate);
-            }
+            let attrVal = src.getAttribute(attr);
+            if (attr === 'type')
+                attrVal = attrVal.replace(':', '');
+            dest.setAttribute(attr, attrVal);
         });
     }
-    loadTemplatesOutsideShadowDOM() {
-        this.loadTemplates(document);
+    cT(clonedNode, tagName, copyAttrs) {
+        qsa(tagName, clonedNode).forEach(node => {
+            //node.setAttribute('clone-me', '');
+            const clone = document.createElement(tagName);
+            this.copyAttrs(node, clone, copyAttrs);
+            clone.innerHTML = node.innerHTML;
+            document.head.appendChild(clone);
+        });
     }
-    loadTemplateInsideShadowDOM() {
+    iT(template) {
+        const ds = template.dataset;
+        const ua = ds.ua;
+        let noMatch = false;
+        if (ua) {
+            noMatch = navigator.userAgent.search(new RegExp(ua)) === -1;
+        }
+        if (ua && template.hasAttribute('data-exclude'))
+            noMatch = !noMatch;
+        if (ua && noMatch)
+            return;
+        if (!ds.dumped) {
+            //This shouldn't be so hard, but Chrome (and other browsers) doesn't seem to consistently like just appending the cloned children of the template
+            const clonedNode = template.content.cloneNode(true);
+            this.cT(clonedNode, 'script', ['src', 'type', 'nomodule']);
+            this.cT(clonedNode, 'template', ['id', 'data-src', 'href', 'data-activate', 'data-ua', 'data-exclude', 'data-methods']);
+            this.cT(clonedNode, 'c-c', ['from', 'noshadow', 'copy']);
+            ds.dumped = 'true';
+        }
+        loadTemplate(template, {
+            noSnip: template.hasAttribute('nosnip'),
+        });
+    }
+    /**
+     *
+     * @param from
+     */
+    lt(from) {
+        qsa('template[data-src],template[data-activate]', from).forEach((t) => {
+            this.iT(t);
+        });
+    }
+    ltosd() {
+        this.lt(document);
+    }
+    ltisd() {
         const host = this.getHost();
         if (!host)
             return;
-        this.loadTemplates(host);
+        this.lt(host);
     }
-    monitorHeadForTemplates() {
+    mhft() {
         const config = { childList: true };
-        this._observer = new MutationObserver((mutationsList) => {
-            mutationsList.forEach(mutationRecord => {
-                mutationRecord.addedNodes.forEach((node) => {
+        this._observer = new MutationObserver((mL) => {
+            mL.forEach(mR => {
+                mR.addedNodes.forEach((node) => {
                     if (node.tagName === 'TEMPLATE')
-                        loadTemplate(node);
+                        this.iT(node);
                 });
             });
         });
         this._observer.observe(document.head, config);
     }
     connectedCallback() {
-        this.loadTemplateInsideShadowDOM();
+        this.style.display = 'none';
+        this.ltisd();
+        this.ltosd();
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", e => {
-                this.loadTemplateInsideShadowDOM();
+                this.ltisd();
             });
         }
     }
 }
-TemplMount._alreadyDidGlobalCheck = false;
-if (!customElements.get(TemplMount.is)) {
-    customElements.define(TemplMount.is, TemplMount);
-}
-//# sourceMappingURL=templ-mount.js.map
+TemplMount._adgc = false; //already did global check
+customElements.define(TemplMount.is, TemplMount);
 const disabled = 'disabled';
 function XtallatX(superClass) {
     return class extends superClass {
@@ -168,12 +209,12 @@ function XtallatX(superClass) {
             this.attr(disabled, val, '');
         }
         attr(name, val, trueVal) {
-            if (val) {
-                this.setAttribute(name, trueVal || val);
-            }
-            else {
-                this.removeAttribute(name);
-            }
+            const v = val ? 'set' : 'remove'; //verb
+            this[v + 'Attribute'](name, trueVal || val);
+        }
+        to$(n) {
+            const mod = n % 2;
+            return (n - mod) / 2 + '-' + mod;
         }
         incAttr(name) {
             const ec = this._evCount;
@@ -183,7 +224,7 @@ function XtallatX(superClass) {
             else {
                 ec[name] = 0;
             }
-            this.attr(name, ec[name].toString());
+            this.attr('data-' + name, this.to$(ec[name]));
         }
         attributeChangedCallback(name, oldVal, newVal) {
             switch (name) {
@@ -214,7 +255,6 @@ function XtallatX(superClass) {
         }
     };
 }
-//# sourceMappingURL=xtal-latx.js.map
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
@@ -256,7 +296,7 @@ function BraKetMixin(superClass) {
             else {
                 this.appendChild(clonedNode);
             }
-            this.setAttribute("shadowed", true);
+            this.setAttribute("shadowed", 'true');
         }
     };
 }
@@ -292,7 +332,6 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
 // export const basePath = getBasePath(BraKet.is);
 // customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
-//# sourceMappingURL=bra-ket.js.map
 class XtalSideNav extends XtallatX(BraKet) {
     static get is() { return 'xtal-side-nav'; }
     openMenu(e) {
@@ -321,6 +360,5 @@ class XtalSideNav extends XtallatX(BraKet) {
     }
 }
 initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
-//# sourceMappingURL=xtal-side-nav.js.map
     })();  
         

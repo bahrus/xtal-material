@@ -21,64 +21,78 @@
     return s.split('-').join('_');
   }
 
-  var _cachedTemplates = {};
-  var fetchInProgress = {};
+  var _cT = {}; //cachedTemplates
 
-  function delayedLoad(template, delay, params) {
-    setTimeout(function () {
-      loadTemplate(template, params);
-    }, delay);
+  var fip = {}; //fetch in progress
+
+  function def(p) {
+    if (p && p.tagName && p.cls) {
+      if (customElements.get(p.tagName)) {
+        console.warn(p.tagName + '!!');
+      } else {
+        customElements.define(p.tagName, p.cls);
+      }
+    }
   }
 
-  function loadTemplate(template, params) {
-    var src = template.dataset.src || template.getAttribute('href');
+  function loadTemplate(t, p) {
+    var src = t.dataset.src || t.getAttribute('href');
 
     if (src) {
-      if (_cachedTemplates[src]) {
-        template.innerHTML = _cachedTemplates[src];
-        if (params) customElements.define(params.tagName, params.cls);
+      if (_cT[src]) {
+        t.innerHTML = _cT[src];
+        def(p);
       } else {
-        if (fetchInProgress[src]) {
-          if (params) {
+        if (fip[src]) {
+          if (p) {
             setTimeout(function () {
-              loadTemplate(template, params);
+              loadTemplate(t, p);
             }, 100);
           }
 
           return;
         }
 
-        fetchInProgress[src] = true;
+        fip[src] = true;
         fetch(src, {
           credentials: 'same-origin'
         }).then(function (resp) {
           resp.text().then(function (txt) {
-            fetchInProgress[src] = false;
-            if (params && params.preProcessor) txt = params.preProcessor.process(txt);
-            var split = txt.split('<!---->');
+            fip[src] = false;
+            if (p && p.preProcessor) txt = p.preProcessor.process(txt);
 
-            if (split.length > 1) {
-              txt = split[1];
+            if (!p || !p.noSnip) {
+              var split = txt.split('<!---->');
+
+              if (split.length > 1) {
+                txt = split[1];
+              }
             }
 
-            _cachedTemplates[src] = txt;
-            template.innerHTML = txt;
-            template.setAttribute('loaded', '');
-            if (params) customElements.define(params.tagName, params.cls);
+            _cT[src] = txt;
+            t.innerHTML = txt;
+            t.setAttribute('loaded', '');
+            def(p);
           });
         });
       }
     } else {
-      if (params && params.tagName) customElements.define(params.tagName, params.cls);
+      def(p);
     }
-  } //# sourceMappingURL=first-templ.js.map
-  // const _cachedTemplates : {[key:string] : string} = {};
-  // const fetchInProgress : {[key:string] : boolean} = {};
-
+  }
 
   function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
   }
+  /**
+  * `templ-mount`
+  * Dependency free web component that loads templates from data-src (optionally href) attribute
+  *
+  * @customElement
+  * @polymer
+  * @demo demo/index.html
+  */
+
 
   var TemplMount =
   /*#__PURE__*/
@@ -91,19 +105,17 @@
       babelHelpers.classCallCheck(this, TemplMount);
       _this = babelHelpers.possibleConstructorReturn(this, (TemplMount.__proto__ || Object.getPrototypeOf(TemplMount)).call(this));
 
-      if (!TemplMount._alreadyDidGlobalCheck) {
-        TemplMount._alreadyDidGlobalCheck = true;
-
-        _this.loadTemplatesOutsideShadowDOM();
+      if (!TemplMount._adgc) {
+        TemplMount._adgc = true;
 
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", function (e) {
-            _this.loadTemplatesOutsideShadowDOM();
+            _this.mhft();
 
-            _this.monitorHeadForTemplates();
+            _this.ltosd();
           });
         } else {
-          _this.monitorHeadForTemplates();
+          _this.mhft();
         }
       }
 
@@ -112,54 +124,103 @@
 
     babelHelpers.createClass(TemplMount, [{
       key: "getHost",
+
+      /**
+       * Gets host from parent
+       */
       value: function getHost() {
-        var parent = this.parentNode;
-        return parent['host'];
+        return this.parentNode;
       }
     }, {
-      key: "loadTemplates",
-      value: function loadTemplates(from) {
-        qsa('template[data-src]', from).forEach(function (externalRefTemplate) {
-          var ds = externalRefTemplate.dataset;
-          var ua = ds.ua;
-          if (ua && navigator.userAgent.indexOf(ua) === -1) return;
-
-          if (!ds.dumped) {
-            document.head.appendChild(externalRefTemplate.content.cloneNode(true));
-            ds.dumped = 'true';
-          }
-
-          var delay = ds.delay;
-
-          if (delay) {
-            delayedLoad(externalRefTemplate, parseInt(delay));
-          } else {
-            loadTemplate(externalRefTemplate);
-          }
+      key: "copyAttrs",
+      value: function copyAttrs(src, dest, attrs) {
+        attrs.forEach(function (attr) {
+          if (!src.hasAttribute(attr)) return;
+          var attrVal = src.getAttribute(attr);
+          if (attr === 'type') attrVal = attrVal.replace(':', '');
+          dest.setAttribute(attr, attrVal);
         });
       }
     }, {
-      key: "loadTemplatesOutsideShadowDOM",
-      value: function loadTemplatesOutsideShadowDOM() {
-        this.loadTemplates(document);
+      key: "cT",
+      value: function cT(clonedNode, tagName, copyAttrs) {
+        var _this2 = this;
+
+        qsa(tagName, clonedNode).forEach(function (node) {
+          //node.setAttribute('clone-me', '');
+          var clone = document.createElement(tagName);
+
+          _this2.copyAttrs(node, clone, copyAttrs);
+
+          clone.innerHTML = node.innerHTML;
+          document.head.appendChild(clone);
+        });
       }
     }, {
-      key: "loadTemplateInsideShadowDOM",
-      value: function loadTemplateInsideShadowDOM() {
+      key: "iT",
+      value: function iT(template) {
+        var ds = template.dataset;
+        var ua = ds.ua;
+        var noMatch = false;
+
+        if (ua) {
+          noMatch = navigator.userAgent.search(new RegExp(ua)) === -1;
+        }
+
+        if (ua && template.hasAttribute('data-exclude')) noMatch = !noMatch;
+        if (ua && noMatch) return;
+
+        if (!ds.dumped) {
+          //This shouldn't be so hard, but Chrome (and other browsers) doesn't seem to consistently like just appending the cloned children of the template
+          var clonedNode = template.content.cloneNode(true);
+          this.cT(clonedNode, 'script', ['src', 'type', 'nomodule']);
+          this.cT(clonedNode, 'template', ['id', 'data-src', 'href', 'data-activate', 'data-ua', 'data-exclude', 'data-methods']);
+          this.cT(clonedNode, 'c-c', ['from', 'noshadow', 'copy']);
+          ds.dumped = 'true';
+        }
+
+        loadTemplate(template, {
+          noSnip: template.hasAttribute('nosnip')
+        });
+      }
+      /**
+       *
+       * @param from
+       */
+
+    }, {
+      key: "lt",
+      value: function lt(from) {
+        var _this3 = this;
+
+        qsa('template[data-src],template[data-activate]', from).forEach(function (t) {
+          _this3.iT(t);
+        });
+      }
+    }, {
+      key: "ltosd",
+      value: function ltosd() {
+        this.lt(document);
+      }
+    }, {
+      key: "ltisd",
+      value: function ltisd() {
         var host = this.getHost();
         if (!host) return;
-        this.loadTemplates(host);
+        this.lt(host);
       }
     }, {
-      key: "monitorHeadForTemplates",
-      value: function monitorHeadForTemplates() {
+      key: "mhft",
+      value: function mhft() {
+        var _this4 = this;
+
         var config = {
           childList: true
         };
-        this._observer = new MutationObserver(function (mutationsList) {
-          mutationsList.forEach(function (mutationRecord) {
-            mutationRecord.addedNodes.forEach(function (node) {
-              if (node.tagName === 'TEMPLATE') loadTemplate(node);
+        this._observer = new MutationObserver(function (mL) {
+          mL.forEach(function (mR) {
+            mR.addedNodes.forEach(function (node) {
+              if (node.tagName === 'TEMPLATE') _this4.iT(node);
             });
           });
         });
@@ -169,13 +230,15 @@
     }, {
       key: "connectedCallback",
       value: function connectedCallback() {
-        var _this2 = this;
+        var _this5 = this;
 
-        this.loadTemplateInsideShadowDOM();
+        this.style.display = 'none';
+        this.ltisd();
+        this.ltosd();
 
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", function (e) {
-            _this2.loadTemplateInsideShadowDOM();
+            _this5.ltisd();
           });
         }
       }
@@ -188,13 +251,9 @@
     return TemplMount;
   }(HTMLElement);
 
-  TemplMount._alreadyDidGlobalCheck = false;
+  TemplMount._adgc = false; //already did global check
 
-  if (!customElements.get(TemplMount.is)) {
-    customElements.define(TemplMount.is, TemplMount);
-  } //# sourceMappingURL=templ-mount.js.map
-
-
+  customElements.define(TemplMount.is, TemplMount);
   var disabled = 'disabled';
 
   function XtallatX(superClass) {
@@ -204,22 +263,26 @@
         babelHelpers.inherits(_class, _superClass);
 
         function _class() {
-          var _this3;
+          var _this6;
 
           babelHelpers.classCallCheck(this, _class);
-          _this3 = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-          _this3._evCount = {};
-          return _this3;
+          _this6 = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+          _this6._evCount = {};
+          return _this6;
         }
 
         babelHelpers.createClass(_class, [{
           key: "attr",
           value: function attr(name, val, trueVal) {
-            if (val) {
-              this.setAttribute(name, trueVal || val);
-            } else {
-              this.removeAttribute(name);
-            }
+            var v = val ? 'set' : 'remove'; //verb
+
+            this[v + 'Attribute'](name, trueVal || val);
+          }
+        }, {
+          key: "to$",
+          value: function to$(n) {
+            var mod = n % 2;
+            return (n - mod) / 2 + '-' + mod;
           }
         }, {
           key: "incAttr",
@@ -232,7 +295,7 @@
               ec[name] = 0;
             }
 
-            this.attr(name, ec[name].toString());
+            this.attr('data-' + name, this.to$(ec[name]));
           }
         }, {
           key: "attributeChangedCallback",
@@ -259,13 +322,13 @@
         }, {
           key: "_upgradeProperties",
           value: function _upgradeProperties(props) {
-            var _this4 = this;
+            var _this7 = this;
 
             props.forEach(function (prop) {
-              if (_this4.hasOwnProperty(prop)) {
-                var value = _this4[prop];
-                delete _this4[prop];
-                _this4[prop] = value;
+              if (_this7.hasOwnProperty(prop)) {
+                var value = _this7[prop];
+                delete _this7[prop];
+                _this7[prop] = value;
               }
             });
           }
@@ -286,8 +349,7 @@
         return _class;
       }(superClass)
     );
-  } //# sourceMappingURL=xtal-latx.js.map
-
+  }
 
   function lispToSnakeCase(s) {
     return s.split('-').join('_');
@@ -344,7 +406,7 @@
               this.appendChild(clonedNode);
             }
 
-            this.setAttribute("shadowed", true);
+            this.setAttribute("shadowed", 'true');
           }
         }, {
           key: "tn",
@@ -379,16 +441,16 @@
     babelHelpers.inherits(BraKet, _BraKetMixin);
 
     function BraKet() {
-      var _this5;
+      var _this8;
 
       babelHelpers.classCallCheck(this, BraKet);
-      _this5 = babelHelpers.possibleConstructorReturn(this, (BraKet.__proto__ || Object.getPrototypeOf(BraKet)).call(this));
+      _this8 = babelHelpers.possibleConstructorReturn(this, (BraKet.__proto__ || Object.getPrototypeOf(BraKet)).call(this));
 
-      if (Object.getPrototypeOf(babelHelpers.assertThisInitialized(_this5)) === BraKet.prototype) {} else {
-        _this5.addTemplate();
+      if (Object.getPrototypeOf(babelHelpers.assertThisInitialized(_this8)) === BraKet.prototype) {} else {
+        _this8.addTemplate();
       }
 
-      return _this5;
+      return _this8;
     }
 
     return BraKet;
@@ -416,7 +478,6 @@
   } // export const basePath = getBasePath(BraKet.is);
   // customElements.define(BraKet.is, BraKet);
   //initCE(XtalShadow.is, XtalShadow, basePath);
-  //# sourceMappingURL=bra-ket.js.map
 
 
   var XtalSideNav =
@@ -479,5 +540,5 @@
     return XtalSideNav;
   }(XtallatX(BraKet));
 
-  initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav'); //# sourceMappingURL=xtal-side-nav.js.map
+  initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
 })();
