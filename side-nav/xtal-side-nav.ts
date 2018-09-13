@@ -25,7 +25,7 @@ export class XtalSideNav extends XtallatX(BraKet){
         this._closer = this.shadowRoot.getElementById('closebtn') as HTMLElement;
         this._boundCloser = this.closeMenu.bind(this);
         this._closer.addEventListener('click', this._boundCloser);
-        this._slot = this.shadowRoot.getElementById('slot');
+        this._slot = this.shadowRoot.getElementById('slot') as HTMLSlotElement; 
         this._slot.addEventListener('click', this._boundCloser);
     }
     disconnectedCallback(){

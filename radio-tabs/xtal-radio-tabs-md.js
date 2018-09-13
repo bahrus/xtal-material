@@ -45,7 +45,6 @@ export class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
         });
     }
     disconnectedCallback() {
-        super.disconnectedCallback();
         const q = qsa('input', this.shadowRoot);
         q.forEach(radio => {
             radio.removeEventListener('change', this._changeHandler);

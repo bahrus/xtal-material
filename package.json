@@ -7,9 +7,9 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bra-ket": "0.0.8",
+    "bra-ket": "0.0.9",
     "templ-mount": "0.0.40",
-    "xtal-latx": "0.0.20"
+    "xtal-latx": "0.0.26"
   },
   "devDependencies": {
     "@types/node": "^10.1.0",
