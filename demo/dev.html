@@ -7,17 +7,6 @@
 
   <title>xtal-material demo</title>
 
-  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-  <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
-  <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
-  <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
-  <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
-  <script async type="module" src="../text-area/xtal-text-area-md.js"></script>
-  <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
-  <script async type="module" src="../side-nav/xtal-side-nav.js"></script>
-
-
-
 
   <script type="module ish" id="_root_lit_html">
         const root = 'https://cdn.jsdelivr.net/npm/lit-html/';
@@ -31,35 +20,39 @@
 </head>
 
 <body>
-  <div class="vertical-section-container centered">
-    <h3>Basic xtal-material demo</h3>
-    <xtal-radio-group-md name="pronoun">
-      <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
+  <div>
+    
+    <template id="radio-group">
+      <xtal-radio-group-md name="pronoun">
+        <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
 
-        <script type="module ish">
-                      XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
-                      const radioButtonListGenerator = items => html`
-                      <div class="form-radio form-radio-inline">
-                          <div class="form-radio-legend">Prefered Pronoun</div>
-                          ${repeat(items, item => Math.random().toString(), item => html`
-                            <label class="form-radio-label">
-                              <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
-                              <i class="form-radio-button"></i>
-                              <span>${item}</span>
-                            </label>`
-                          )}
-                      </div>`;
-                      export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
-                    </script>
-      </xtal-im-ex>
-    </xtal-radio-group-md>
-    <small class="form-element-hint">Feel free to choose</small>
-    <xtal-radio-tabs-md name="pronoun">
-      <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
+          <script type="module ish">
+                        XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+                        const radioButtonListGenerator = items => html`
+                        <div class="form-radio form-radio-inline">
+                            <div class="form-radio-legend">Prefered Pronoun</div>
+                            ${repeat(items, item => Math.random().toString(), item => html`
+                              <label class="form-radio-label">
+                                <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
+                                <i class="form-radio-button"></i>
+                                <span>${item}</span>
+                              </label>`
+                            )}
+                        </div>`;
+                        export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+                      </script>
+        </xtal-im-ex>
+      </xtal-radio-group-md>
+    </template>
 
-        <script nomodule>
-              XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
-              const radioButtonListGenerator = items => html`
+    <template id="radio-tabs">
+      <small class="form-element-hint">Feel free to choose</small>
+      <xtal-radio-tabs-md name="pronoun">
+        <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
+
+          <script nomodule>
+            XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
+            const radioButtonListGenerator = items => html`
               
               <div class="tab-wrap">
                   ${repeat(items, item => Math.random().toString(), (item, idx) => html`
@@ -69,47 +62,47 @@
                       
                     </div>
                     `
-                  )}
+              )}
                   
                   <div class="slide"></div>
               </div>
               `;
-              export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
-        </script>
-      </xtal-im-ex>
-    </xtal-radio-tabs-md>
-
-    <xtal-text-input-md placeholder="Please fill in your full name" >
-      <add-event-listener on="click" dispatch event-name="hello" value="{{iah}}" bubbles composed></add-event-listener>
-      <span slot="label">Name</span>
-    </xtal-text-input-md>
-
-
-    <xtal-email-input-md>
-      <span slot="label">Email</span>
-      <span slot="hint">We will never spam you</span>
-    </xtal-email-input-md>
-    <div>Which type of music do you like?</div>
-    <xtal-checkbox-input-md checked="{{likes_rap}}">
-      <span slot="label">Rap</span>
-    </xtal-checkbox-input-md>
-    <xtal-checkbox-input-md checked="{{likes_pop}}">
-      <span slot="label">Pop</span>
-    </xtal-checkbox-input-md>
-    <xtal-checkbox-input-md checked="{{likes_rock}}">
-      <span slot="label">Rock</span>
-    </xtal-checkbox-input-md>
-    <xtal-checkbox-input-md checked="{{likes_metal}}">
-      <span slot="label">Metal</span>
-    </xtal-checkbox-input-md>
-    <xtal-checkbox-input-md checked="{{likes_r_and_b}}">
-      <span slot="label">R&amp;B</span>
-    </xtal-checkbox-input-md>
-    <xtal-text-area-md>
-      <span slot="label">Your Message</span>
-    </xtal-text-area-md>
+            export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
+          </script>
+        </xtal-im-ex>
+      </xtal-radio-tabs-md>
     </template>
-    </dom-bind>
+
+    <template id="text-demos">
+      <xtal-text-input-md placeholder="Please fill in your full name">
+        <span slot="label">Name</span>
+      </xtal-text-input-md>
+  
+  
+      <xtal-email-input-md>
+        <span slot="label">Email</span>
+        <span slot="hint">We will never spam you</span>
+      </xtal-email-input-md>
+      <div>Which type of music do you like?</div>
+      <xtal-checkbox-input-md checked="{{likes_rap}}">
+        <span slot="label">Rap</span>
+      </xtal-checkbox-input-md>
+      <xtal-checkbox-input-md checked="{{likes_pop}}">
+        <span slot="label">Pop</span>
+      </xtal-checkbox-input-md>
+      <xtal-checkbox-input-md checked="{{likes_rock}}">
+        <span slot="label">Rock</span>
+      </xtal-checkbox-input-md>
+      <xtal-checkbox-input-md checked="{{likes_metal}}">
+        <span slot="label">Metal</span>
+      </xtal-checkbox-input-md>
+      <xtal-checkbox-input-md checked="{{likes_r_and_b}}">
+        <span slot="label">R&amp;B</span>
+      </xtal-checkbox-input-md>
+      <xtal-text-area-md>
+        <span slot="label">Your Message</span>
+      </xtal-text-area-md>
+    </template>
     <xtal-side-nav>
       <style>
         a {
@@ -125,12 +118,29 @@
           color: #f1f1f1;
         }
       </style>
-      <span slot="title">Hello</span>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#clients">Clients</a>
-      <a href="#contact">Contact</a>
+      <span slot="title">xtal-material Catalog</span>
+      <a href="#radio-group" data-template="radio-group">Radio Group</a>
+      <a href="#radio-tabs" data-template="radio-tabs">Tabs</a>
+      <a href="#text-demos" data-template="text-demos">Text Demos</a>
+      <!-- <a href="#contact">Contact</a> -->
     </xtal-side-nav>
+    <p-d on="click" if="a" to="{from:target.dataset.template"></p-d>
+    <b-c-c copy></b-c-c>
+
+
+  
+
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
+    <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
+    <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
+    <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
+    <script async type="module" src="../text-area/xtal-text-area-md.js"></script>
+    <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
+    <script async type="module" src="../side-nav/xtal-side-nav.js"></script>
+    <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
+    <script type="module" src="https://unpkg.com/p-d.p-u@0.0.69/p-d.p-u.js"></script>
   </div>
 </body>
 
