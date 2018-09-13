@@ -21,37 +21,35 @@
 
 <body>
   <div>
-    
-    <template id="radio-group">
-      <xtal-radio-group-md name="pronoun">
-        <xtal-im-ex disabled input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'>
 
-          <script type="module ish">
-                        XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
-                        const radioButtonListGenerator = items => html`
-                        <div class="form-radio form-radio-inline">
-                            <div class="form-radio-legend">Prefered Pronoun</div>
-                            ${repeat(items, item => Math.random().toString(), item => html`
-                              <label class="form-radio-label">
-                                <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
-                                <i class="form-radio-button"></i>
-                                <span>${item}</span>
-                              </label>`
-                            )}
-                        </div>`;
-                        export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
-                      </script>
-        </xtal-im-ex>
+    <template id="radio-group">
+      <litter-g></litter-g>
+      <xtal-radio-group-md name="pronoun">
+          <div data-lit disabled data-input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'
+            target>
+            <script nomodule>
+              html`
+                  <div class="form-radio form-radio-inline">
+                    <div class="form-radio-legend">Prefered Pronoun</div>
+                      ${input.map(item => html`
+                          <label class="form-radio-label">
+                            <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
+                            <i class="form-radio-button"></i>
+                            <span>${item}</span>
+                          </label>
+                      `)}
+                `
+            </script>
+        </div>
       </xtal-radio-group-md>
     </template>
 
     <template id="radio-tabs">
-      
+      <litter-g></litter-g>
       <xtal-radio-tabs-md name="pronoun">
-          <litter-g></litter-g>
-          <div class="tab-wrap" data-lit data-input='["He", "She", "They", "Ze"]'>
-              <script nomodule>
-                html`
+        <div class="tab-wrap" data-lit data-input='["He", "She", "They", "Ze"]'>
+          <script nomodule>
+            html`
                   ${input.map((item, idx) => html`
                   <input type="radio" name="tabs" id="tab${idx}">
                     <div class="tab-label-content" id="tab${idx}-content">
@@ -61,11 +59,11 @@
                   `)}
                   <div class="slide"></div>
                 `
-              </script>
-              
-            </div>
+          </script>
+
+        </div>
       </xtal-radio-tabs-md>
-      
+
 
     </template>
 
@@ -73,8 +71,8 @@
       <xtal-text-input-md placeholder="Please fill in your full name">
         <span slot="label">Name</span>
       </xtal-text-input-md>
-  
-  
+
+
       <xtal-email-input-md>
         <span slot="label">Email</span>
         <span slot="hint">We will never spam you</span>
@@ -99,6 +97,21 @@
         <span slot="label">Your Message</span>
       </xtal-text-area-md>
     </template>
+
+    <template id="select-demo">
+      <xtal-select-md>
+
+        <select class="form-element-field" slot="select">
+          <option disabled selected value="" class="form-select-placeholder"></option>
+          <option value="Rap">Rap</option>
+          <option value="Pop">Pop</option>
+          <option value="Rock">Rock</option>
+          <option value="Metal">Metal</option>
+          <option value="R&amp;B">R&amp;B</option>
+        </select>
+        <span slot="label">Select your favorite music genre</span>
+      </xtal-select-md>
+    </template>
     <xtal-side-nav>
       <style>
         a {
@@ -118,13 +131,13 @@
       <a href="#radio-group" data-template="radio-group">Radio Group</a>
       <a href="#radio-tabs" data-template="radio-tabs">Tabs</a>
       <a href="#text-demos" data-template="text-demos">Text Demos</a>
-      <!-- <a href="#contact">Contact</a> -->
+      <a href="#select-demo" data-template="select-demo">Select Demo</a>
     </xtal-side-nav>
     <p-d on="click" if="a" to="{from:target.dataset.template"></p-d>
     <b-c-c copy></b-c-c>
 
 
-  
+
 
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
@@ -135,9 +148,10 @@
     <script type="module" src="../text-area/xtal-text-area-md.js"></script>
     <script type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
     <script type="module" src="../side-nav/xtal-side-nav.js"></script>
+    <script type="module" src="../select/xtal-select-md.js"></script>
     <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
     <script type="module" src="https://unpkg.com/p-d.p-u@0.0.69/p-d.p-u.js"></script>
-    <script type="module" src="https://unpkg.com/litter-g@0.0.11/litter-g.js?module"></script>
+    <script type="module" src="https://unpkg.com/litter-g@0.0.12/litter-g.js?module"></script>
   </div>
 </body>
 

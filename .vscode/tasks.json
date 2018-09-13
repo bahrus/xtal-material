@@ -49,6 +49,15 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Sass Compile Material Select",
+            "type": "shell",
+            "command": "node-sass select/select-md.scss select/select-md.css",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

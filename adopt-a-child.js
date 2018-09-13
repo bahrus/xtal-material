@@ -19,26 +19,27 @@ export class AdoptAChild extends BraKet {
                 slot.addEventListener('slotchange', e => {
                     slot.assignedNodes().forEach((node) => {
                         const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
-                        if (node['disabled'] && (typeof (node['target'] !== 'undefined'))) {
-                            node['target'] = targetEl;
+                        if (node.nodeType === 3)
+                            return;
+                        if (node.hasAttribute('disabled')) {
                             node.removeAttribute('disabled');
+                            node['target'] = targetEl;
                         }
-                        else {
-                            if (node.nodeType === 1) {
-                                targetEl.innerHTML = '';
-                                targetEl.appendChild(node.cloneNode(true));
-                                if (node.parentElement) {
-                                    node.parentElement.removeChild(node);
-                                }
-                                else {
-                                    if (node.nodeType === 1) {
-                                        node.innerHTML = '';
-                                        node.style.display = 'none';
-                                        node.removeAttribute('id');
-                                    }
-                                }
-                            }
-                        }
+                        // }else{
+                        //     if(node.nodeType === 1){
+                        //         targetEl.innerHTML = '';
+                        //         targetEl.appendChild(node.cloneNode(true));
+                        //         if(node.parentElement){
+                        //             node.parentElement.removeChild(node);
+                        //         }else{
+                        //             if(node.nodeType === 1){
+                        //                 node.innerHTML = '';
+                        //                 node.style.display = 'none';
+                        //                 node.removeAttribute('id');
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     });
                     this.postAdopt();
                 });
