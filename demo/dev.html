@@ -46,31 +46,27 @@
     </template>
 
     <template id="radio-tabs">
-      <small class="form-element-hint">Feel free to choose</small>
+      
       <xtal-radio-tabs-md name="pronoun">
-        <xtal-im-ex disabled input='["He", "She", "They", "Ze"]'>
-
-          <script nomodule>
-            XtalIMEX.insert(_root_lit_html, _lit_html, _lit_repeat);
-            const radioButtonListGenerator = items => html`
-              
-              <div class="tab-wrap">
-                  ${repeat(items, item => Math.random().toString(), (item, idx) => html`
-                    <input type="radio" name="tabs" id="tab${idx}">
+          <litter-g></litter-g>
+          <div class="tab-wrap" data-lit data-input='["He", "She", "They", "Ze"]'>
+              <script nomodule>
+                html`
+                  ${input.map((item, idx) => html`
+                  <input type="radio" name="tabs" id="tab${idx}">
                     <div class="tab-label-content" id="tab${idx}-content">
-                      <label for="tab${idx}">${item}</label>
-                      
-                    </div>
-                    `
-              )}
-                  
+                        <label for="tab${idx}">${item}</label>
+                        
+                      </div>
+                  `)}
                   <div class="slide"></div>
-              </div>
-              `;
-            export const renderer = (list, target) => render(radioButtonListGenerator(list), target);
-          </script>
-        </xtal-im-ex>
+                `
+              </script>
+              
+            </div>
       </xtal-radio-tabs-md>
+      
+
     </template>
 
     <template id="text-demos">
@@ -132,15 +128,16 @@
 
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script async type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
-    <script async type="module" src="../text-input/xtal-text-input-md.js"></script>
-    <script async type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
-    <script async type="module" src="../radio-group/xtal-radio-group-md.js"></script>
-    <script async type="module" src="../text-area/xtal-text-area-md.js"></script>
-    <script async type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
-    <script async type="module" src="../side-nav/xtal-side-nav.js"></script>
+    <script type="module" src="../text-input/xtal-text-input-md.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-method@0.0.13/xtal-im-ex.js"></script>
+    <script type="module" src="../checkbox-input/xtal-checkbox-input-md.js"></script>
+    <script type="module" src="../radio-group/xtal-radio-group-md.js"></script>
+    <script type="module" src="../text-area/xtal-text-area-md.js"></script>
+    <script type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
+    <script type="module" src="../side-nav/xtal-side-nav.js"></script>
     <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
     <script type="module" src="https://unpkg.com/p-d.p-u@0.0.69/p-d.p-u.js"></script>
+    <script type="module" src="https://unpkg.com/litter-g@0.0.11/litter-g.js?module"></script>
   </div>
 </body>
 
