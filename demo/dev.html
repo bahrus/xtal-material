@@ -105,15 +105,15 @@
            html`
            <select class="form-element-field">
               <option disabled selected value="" class="form-select-placeholder"></option>
-              <option value="Rap">Rap</option>
-              <option value="Pop">Pop</option>
-              <option value="Rock">Rock</option>
-              <option value="Metal">Metal</option>
-              <option value="R&amp;B">R&amp;B</option>
+              ${input.map(item => html`
+                <option value="${item}">${item}</option>
+                `)}
             </select>
-            <span slot="label">Select your favorite music genre</span>
+            
            `
          </script>
+        </div>
+        <span slot="label">Select your favorite music genre</span>
       </xtal-select-md>
     </template>
     <xtal-side-nav>
