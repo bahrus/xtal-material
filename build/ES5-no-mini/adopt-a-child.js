@@ -31,24 +31,11 @@ function (_BraKet) {
             slot.assignedNodes().forEach(function (node) {
               var targetEl = _this2.shadowRoot.querySelector(_this2._targetElementSelector);
 
-              if (node['disabled'] && babelHelpers.typeof(node['target'] !== 'undefined')) {
-                node['target'] = targetEl;
-                node.removeAttribute('disabled');
-              } else {
-                if (node.nodeType === 1) {
-                  targetEl.innerHTML = '';
-                  targetEl.appendChild(node.cloneNode(true));
+              if (node.nodeType === 3) return;
 
-                  if (node.parentElement) {
-                    node.parentElement.removeChild(node);
-                  } else {
-                    if (node.nodeType === 1) {
-                      node.innerHTML = '';
-                      node.style.display = 'none';
-                      node.removeAttribute('id');
-                    }
-                  }
-                }
+              if (node.hasAttribute('disabled')) {
+                node.removeAttribute('disabled');
+                node['target'] = targetEl;
               }
             });
 

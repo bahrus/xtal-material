@@ -193,6 +193,10 @@ class TemplMount extends HTMLElement {
 TemplMount._adgc = false; //already did global check
 customElements.define(TemplMount.is, TemplMount);
 const disabled = 'disabled';
+/**
+ * Base class for many xtal- components
+ * @param superClass
+ */
 function XtallatX(superClass) {
     return class extends superClass {
         constructor() {
@@ -202,20 +206,39 @@ function XtallatX(superClass) {
         static get observedAttributes() {
             return [disabled];
         }
+        /**
+         * Any component that emits events should not do so ef it is disabled.
+         * Note that this is not enforced, but the disabled property is made available.
+         * Users of this mix-in sure ensure it doesn't call "de" if this property is set to true.
+         */
         get disabled() {
             return this._disabled;
         }
         set disabled(val) {
             this.attr(disabled, val, '');
         }
+        /**
+         * Set attribute value.
+         * @param name
+         * @param val
+         * @param trueVal String to set attribute if true.
+         */
         attr(name, val, trueVal) {
             const v = val ? 'set' : 'remove'; //verb
             this[v + 'Attribute'](name, trueVal || val);
         }
+        /**
+         * Turn number into string with even and odd values easy to query via css.
+         * @param n
+         */
         to$(n) {
             const mod = n % 2;
             return (n - mod) / 2 + '-' + mod;
         }
+        /**
+         * Increment event count
+         * @param name
+         */
         incAttr(name) {
             const ec = this._evCount;
             if (name in ec) {
@@ -233,8 +256,14 @@ function XtallatX(superClass) {
                     break;
             }
         }
-        de(name, detail) {
-            const eventName = name + '-changed';
+        /**
+         * Dispatch Custom Event
+         * @param name Name of event to dispatch (with -changed if asIs is false)
+         * @param detail Information to be passed with the event
+         * @param asIs If true, don't append event name with '-changed'
+         */
+        de(name, detail, asIs) {
+            const eventName = name + (asIs ? '' : '-changed');
             const newEvent = new CustomEvent(eventName, {
                 detail: detail,
                 bubbles: true,
@@ -244,6 +273,10 @@ function XtallatX(superClass) {
             this.incAttr(eventName);
             return newEvent;
         }
+        /**
+         * Needed for asynchronous loading
+         * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+         */
         _upgradeProperties(props) {
             props.forEach(prop => {
                 if (this.hasOwnProperty(prop)) {
@@ -351,25 +384,11 @@ class AdoptAChild extends BraKet {
                 slot.addEventListener('slotchange', e => {
                     slot.assignedNodes().forEach((node) => {
                         const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
-                        if (node['disabled'] && (typeof (node['target'] !== 'undefined'))) {
-                            node['target'] = targetEl;
+                        if (node.nodeType === 3)
+                            return;
+                        if (node.hasAttribute('disabled')) {
                             node.removeAttribute('disabled');
-                        }
-                        else {
-                            if (node.nodeType === 1) {
-                                targetEl.innerHTML = '';
-                                targetEl.appendChild(node.cloneNode(true));
-                                if (node.parentElement) {
-                                    node.parentElement.removeChild(node);
-                                }
-                                else {
-                                    if (node.nodeType === 1) {
-                                        node.innerHTML = '';
-                                        node.style.display = 'none';
-                                        node.removeAttribute('id');
-                                    }
-                                }
-                            }
+                            node['target'] = targetEl;
                         }
                     });
                     this.postAdopt();
@@ -489,10 +508,37 @@ class XtalCheckboxInputMD extends XtalTextInputMD {
     }
 }
 initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
-class XtalRadioGroupMD extends AdoptAChild {
+/**
+ * `xtal-radio-group-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
+class XtalRadioGroupMD extends XtallatX(AdoptAChild) {
     static get is() { return 'xtal-radio-group-md'; }
-    constructor() {
-        super();
+    handleChange(e) {
+        this.de('selected-radio', e.target);
+    }
+    postAdopt() {
+        const q = qsa('input', this.shadowRoot);
+        if (q.length === 0) {
+            setTimeout(() => {
+                this.postAdopt();
+            }, 10);
+            return;
+        }
+        this._changeHandler = this.handleChange.bind(this);
+        q.forEach(radio => {
+            radio.addEventListener('change', this._changeHandler);
+        });
+    }
+    disconnectedCallback() {
+        const q = qsa('input', this.shadowRoot);
+        q.forEach(radio => {
+            radio.removeEventListener('change', this._changeHandler);
+        });
     }
 }
 initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
@@ -514,7 +560,7 @@ class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
         if (q.length === 0) {
             setTimeout(() => {
                 this.postAdopt();
-            }, 100);
+            }, 10);
             return;
         }
         this._changeHandler = this.handleChange.bind(this);
@@ -538,7 +584,6 @@ class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
         });
     }
     disconnectedCallback() {
-        super.disconnectedCallback();
         const q = qsa('input', this.shadowRoot);
         q.forEach(radio => {
             radio.removeEventListener('change', this._changeHandler);
@@ -546,6 +591,31 @@ class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
+//import {qsa} from 'templ-mount/templ-mount.js';
+class XtalSelectMD extends XtallatX(AdoptAChild) {
+    static get is() { return 'xtal-select-md'; }
+    handleChange(e) {
+        console.log(this._select[this._select.selectedIndex]);
+        this.de('selected-option', this._select[this._select.selectedIndex]);
+    }
+    postAdopt() {
+        this._select = this.shadowRoot.querySelector('select');
+        if (!this._select) {
+            setTimeout(() => {
+                this.postAdopt();
+            }, 10);
+            return;
+        }
+        this._changeHandler = this.handleChange.bind(this);
+        this._select.addEventListener('change', this._changeHandler);
+    }
+    disconnectedCallback() {
+        if (this._select && this._changeHandler) {
+            this._select.removeEventListener('change', this._changeHandler);
+        }
+    }
+}
+initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is) + '/select');
 /**
  * `xtal-text-area-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB

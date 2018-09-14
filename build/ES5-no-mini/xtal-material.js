@@ -255,6 +255,10 @@
 
   customElements.define(TemplMount.is, TemplMount);
   var disabled = 'disabled';
+  /**
+   * Base class for many xtal- components
+   * @param superClass
+   */
 
   function XtallatX(superClass) {
     return (
@@ -273,17 +277,34 @@
 
         babelHelpers.createClass(_class, [{
           key: "attr",
+
+          /**
+           * Set attribute value.
+           * @param name
+           * @param val
+           * @param trueVal String to set attribute if true.
+           */
           value: function attr(name, val, trueVal) {
             var v = val ? 'set' : 'remove'; //verb
 
             this[v + 'Attribute'](name, trueVal || val);
           }
+          /**
+           * Turn number into string with even and odd values easy to query via css.
+           * @param n
+           */
+
         }, {
           key: "to$",
           value: function to$(n) {
             var mod = n % 2;
             return (n - mod) / 2 + '-' + mod;
           }
+          /**
+           * Increment event count
+           * @param name
+           */
+
         }, {
           key: "incAttr",
           value: function incAttr(name) {
@@ -306,10 +327,17 @@
                 break;
             }
           }
+          /**
+           * Dispatch Custom Event
+           * @param name Name of event to dispatch (with -changed if asIs is false)
+           * @param detail Information to be passed with the event
+           * @param asIs If true, don't append event name with '-changed'
+           */
+
         }, {
           key: "de",
-          value: function de(name, detail) {
-            var eventName = name + '-changed';
+          value: function de(name, detail, asIs) {
+            var eventName = name + (asIs ? '' : '-changed');
             var newEvent = new CustomEvent(eventName, {
               detail: detail,
               bubbles: true,
@@ -319,6 +347,11 @@
             this.incAttr(eventName);
             return newEvent;
           }
+          /**
+           * Needed for asynchronous loading
+           * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+           */
+
         }, {
           key: "_upgradeProperties",
           value: function _upgradeProperties(props) {
@@ -334,6 +367,12 @@
           }
         }, {
           key: "disabled",
+
+          /**
+           * Any component that emits events should not do so ef it is disabled.
+           * Note that this is not enforced, but the disabled property is made available.
+           * Users of this mix-in sure ensure it doesn't call "de" if this property is set to true.
+           */
           get: function get() {
             return this._disabled;
           },
@@ -511,24 +550,11 @@
               slot.assignedNodes().forEach(function (node) {
                 var targetEl = _this10.shadowRoot.querySelector(_this10._targetElementSelector);
 
-                if (node['disabled'] && babelHelpers.typeof(node['target'] !== 'undefined')) {
-                  node['target'] = targetEl;
-                  node.removeAttribute('disabled');
-                } else {
-                  if (node.nodeType === 1) {
-                    targetEl.innerHTML = '';
-                    targetEl.appendChild(node.cloneNode(true));
+                if (node.nodeType === 3) return;
 
-                    if (node.parentElement) {
-                      node.parentElement.removeChild(node);
-                    } else {
-                      if (node.nodeType === 1) {
-                        node.innerHTML = '';
-                        node.style.display = 'none';
-                        node.removeAttribute('id');
-                      }
-                    }
-                  }
+                if (node.hasAttribute('disabled')) {
+                  node.removeAttribute('disabled');
+                  node['target'] = targetEl;
                 }
               });
 
@@ -748,25 +774,67 @@
   }(XtalTextInputMD);
 
   initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
+  /**
+   * `xtal-radio-group-md`
+   *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   */
 
   var XtalRadioGroupMD =
   /*#__PURE__*/
-  function (_AdoptAChild) {
-    babelHelpers.inherits(XtalRadioGroupMD, _AdoptAChild);
-    babelHelpers.createClass(XtalRadioGroupMD, null, [{
+  function (_XtallatX2) {
+    babelHelpers.inherits(XtalRadioGroupMD, _XtallatX2);
+
+    function XtalRadioGroupMD() {
+      babelHelpers.classCallCheck(this, XtalRadioGroupMD);
+      return babelHelpers.possibleConstructorReturn(this, (XtalRadioGroupMD.__proto__ || Object.getPrototypeOf(XtalRadioGroupMD)).apply(this, arguments));
+    }
+
+    babelHelpers.createClass(XtalRadioGroupMD, [{
+      key: "handleChange",
+      value: function handleChange(e) {
+        this.de('selected-radio', e.target);
+      }
+    }, {
+      key: "postAdopt",
+      value: function postAdopt() {
+        var _this15 = this;
+
+        var q = qsa('input', this.shadowRoot);
+
+        if (q.length === 0) {
+          setTimeout(function () {
+            _this15.postAdopt();
+          }, 10);
+          return;
+        }
+
+        this._changeHandler = this.handleChange.bind(this);
+        q.forEach(function (radio) {
+          radio.addEventListener('change', _this15._changeHandler);
+        });
+      }
+    }, {
+      key: "disconnectedCallback",
+      value: function disconnectedCallback() {
+        var _this16 = this;
+
+        var q = qsa('input', this.shadowRoot);
+        q.forEach(function (radio) {
+          radio.removeEventListener('change', _this16._changeHandler);
+        });
+      }
+    }], [{
       key: "is",
       get: function get() {
         return 'xtal-radio-group-md';
       }
     }]);
-
-    function XtalRadioGroupMD() {
-      babelHelpers.classCallCheck(this, XtalRadioGroupMD);
-      return babelHelpers.possibleConstructorReturn(this, (XtalRadioGroupMD.__proto__ || Object.getPrototypeOf(XtalRadioGroupMD)).call(this));
-    }
-
     return XtalRadioGroupMD;
-  }(AdoptAChild);
+  }(XtallatX(AdoptAChild));
 
   initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
 
@@ -776,8 +844,8 @@
 
   var XtalRadioTabsMD =
   /*#__PURE__*/
-  function (_XtallatX2) {
-    babelHelpers.inherits(XtalRadioTabsMD, _XtallatX2);
+  function (_XtallatX3) {
+    babelHelpers.inherits(XtalRadioTabsMD, _XtallatX3);
     babelHelpers.createClass(XtalRadioTabsMD, null, [{
       key: "is",
       get: function get() {
@@ -798,20 +866,20 @@
     }, {
       key: "postAdopt",
       value: function postAdopt() {
-        var _this15 = this;
+        var _this17 = this;
 
         var q = qsa('input', this.shadowRoot);
 
         if (q.length === 0) {
           setTimeout(function () {
-            _this15.postAdopt();
-          }, 100);
+            _this17.postAdopt();
+          }, 10);
           return;
         }
 
         this._changeHandler = this.handleChange.bind(this);
         q.forEach(function (radio) {
-          radio.addEventListener('change', _this15._changeHandler);
+          radio.addEventListener('change', _this17._changeHandler);
         });
         var styles = [];
 
@@ -830,19 +898,70 @@
     }, {
       key: "disconnectedCallback",
       value: function disconnectedCallback() {
-        var _this16 = this;
+        var _this18 = this;
 
-        babelHelpers.get(XtalRadioTabsMD.prototype.__proto__ || Object.getPrototypeOf(XtalRadioTabsMD.prototype), "disconnectedCallback", this).call(this);
         var q = qsa('input', this.shadowRoot);
         q.forEach(function (radio) {
-          radio.removeEventListener('change', _this16._changeHandler);
+          radio.removeEventListener('change', _this18._changeHandler);
         });
       }
     }]);
     return XtalRadioTabsMD;
   }(XtallatX(AdoptAChild));
 
-  initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
+  initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs'); //import {qsa} from 'templ-mount/templ-mount.js';
+
+  var XtalSelectMD =
+  /*#__PURE__*/
+  function (_XtallatX4) {
+    babelHelpers.inherits(XtalSelectMD, _XtallatX4);
+
+    function XtalSelectMD() {
+      babelHelpers.classCallCheck(this, XtalSelectMD);
+      return babelHelpers.possibleConstructorReturn(this, (XtalSelectMD.__proto__ || Object.getPrototypeOf(XtalSelectMD)).apply(this, arguments));
+    }
+
+    babelHelpers.createClass(XtalSelectMD, [{
+      key: "handleChange",
+      value: function handleChange(e) {
+        console.log(this._select[this._select.selectedIndex]);
+        this.de('selected-option', this._select[this._select.selectedIndex]);
+      }
+    }, {
+      key: "postAdopt",
+      value: function postAdopt() {
+        var _this19 = this;
+
+        this._select = this.shadowRoot.querySelector('select');
+
+        if (!this._select) {
+          setTimeout(function () {
+            _this19.postAdopt();
+          }, 10);
+          return;
+        }
+
+        this._changeHandler = this.handleChange.bind(this);
+
+        this._select.addEventListener('change', this._changeHandler);
+      }
+    }, {
+      key: "disconnectedCallback",
+      value: function disconnectedCallback() {
+        if (this._select && this._changeHandler) {
+          this._select.removeEventListener('change', this._changeHandler);
+        }
+      }
+    }], [{
+      key: "is",
+      get: function get() {
+        return 'xtal-select-md';
+      }
+    }]);
+    return XtalSelectMD;
+  }(XtallatX(AdoptAChild));
+
+  initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is) + '/select');
   /**
    * `xtal-text-area-md`
    *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -886,8 +1005,8 @@
 
   var XtalSideNav =
   /*#__PURE__*/
-  function (_XtallatX3) {
-    babelHelpers.inherits(XtalSideNav, _XtallatX3);
+  function (_XtallatX5) {
+    babelHelpers.inherits(XtalSideNav, _XtallatX5);
 
     function XtalSideNav() {
       babelHelpers.classCallCheck(this, XtalSideNav);

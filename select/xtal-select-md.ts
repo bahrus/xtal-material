@@ -29,5 +29,4 @@ export class XtalSelectMD extends XtallatX(AdoptAChild) {
     }
 }
 
-const basePath = getBasePath(XtalSelectMD.is);
-initCE(XtalSelectMD.is, XtalSelectMD, basePath  + '/select');
+initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is)  + '/select');
