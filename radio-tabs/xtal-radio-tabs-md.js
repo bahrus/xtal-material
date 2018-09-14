@@ -21,7 +21,7 @@ export class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
         if (q.length === 0) {
             setTimeout(() => {
                 this.postAdopt();
-            }, 100);
+            }, 10);
             return;
         }
         this._changeHandler = this.handleChange.bind(this);
