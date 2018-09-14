@@ -1,8 +1,24 @@
 <style>
 
-    ::slotted(select){
-        color:green;
-    }
+  .form-element {
+  position: relative;
+  margin-top: 2.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.form-element-hint {
+  font-weight: 400;
+  font-size: 0.6875rem;
+  color: #a6a6a6;
+  display: block;
+}
+
+.form-element-bar {
+  position: relative;
+  height: 1px;
+  background: #999;
+  display: block;
+}
 
 .form-element-label {
   position: absolute;
@@ -97,8 +113,9 @@
         transform: translateY(-50%) rotateX(180deg) rotate(45deg);
     }
 </style>
+<slot></slot>
 <div class="form-element form-select">
-    <slot name="select"></slot>
+    <div target></div>
     <div class="form-element-bar"></div>
     <label class="form-element-label" for="field-be1h8i-ll2hpg-q4efzm-nfjj1e-udkw5r"><slot name="label"></slot></label>
 </div>

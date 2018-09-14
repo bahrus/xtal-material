@@ -100,16 +100,20 @@
 
     <template id="select-demo">
       <xtal-select-md>
-
-        <select class="form-element-field" slot="select">
-          <option disabled selected value="" class="form-select-placeholder"></option>
-          <option value="Rap">Rap</option>
-          <option value="Pop">Pop</option>
-          <option value="Rock">Rock</option>
-          <option value="Metal">Metal</option>
-          <option value="R&amp;B">R&amp;B</option>
-        </select>
-        <span slot="label">Select your favorite music genre</span>
+        <div disabled data-lit data-input='["Rock", "Pop", "Rap", "Metal", "R&amp;B"]'>
+         <script nomodule>
+           html`
+           <select class="form-element-field">
+              <option disabled selected value="" class="form-select-placeholder"></option>
+              <option value="Rap">Rap</option>
+              <option value="Pop">Pop</option>
+              <option value="Rock">Rock</option>
+              <option value="Metal">Metal</option>
+              <option value="R&amp;B">R&amp;B</option>
+            </select>
+            <span slot="label">Select your favorite music genre</span>
+           `
+         </script>
       </xtal-select-md>
     </template>
     <xtal-side-nav>
