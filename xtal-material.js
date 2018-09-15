@@ -6,16 +6,17 @@
     const link = self['xtal_material'];
     if (link) {
         path = link.href;
-    } else {
+    }
+    else {
         const cs = document.currentScript;
         if (cs) {
             path = cs.src;
-        } else {
+        }
+        else {
         }
     }
     return path.split('/').slice(0, -1).join('/');
 }
-
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }

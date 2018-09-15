@@ -10,7 +10,7 @@ export function getBasePath(tagName) {
     if (cs) {
       path = cs.src;
     } else {
-      path = import.meta.url;
+      path = import.meta['url'];
     }
   }
 
@@ -18,4 +18,4 @@ export function getBasePath(tagName) {
 }
 export function lispToSnakeCase(s) {
   return s.split('-').join('_');
-}
+} //# sourceMappingURL=getBasePath.js.map
