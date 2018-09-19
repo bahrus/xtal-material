@@ -329,7 +329,7 @@
           }
           /**
            * Dispatch Custom Event
-           * @param name Name of event to dispatch (with -changed if asIs is false)
+           * @param name Name of event to dispatch ("-changed" will be appended if asIs is false)
            * @param detail Information to be passed with the event
            * @param asIs If true, don't append event name with '-changed'
            */
@@ -369,9 +369,9 @@
           key: "disabled",
 
           /**
-           * Any component that emits events should not do so ef it is disabled.
+           * Any component that emits events should not do so if it is disabled.
            * Note that this is not enforced, but the disabled property is made available.
-           * Users of this mix-in sure ensure it doesn't call "de" if this property is set to true.
+           * Users of this mix-in should ensure not to call "de" if this property is set to true.
            */
           get: function get() {
             return this._disabled;
@@ -388,6 +388,10 @@
         return _class;
       }(superClass)
     );
+  }
+
+  function qsa(css, from) {
+    return [].slice.call(from.querySelectorAll(css));
   }
 
   function lispToSnakeCase(s) {
@@ -836,7 +840,7 @@
     return XtalRadioGroupMD;
   }(XtallatX(AdoptAChild));
 
-  initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
+  initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group'); //import {qsa} from 'templ-mount/templ-mount.js';
 
   var styleFn = function styleFn(n, t) {
     return "\ninput[type=\"radio\"][name=\"tabs\"]:nth-of-type(".concat(n + 1, "):checked~.slide {\n    left: calc((100% / ").concat(t, ") * ").concat(n, ");\n}\n");

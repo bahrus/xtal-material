@@ -1,6 +1,7 @@
 //@ts-check
 const jiife = require('jiife');
-const core = ['getBasePath.js', 'node_modules/templ-mount/first-templ.js', 'node_modules/templ-mount/templ-mount.js', 'node_modules/xtal-latx/xtal-latx.js', 
+const xl = 'node_modules/xtal-latx/';
+const core = ['getBasePath.js', 'node_modules/templ-mount/first-templ.js', 'node_modules/templ-mount/templ-mount.js', xl + 'xtal-latx.js', xl + 'qsa.js',
 'node_modules/bra-ket/bra-ket.js'];
 jiife.processFiles(core.concat([ 'adopt-a-child.js', 'text-input/xtal-text-input-md.js', 
     'checkbox-input/xtal-checkbox-input-md.js', 'radio-group/xtal-radio-group-md.js', 'radio-tabs/xtal-radio-tabs-md.js',

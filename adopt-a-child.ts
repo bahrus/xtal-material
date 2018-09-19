@@ -1,5 +1,5 @@
 import {BraKet} from 'bra-ket/bra-ket.js';
-import {qsa} from 'templ-mount/templ-mount.js';
+import {qsa} from 'xtal-latx/qsa.js';
 import {LitterGZ} from 'litter-g/litter-gz.js';
 export class AdoptAChild extends BraKet{
     constructor(){

@@ -2,7 +2,7 @@ import { initCE } from "../node_modules/bra-ket/bra-ket.js";
 import { getBasePath } from '../getBasePath.js';
 import { AdoptAChild } from '../adopt-a-child.js';
 import { XtallatX } from "../node_modules/xtal-latx/xtal-latx.js";
-import { qsa } from "../node_modules/templ-mount/templ-mount.js";
+import { qsa } from "../node_modules/xtal-latx/qsa.js";
 /**
  * `xtal-radio-group-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB

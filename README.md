@@ -44,7 +44,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
 ```
 <custom-element-demo>
   <template>
-    <div>
+    <div style="height:600px">
         <litter-g></litter-g>
         <template id="radio-group">
           <xtal-radio-group-md name="pronoun">
@@ -168,7 +168,7 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
     
         <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
         <link id="xtal_material" rel="preload" as="script" href="https://unpkg.com/xtal-material@0.0.30/xtal-material.js">
-        <script type="module" src="https://unpkg.com/xtal-material@0.0.30/xtal-material.js"></script>
+        <script type="module" src="https://unpkg.com/xtal-material@0.0.31/xtal-material.js"></script>
         <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
         <script type="module" src="https://unpkg.com/p-d.p-u@0.0.69/p-d.p-u.js"></script>
         <script type="module" src="https://unpkg.com/litter-g@0.0.12/litter-g.js?module"></script>
@@ -190,8 +190,4 @@ $ polymer serve
 
 ## Running Tests
 
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+WIP

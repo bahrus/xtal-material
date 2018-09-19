@@ -208,9 +208,9 @@ function XtallatX(superClass) {
             return [disabled];
         }
         /**
-         * Any component that emits events should not do so ef it is disabled.
+         * Any component that emits events should not do so if it is disabled.
          * Note that this is not enforced, but the disabled property is made available.
-         * Users of this mix-in sure ensure it doesn't call "de" if this property is set to true.
+         * Users of this mix-in should ensure not to call "de" if this property is set to true.
          */
         get disabled() {
             return this._disabled;
@@ -259,7 +259,7 @@ function XtallatX(superClass) {
         }
         /**
          * Dispatch Custom Event
-         * @param name Name of event to dispatch (with -changed if asIs is false)
+         * @param name Name of event to dispatch ("-changed" will be appended if asIs is false)
          * @param detail Information to be passed with the event
          * @param asIs If true, don't append event name with '-changed'
          */
@@ -288,6 +288,9 @@ function XtallatX(superClass) {
             });
         }
     };
+}
+function qsa(css, from) {
+    return [].slice.call(from.querySelectorAll(css));
 }
 function lispToSnakeCase(s) {
     return s.split('-').join('_');
@@ -543,6 +546,7 @@ class XtalRadioGroupMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
+//import {qsa} from 'templ-mount/templ-mount.js';
 const styleFn = (n, t) => `
 input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
     left: calc((100% / ${t}) * ${n});

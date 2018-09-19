@@ -1,5 +1,5 @@
 import { BraKet } from "./node_modules/bra-ket/bra-ket.js";
-import { qsa } from "./node_modules/templ-mount/templ-mount.js";
+import { qsa } from "./node_modules/xtal-latx/qsa.js";
 export var AdoptAChild =
 /*#__PURE__*/
 function (_BraKet) {

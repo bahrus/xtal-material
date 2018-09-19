@@ -1,8 +1,9 @@
 import { initCE, BraKet } from 'bra-ket/bra-ket.js';
 import {getBasePath} from '../getBasePath.js';
 import {AdoptAChild} from '../adopt-a-child.js';
-import {XtallatX} from 'xtal-latx/xtal-latx.js'
-import {qsa} from 'templ-mount/templ-mount.js';
+import {XtallatX} from 'xtal-latx/xtal-latx.js';
+import {qsa} from 'xtal-latx/qsa.js';
+//import {qsa} from 'templ-mount/templ-mount.js';
 const styleFn = (n, t) => `
 input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
     left: calc((100% / ${t}) * ${n});

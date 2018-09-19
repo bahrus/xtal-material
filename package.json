@@ -9,7 +9,7 @@
   "dependencies": {
     "bra-ket": "0.0.9",
     "templ-mount": "0.0.40",
-    "xtal-latx": "0.0.26"
+    "xtal-latx": "0.0.37"
   },
   "devDependencies": {
     "@types/node": "^10.1.0",
