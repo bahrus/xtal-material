@@ -26,6 +26,7 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
             if (attrib.name === 'type') continue;
             inputEl.setAttribute(attrib.name, attrib.value);
         }
+        
     }
     initShadowRoot() {
         this.addInputListener();
@@ -41,6 +42,21 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
     }
     set value(val) {
         this._inputElement.value = val;
+    }
+    _options: string[];
+    get options(){
+        return this._options;
+    }
+    set options(nv){
+        this._options = nv;
+        if(this._options){
+            const dl = this.shadowRoot!.querySelector('#options');
+            nv.forEach(option =>{
+                const optionTarget = document.createElement('option');
+                optionTarget.setAttribute('value', option);
+                dl.appendChild(optionTarget);
+            })
+        }
     }
     getType() {
         return this.constructor['is'].split('-')[1];

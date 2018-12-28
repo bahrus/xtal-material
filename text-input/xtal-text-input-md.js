@@ -38,6 +38,20 @@ export class XtalTextInputMD extends XtallatX(BraKet) {
     set value(val) {
         this._inputElement.value = val;
     }
+    get options() {
+        return this._options;
+    }
+    set options(nv) {
+        this._options = nv;
+        if (this._options) {
+            const dl = this.shadowRoot.querySelector('#options');
+            nv.forEach(option => {
+                const optionTarget = document.createElement('option');
+                optionTarget.setAttribute('value', option);
+                dl.appendChild(optionTarget);
+            });
+        }
+    }
     getType() {
         return this.constructor['is'].split('-')[1];
     }
