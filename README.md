@@ -140,7 +140,9 @@ If you are targeting browsers that don't support either ES6 Modules or import.me
               }
             })
           </script></xtal-deco>
-          <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series"></xtal-text-input-md>
+          <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series">
+          <span slot="label">Netflix Series</span>
+          </xtal-text-input-md>
         </template>
     
 
