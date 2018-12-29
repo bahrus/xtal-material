@@ -12,6 +12,18 @@ NB:  There are a number of [far](https://github.com/material-components/material
 
 The total size of the text input component is ~3.5kb gzip minified.  The components do not depend on Polymer, but they are able to partake in Polymer's powerful binding mechanisms.
 
+The text input also supports autocomplete / combobox functionality.  It has a property, options, which expects the following interface:
+
+```TypeScript
+export interface IXtalInputOptions {
+    data: any[],
+    textFld: string,
+    keyFld: string,
+}
+```
+
+It utilizes the [datalist](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist).
+
 ## The Duality Principle
 
 >It seems as though we must use sometimes JavaScript and sometimes declarative markup, while at times we may use either. We are faced with a new kind of difficulty. We have two contradictory pictures of reality; separately neither of them fully explains the phenomena of good web design, but together they do. -- [Albert Einstein](https://en.wikipedia.org/wiki/Wave%E2%80%93particle_duality)
