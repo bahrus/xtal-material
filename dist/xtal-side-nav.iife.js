@@ -13,6 +13,7 @@
             path = cs.src;
         }
         else {
+            path = import.meta['url'];
         }
     }
     return path.split('/').slice(0, -1).join('/');
@@ -74,9 +75,6 @@ function loadTemplate(t, p) {
         def(p);
     }
 }
-function qsa(css, from) {
-    return [].slice.call((from ? from : this).querySelectorAll(css));
-}
 /**
 * `templ-mount`
 * Dependency free web component that loads templates from data-src (optionally href) attribute
@@ -118,13 +116,20 @@ class TemplMount extends HTMLElement {
             dest.setAttribute(attr, attrVal);
         });
     }
+    get doc() {
+        if (this.hasAttribute('target-top')) {
+            return window.top.document;
+        }
+        return document;
+    }
     cT(clonedNode, tagName, copyAttrs) {
+        const doc = this.doc;
         qsa(tagName, clonedNode).forEach(node => {
             //node.setAttribute('clone-me', '');
-            const clone = document.createElement(tagName);
+            const clone = doc.createElement(tagName);
             this.copyAttrs(node, clone, copyAttrs);
             clone.innerHTML = node.innerHTML;
-            document.head.appendChild(clone);
+            doc.head.appendChild(clone);
         });
     }
     iT(template) {
@@ -263,7 +268,7 @@ function XtallatX(superClass) {
          * @param detail Information to be passed with the event
          * @param asIs If true, don't append event name with '-changed'
          */
-        de(name, detail, asIs) {
+        de(name, detail, asIs = false) {
             const eventName = name + (asIs ? '' : '-changed');
             const newEvent = new CustomEvent(eventName, {
                 detail: detail,
@@ -369,278 +374,6 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
 // export const basePath = getBasePath(BraKet.is);
 // customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
-class AdoptAChild extends BraKet {
-    constructor() {
-        super();
-        this._rootElement = 'div';
-        this._targetElementSelector = '[target]';
-    }
-    get dynamicSlots() {
-        return ['slot'];
-    }
-    postAdopt() { }
-    addTemplate() {
-        super.addTemplate();
-        if (!this.dynamicSlots)
-            return;
-        this.dynamicSlots.forEach(slotSelector => {
-            const slots = qsa(slotSelector, this.shadowRoot).forEach((slot) => {
-                slot.addEventListener('slotchange', e => {
-                    slot.assignedNodes().forEach((node) => {
-                        const targetEl = this.shadowRoot.querySelector(this._targetElementSelector);
-                        if (node.nodeType === 3)
-                            return;
-                        if (node.hasAttribute('disabled')) {
-                            node.removeAttribute('disabled');
-                            node['target'] = targetEl;
-                        }
-                    });
-                    this.postAdopt();
-                });
-            });
-        });
-    }
-}
-/**
- * `xtal-text-input-md`
- *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
-class XtalTextInputMD extends XtallatX(BraKet) {
-    static get is() { return 'xtal-text-input-md'; }
-    customizeClone(clonedNode) {
-        super.customizeClone(clonedNode);
-        const inputEl = this._inputElement = clonedNode.querySelector('input');
-        inputEl.setAttribute('type', this.getType());
-        for (let i = 0, ii = this.attributes.length; i < ii; i++) {
-            const attrib = this.attributes[i];
-            //const inp = clonedNode.querySelector('input');
-            if (attrib.name === 'type')
-                continue;
-            inputEl.setAttribute(attrib.name, attrib.value);
-        }
-    }
-    initShadowRoot() {
-        this.addInputListener();
-        this._inputElement.addEventListener('change', e => {
-            let element = this._inputElement; // e.target as HTMLInputElement;
-            if (element && element.matches(".form-element-field")) {
-                element.classList[element.value ? "add" : "remove"]("-hasvalue");
-            }
-        });
-    }
-    get value() {
-        return this._inputElement.value;
-    }
-    set value(val) {
-        this._inputElement.value = val;
-    }
-    getType() {
-        return this.constructor['is'].split('-')[1];
-    }
-    addInputListener() {
-        this._inputElement.addEventListener('input', e => {
-            this.emitEvent();
-        });
-    }
-    emitEvent() {
-        this.value = this._inputElement.value;
-        this.de('value', {
-            value: this.value
-        });
-    }
-    connectedCallback() {
-        this._upgradeProperties(['value']);
-        this.addMutationObserver();
-    }
-    addMutationObserver() {
-        const config = { attributes: true };
-        this._observer = new MutationObserver((mutationsList) => {
-            mutationsList.forEach(mutation => {
-                this._inputElement[mutation.attributeName] = this[mutation.attributeName];
-            });
-        });
-        this._observer.observe(this, config);
-    }
-    disconnectedCallback() {
-        this._observer.disconnect();
-    }
-}
-const basePath = getBasePath(XtalTextInputMD.is);
-initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
-/**
- * `xtal-email-input-md`
- *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
-class XtalEmailInputMD extends XtalTextInputMD {
-    static get is() { return 'xtal-email-input-md'; }
-    looksLike() {
-        return XtalTextInputMD.is;
-    }
-}
-initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
-class XtalCheckboxInputMD extends XtalTextInputMD {
-    static get is() { return 'xtal-checkbox-input-md'; }
-    // getType() {
-    //     return 'checkbox';
-    // }
-    get checked() {
-        return this._inputElement.checked;
-    }
-    set checked(val) {
-        this._inputElement.checked = val;
-    }
-    emitEvent() {
-        const val = this._inputElement.checked;
-        this.value = val ? 'on' : 'off';
-        this.de('value', {
-            value: val
-        });
-    }
-    addInputListener() {
-        //some browsers don't support 'input' change on checkbox yet
-        this._inputElement.addEventListener('change', e => {
-            this.emitEvent();
-        });
-    }
-}
-initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
-/**
- * `xtal-radio-group-md`
- *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
-class XtalRadioGroupMD extends XtallatX(AdoptAChild) {
-    static get is() { return 'xtal-radio-group-md'; }
-    handleChange(e) {
-        this.de('selected-radio', e.target);
-    }
-    postAdopt() {
-        const q = qsa('input', this.shadowRoot);
-        if (q.length === 0) {
-            setTimeout(() => {
-                this.postAdopt();
-            }, 10);
-            return;
-        }
-        this._changeHandler = this.handleChange.bind(this);
-        q.forEach(radio => {
-            radio.addEventListener('change', this._changeHandler);
-        });
-    }
-    disconnectedCallback() {
-        const q = qsa('input', this.shadowRoot);
-        q.forEach(radio => {
-            radio.removeEventListener('change', this._changeHandler);
-        });
-    }
-}
-initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
-//import {qsa} from 'templ-mount/templ-mount.js';
-const styleFn = (n, t) => `
-input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
-    left: calc((100% / ${t}) * ${n});
-}
-`;
-class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
-    static get is() { return 'xtal-radio-tabs-md'; }
-    constructor() {
-        super();
-    }
-    handleChange(e) {
-        this.de('selected-tab', e.target);
-    }
-    postAdopt() {
-        const q = qsa('input', this.shadowRoot);
-        if (q.length === 0) {
-            setTimeout(() => {
-                this.postAdopt();
-            }, 10);
-            return;
-        }
-        this._changeHandler = this.handleChange.bind(this);
-        q.forEach(radio => {
-            radio.addEventListener('change', this._changeHandler);
-        });
-        const styles = [];
-        for (let i = 0, ii = q.length; i < ii; i++) {
-            styles.push(styleFn(i, ii));
-        }
-        styles.push(`
-        .slide {
-            width: calc(100% / ${q.length});
-        }
-        `);
-        const style = document.createElement('style');
-        style.innerHTML = styles.join('');
-        this.shadowRoot.appendChild(style);
-        this.addEventListener('input', e => {
-            debugger;
-        });
-    }
-    disconnectedCallback() {
-        const q = qsa('input', this.shadowRoot);
-        q.forEach(radio => {
-            radio.removeEventListener('change', this._changeHandler);
-        });
-    }
-}
-initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
-//import {qsa} from 'templ-mount/templ-mount.js';
-class XtalSelectMD extends XtallatX(AdoptAChild) {
-    static get is() { return 'xtal-select-md'; }
-    handleChange(e) {
-        console.log(this._select[this._select.selectedIndex]);
-        this.de('selected-option', this._select[this._select.selectedIndex]);
-    }
-    postAdopt() {
-        this._select = this.shadowRoot.querySelector('select');
-        if (!this._select) {
-            setTimeout(() => {
-                this.postAdopt();
-            }, 10);
-            return;
-        }
-        this._changeHandler = this.handleChange.bind(this);
-        this._select.addEventListener('change', this._changeHandler);
-    }
-    disconnectedCallback() {
-        if (this._select && this._changeHandler) {
-            this._select.removeEventListener('change', this._changeHandler);
-        }
-    }
-}
-initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is) + '/select');
-/**
- * `xtal-text-area-md`
- *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
-class XtalTextAreaMD extends XtalTextInputMD {
-    static get is() { return 'xtal-text-area-md'; }
-    //_textArea: HTMLTextAreaElement;
-    customizeClone(clonedNode) {
-        const textArea = this._inputElement = clonedNode.querySelector('textarea');
-        for (let i = 0, ii = this.attributes.length; i < ii; i++) {
-            const attrib = this.attributes[i];
-            textArea.setAttribute(attrib.name, attrib.value);
-        }
-    }
-}
-initCE(XtalTextAreaMD.is, XtalTextAreaMD, getBasePath(XtalTextAreaMD.is) + '/text-area');
 class XtalSideNav extends XtallatX(BraKet) {
     static get is() { return 'xtal-side-nav'; }
     openMenu(e) {

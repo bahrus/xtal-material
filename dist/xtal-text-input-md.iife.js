@@ -13,6 +13,7 @@
             path = cs.src;
         }
         else {
+            path = import.meta['url'];
         }
     }
     return path.split('/').slice(0, -1).join('/');
@@ -74,9 +75,6 @@ function loadTemplate(t, p) {
         def(p);
     }
 }
-function qsa(css, from) {
-    return [].slice.call((from ? from : this).querySelectorAll(css));
-}
 /**
 * `templ-mount`
 * Dependency free web component that loads templates from data-src (optionally href) attribute
@@ -118,13 +116,20 @@ class TemplMount extends HTMLElement {
             dest.setAttribute(attr, attrVal);
         });
     }
+    get doc() {
+        if (this.hasAttribute('target-top')) {
+            return window.top.document;
+        }
+        return document;
+    }
     cT(clonedNode, tagName, copyAttrs) {
+        const doc = this.doc;
         qsa(tagName, clonedNode).forEach(node => {
             //node.setAttribute('clone-me', '');
-            const clone = document.createElement(tagName);
+            const clone = doc.createElement(tagName);
             this.copyAttrs(node, clone, copyAttrs);
             clone.innerHTML = node.innerHTML;
-            document.head.appendChild(clone);
+            doc.head.appendChild(clone);
         });
     }
     iT(template) {
@@ -263,7 +268,7 @@ function XtallatX(superClass) {
          * @param detail Information to be passed with the event
          * @param asIs If true, don't append event name with '-changed'
          */
-        de(name, detail, asIs) {
+        de(name, detail, asIs = false) {
             const eventName = name + (asIs ? '' : '-changed');
             const newEvent = new CustomEvent(eventName, {
                 detail: detail,
@@ -369,33 +374,104 @@ function initCE(tagName, cls, basePath, sharedTemplateTagName) {
 // export const basePath = getBasePath(BraKet.is);
 // customElements.define(BraKet.is, BraKet);
 //initCE(XtalShadow.is, XtalShadow, basePath);
-class XtalSideNav extends XtallatX(BraKet) {
-    static get is() { return 'xtal-side-nav'; }
-    openMenu(e) {
-        this.setWidth(250);
-    }
-    setWidth(width) {
-        this.shadowRoot.getElementById('mySidenav').style.width = width + 'px';
-    }
-    closeMenu(e) {
-        this.setWidth(0);
+/**
+ * `xtal-text-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
+class XtalTextInputMD extends XtallatX(BraKet) {
+    static get is() { return 'xtal-text-input-md'; }
+    customizeClone(clonedNode) {
+        super.customizeClone(clonedNode);
+        const inputEl = this._inputElement = clonedNode.querySelector('input');
+        inputEl.setAttribute('type', this.getType());
+        for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+            const attrib = this.attributes[i];
+            //const inp = clonedNode.querySelector('input');
+            if (attrib.name === 'type')
+                continue;
+            inputEl.setAttribute(attrib.name, attrib.value);
+        }
     }
     initShadowRoot() {
-        this._opener = this.shadowRoot.getElementById('opener');
-        this._boundOpener = this.openMenu.bind(this);
-        this._opener.addEventListener('click', this._boundOpener);
-        this._closer = this.shadowRoot.getElementById('closebtn');
-        this._boundCloser = this.closeMenu.bind(this);
-        this._closer.addEventListener('click', this._boundCloser);
-        this._slot = this.shadowRoot.getElementById('slot');
-        this._slot.addEventListener('click', this._boundCloser);
+        this.addInputListener();
+        this._inputElement.addEventListener('change', e => {
+            let element = this._inputElement; // e.target as HTMLInputElement;
+            if (element && element.matches(".form-element-field")) {
+                element.classList[element.value ? "add" : "remove"]("-hasvalue");
+            }
+        });
+    }
+    get value() {
+        return this._inputElement.value;
+    }
+    set value(val) {
+        this._inputElement.value = val;
+    }
+    get options() {
+        return this._options;
+    }
+    set options(nv) {
+        this._options = nv;
+        if (this._options) {
+            const dl = this.shadowRoot.querySelector('#options');
+            nv.forEach(option => {
+                const optionTarget = document.createElement('option');
+                optionTarget.setAttribute('value', option);
+                dl.appendChild(optionTarget);
+            });
+        }
+    }
+    getType() {
+        return this.constructor['is'].split('-')[1];
+    }
+    addInputListener() {
+        this._inputElement.addEventListener('input', e => {
+            this.emitEvent();
+        });
+    }
+    emitEvent() {
+        this.value = this._inputElement.value;
+        this.de('value', {
+            value: this.value
+        });
+    }
+    connectedCallback() {
+        this._upgradeProperties(['value']);
+        this.addMutationObserver();
+    }
+    addMutationObserver() {
+        const config = { attributes: true };
+        this._observer = new MutationObserver((mutationsList) => {
+            mutationsList.forEach(mutation => {
+                this._inputElement[mutation.attributeName] = this[mutation.attributeName];
+            });
+        });
+        this._observer.observe(this, config);
     }
     disconnectedCallback() {
-        this._opener.removeEventListener('click', this._boundOpener);
-        this._closer.removeEventListener('click', this._boundCloser);
-        this._slot.removeEventListener('click', this._boundCloser);
+        this._observer.disconnect();
     }
 }
-initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
+const basePath = getBasePath(XtalTextInputMD.is);
+initCE(XtalTextInputMD.is, XtalTextInputMD, basePath + '/text-input');
+/**
+ * `xtal-email-input-md`
+ *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
+class XtalEmailInputMD extends XtalTextInputMD {
+    static get is() { return 'xtal-email-input-md'; }
+    looksLike() {
+        return XtalTextInputMD.is;
+    }
+}
+initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
     })();  
         
