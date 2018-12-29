@@ -89,12 +89,21 @@
           </xtal-text-area-md>
           <div>Favorite Netflix Series</div>
           <xtal-deco><script nomodule>
-            ({
-              options:[
-                'House of Cards', 'Orange is the New Black', 'Marco Polo', 'Narcos', 'The Crown', 'Ozark'
-              ]
-            })
-          </script></xtal-deco>
+              ({
+                options:{
+                  data: [
+                    {txt: 'House of Cards', id:1},
+                    {txt: 'Orange is the New Black', id:2},
+                    {txt: 'Marco Polo', id:3},
+                    {txt: 'Narcos', id:4},
+                    {txt:  'The Crown', id:5},
+                    {txt:'Ozark', id: 6}
+                  ],
+                  textFld: 'txt',
+                  keyFld: 'id'
+                }
+              })
+            </script></xtal-deco>
           <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series">
               <span slot="label">Netflix Series</span>
           </xtal-text-input-md>
@@ -127,7 +136,7 @@
     
     
         <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-        <script type="module" src="https://unpkg.com/xtal-material@0.0.38/dist/xtal-material.js"></script>
+        <script type="module" src="https://unpkg.com/xtal-material@0.0.39/dist/xtal-material.js"></script>
         <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
         <script type="module" src="https://unpkg.com/p-d.p-u@0.0.100/dist/p-d.p-u.iife.js"></script>
         <script type="module" src="https://unpkg.com/litter-g@0.0.18/dist/litter-g.iife.js?module"></script>
