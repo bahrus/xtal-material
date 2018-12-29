@@ -615,31 +615,6 @@ class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
-//import {qsa} from 'templ-mount/templ-mount.js';
-class XtalSelectMD extends XtallatX(AdoptAChild) {
-    static get is() { return 'xtal-select-md'; }
-    handleChange(e) {
-        console.log(this._select[this._select.selectedIndex]);
-        this.de('selected-option', this._select[this._select.selectedIndex]);
-    }
-    postAdopt() {
-        this._select = this.shadowRoot.querySelector('select');
-        if (!this._select) {
-            setTimeout(() => {
-                this.postAdopt();
-            }, 10);
-            return;
-        }
-        this._changeHandler = this.handleChange.bind(this);
-        this._select.addEventListener('change', this._changeHandler);
-    }
-    disconnectedCallback() {
-        if (this._select && this._changeHandler) {
-            this._select.removeEventListener('change', this._changeHandler);
-        }
-    }
-}
-initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is) + '/select');
 /**
  * `xtal-text-area-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB

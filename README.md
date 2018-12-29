@@ -2,7 +2,9 @@
 
 <a href="https://nodei.co/npm/xtal-material/"><img src="https://nodei.co/npm/xtal-material.png"></a>
 
-File size of xtal-test-input-md:  <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-material@0.0.33/dist/xtal-text-input-md.iife.min.js?compression=gzip">
+File size of xtal-test-input-md.js:  <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-material@0.0.36/dist/xtal-text-input-md.iife.min.js?compression=gzip">
+
+File size of all js: <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-material@0.0.36/dist/xtal-material.min.js?compression=gzip">
 
 Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB).  For tabs we build on Ben Mildren's [Material Design CSS Only Tabs](https://codepen.io/mildrenben/pen/bdGdOb).
 

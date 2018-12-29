@@ -10,7 +10,6 @@ jiife.processFiles(core.concat([
     'checkbox-input/xtal-checkbox-input-md.js', 
     'radio-group/xtal-radio-group-md.js', 
     'radio-tabs/xtal-radio-tabs-md.js',
-    'select/xtal-select-md.js', 
     'text-area/xtal-text-area-md.js', 
     'side-nav/xtal-side-nav.js']), 'dist/xtal-material.js');
 jiife.processFiles(core.concat(['side-nav/xtal-side-nav.js']), 'dist/xtal-side-nav.iife.js');
