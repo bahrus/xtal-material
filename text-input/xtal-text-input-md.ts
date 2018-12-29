@@ -5,6 +5,12 @@ import {getBasePath} from '../getBasePath.js';
 export interface IXtalInputProperties {
     value: string;
 }
+
+export interface IXtalInputOptions {
+    data: any[],
+    textFld: string,
+    keyFld: string,
+}
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -43,7 +49,8 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
     set value(val) {
         this._inputElement.value = val;
     }
-    _options: string[];
+    selection: any;
+    _options: IXtalInputOptions;
     get options(){
         return this._options;
     }
@@ -51,13 +58,21 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
         this._options = nv;
         if(this._options){
             const dl = this.shadowRoot!.querySelector('#options');
-            nv.forEach(option =>{
+            dl.innerHTML = '';
+            const textFld = nv.textFld;
+            nv.data.forEach(item =>{
                 const optionTarget = document.createElement('option');
-                optionTarget.setAttribute('value', option);
+                optionTarget.setAttribute('value', item[textFld]);
                 dl.appendChild(optionTarget);
             })
         }
     }
+    // _key: string;
+    // get key(){return this._key;}
+    // set key(nv){
+    //     this._key = nv;
+    // }
+
     getType() {
         return this.constructor['is'].split('-')[1];
     }
@@ -68,10 +83,21 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
         });
     }
     emitEvent() {
-        this.value = this._inputElement.value;
+        const val = this._inputElement.value;
+        this.value = val;
         this.de('value',{
-            value: this.value
-        })
+            value: val
+        });
+        if(this._options){
+            const textFld = this._options.textFld;
+            const item = this._options.data.find(item => item[textFld] === val);
+            if(item !== undefined){
+                this.selection = item;
+                this.de('selection', {
+                    value: item,
+                })
+            }
+        }
     }
     connectedCallback() {
         this._upgradeProperties(['value', 'options']);
@@ -82,7 +108,16 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
         const config : MutationObserverInit = { attributes: true};
         this._observer =  new MutationObserver((mutationsList: MutationRecord[]) =>{
             mutationsList.forEach(mutation =>{
-                this._inputElement[mutation.attributeName] = this[mutation.attributeName];
+                const attrName = mutation.attributeName;
+                const attrVal = this.getAttribute(attrName);
+                switch(attrName){
+                    case 'options':
+                        this.options = JSON.parse(attrVal);
+                        break;
+                    default:
+                        this._inputElement.setAttribute(attrName, attrVal);
+                }attrName
+               
             })
         });
         this._observer.observe(<any>this as Node, config);

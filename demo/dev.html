@@ -91,9 +91,18 @@
           <div>Favorite Netflix Series</div>
           <xtal-deco><script nomodule>
             ({
-              options:[
-                'House of Cards', 'Orange is the New Black', 'Marco Polo', 'Narcos', 'The Crown', 'Ozark'
-              ]
+              options:{
+                data: [
+                  {txt: 'House of Cards', id:1},
+                  {txt: 'Orange is the New Black', id:2},
+                  {txt: 'Marco Polo', id:3},
+                  {txt: 'Narcos', id:4},
+                  {txt:  'The Crown', id:5},
+                  {txt:'Ozark', id: 6}
+                ],
+                textFld: 'txt',
+                keyFld: 'id'
+              }
             })
           </script></xtal-deco>
           <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series"></xtal-text-input-md>
