@@ -472,7 +472,7 @@ class XtalTextInputMD extends XtallatX(BraKet) {
         });
     }
     connectedCallback() {
-        this._upgradeProperties(['value']);
+        this._upgradeProperties(['value', 'options']);
         this.addMutationObserver();
     }
     addMutationObserver() {
