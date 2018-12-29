@@ -74,7 +74,7 @@ export class XtalTextInputMD extends XtallatX(BraKet) implements IXtalInputPrope
         })
     }
     connectedCallback() {
-        this._upgradeProperties(['value']);
+        this._upgradeProperties(['value', 'options']);
         this.addMutationObserver();
     }
     _observer: MutationObserver;

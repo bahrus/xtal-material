@@ -87,27 +87,18 @@
           <xtal-text-area-md>
             <span slot="label">Your Message</span>
           </xtal-text-area-md>
+          <div>Favorite Netflix Series</div>
+          <xtal-deco><script nomodule>
+            ({
+              options:[
+                'House of Cards', 'Orange is the New Black', 'Marco Polo', 'Narcos', 'The Crown', 'Ozark'
+              ]
+            })
+          </script></xtal-deco>
+          <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series"></xtal-text-input-md>
         </template>
     
-        <template id="select-demo">
-          <xtal-select-md>
-            <span slot="label">Select your favorite music genre</span>
-            <div disabled data-lit data-input='["Rock", "Pop", "Rap", "Metal", "R&amp;B"]'>
-             <script nomodule>
-               html`
-               <select class="form-element-field">
-                  <option disabled selected value="" class="form-select-placeholder"></option>
-                  ${input.map(item => html`
-                    <option value="${item}">${item}</option>
-                    `)}
-                </select>
-                
-               `
-             </script>
-            </div>
-            
-          </xtal-select-md>
-        </template>
+
         <xtal-side-nav>
           <style>
             a {
@@ -127,18 +118,17 @@
           <a href="#radio-group" data-template="radio-group">Radio Group</a>
           <a href="#radio-tabs" data-template="radio-tabs">Tabs</a>
           <a href="#text-demos" data-template="text-demos">Text Demos</a>
-          <a href="#select-demo" data-template="select-demo">Select Demo</a>
         </xtal-side-nav>
         <p-d on="click" if="a" prop="from" val="target.dataset.template"></p-d>
         <b-c-c noshadow copy></b-c-c>
     
     
         <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-        <link id="xtal_material" rel="preload" crossorigin as="script" href="https://unpkg.com/xtal-material@0.0.36/dist/xtal-material.js">
-        <script type="module" src="https://unpkg.com/xtal-material@0.0.36/dist/xtal-material.js"></script>
+        <script type="module" src="https://unpkg.com/xtal-material@0.0.37/dist/xtal-material.js"></script>
         <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
         <script type="module" src="https://unpkg.com/p-d.p-u@0.0.100/dist/p-d.p-u.iife.js"></script>
-        <script type="module" src="https://unpkg.com/litter-g@0.0.12/litter-g.js?module"></script>
+        <script type="module" src="https://unpkg.com/litter-g@0.0.18/dist/litter-g.iife.js?module"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-decorator.iife.js"></script>
       </div>
 </body>
 
