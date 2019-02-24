@@ -1,63 +1,10 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "typescript",
-            "tsconfig": "tsconfig.json",
-            "problemMatcher": [
-                "$tsc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Sass Compile Material",
-            "type": "shell",
-            "command": "node-sass text-input-md.scss text-input-md.css",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Sass Compile Material Checkbox",
-            "type": "shell",
-            "command": "node-sass checkbox-input-md.scss checkbox-input-md.css",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Sass Compile Material Radio Group",
-            "type": "shell",
-            "command": "node-sass radio-group/radio-group-md.scss radio-group/radio-group-md.css",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Sass Compile Material Text area",
-            "type": "shell",
-            "command": "node-sass text-area/text-area-md.scss text-area/text-area-md.css",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Sass Compile Material Select",
-            "type": "shell",
-            "command": "node-sass select/select-md.scss select/select-md.css",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+    "version": "0.1.0",
+    "command": "tsc",
+    "isShellCommand": true,
+    "args": ["-p", "."],
+    "showOutput": "silent",
+    "problemMatcher": "$tsc"
 }

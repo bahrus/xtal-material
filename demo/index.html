@@ -142,6 +142,24 @@
         <script type="module" src="https://unpkg.com/litter-g@0.0.18/dist/litter-g.iife.js?module"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-decorator.iife.js"></script>
       </div>
+      <div id="test"></div>
+      <script>
+        const tim = document.createElement('xtal-text-input-md');
+        tim.options = {
+                  data: [
+                    {txt: 'House of Cards', id:1},
+                    {txt: 'Orange is the New Black', id:2},
+                    {txt: 'Marco Polo', id:3},
+                    {txt: 'Narcos', id:4},
+                    {txt:  'The Crown', id:5},
+                    {txt:'Ozark', id: 6}
+                  ],
+                  textFld: 'txt',
+                  keyFld: 'id'
+                }
+        test.appendChild(tim);
+      </script>
+      
 </body>
 
 </html>
