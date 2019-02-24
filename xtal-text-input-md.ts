@@ -1,6 +1,6 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "xtal-element/define.js";
-import { createTemplate, newRenderContext } from "xtal-element/utils.js";
+import { createTemplate} from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 
 export interface IXtalInputProperties {
@@ -236,7 +236,7 @@ export class XtalTextInputMD extends XtalElement {
   get mainTemplate() {
     return textInputTemplate;
   }
-  _renderContext = newRenderContext({});
+  _renderContext = {};
   get renderContext() {
     return this._renderContext;
   }

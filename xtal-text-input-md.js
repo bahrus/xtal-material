@@ -1,6 +1,6 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "xtal-element/define.js";
-import { createTemplate, newRenderContext } from "xtal-element/utils.js";
+import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 export const baseTemplateGenerator = (type) => /* html */ `
 <div class="form-element form-input">
@@ -211,7 +211,7 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 export class XtalTextInputMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._renderContext = newRenderContext({});
+        this._renderContext = {};
         this._eventContext = newEventContext({
             change: e => {
                 const element = this.inputElement;

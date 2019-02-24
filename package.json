@@ -8,7 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "trans-render": "0.0.75",
-    "xtal-element": "0.0.28",
+    "xtal-element": "0.0.29",
     "event-switch": "0.0.12"
   },
   "devDependencies": {
