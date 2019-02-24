@@ -289,6 +289,13 @@ export class XtalTextInputMD extends XtalElement {
         dl.appendChild(optionTarget);
       });
     }
+    for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+        const attrib = this.attributes[i];
+        //const inp = clonedNode.querySelector('input');
+        if (attrib.name === 'type') continue;
+        this.inputElement.setAttribute(attrib.name, attrib.value);
+    }
+    this.addMutationObserver();
     return true;
   }
 
@@ -313,10 +320,30 @@ export class XtalTextInputMD extends XtalElement {
     this._upgradeProperties(["value", "options"]);
     super.connectedCallback();
   }
-  
+
+  _observer: MutationObserver;
+  addMutationObserver() {
+    const config: MutationObserverInit = { attributes: true };
+    this._observer = new MutationObserver((mutationsList: MutationRecord[]) => {
+      mutationsList.forEach(mutation => {
+        const attrName = mutation.attributeName;
+        const attrVal = this.getAttribute(attrName);
+        switch (attrName) {
+          case "options":
+            this.options = JSON.parse(attrVal);
+            break;
+          default:
+            this.inputElement.setAttribute(attrName, attrVal);
+        }
+        attrName;
+      });
+    });
+    this._observer.observe((<any>this) as Node, config);
+  }
+  disconnectedCallback() {
+    this._observer.disconnect();
+  }
 }
 define(XtalTextInputMD);
-
-
 
 // initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
