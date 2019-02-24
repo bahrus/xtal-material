@@ -1,6 +1,6 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "xtal-element/define.js";
-import { createTemplate} from "xtal-element/utils.js";
+import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 
 export interface IXtalInputProperties {
@@ -276,10 +276,12 @@ export class XtalTextInputMD extends XtalElement {
     this._options = nv;
     this.onPropsChange();
   }
-
+  _previousOptions: IXtalInputOptions;
+  _initializedAttrs = false;
   onPropsChange() {
     if (!super.onPropsChange()) return false;
-    if (this._options) {
+    if (this._options && this._options !== this._previousOptions) {
+      this._previousOptions = this._options;
       const nv = this._options;
       const dl = this.root.querySelector("#options");
       dl.innerHTML = "";
@@ -290,13 +292,17 @@ export class XtalTextInputMD extends XtalElement {
         dl.appendChild(optionTarget);
       });
     }
-    for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+    if (!this._initializedAttrs) {
+      for (let i = 0, ii = this.attributes.length; i < ii; i++) {
         const attrib = this.attributes[i];
         //const inp = clonedNode.querySelector('input');
-        if (attrib.name === 'type') continue;
+        if (attrib.name === "type") continue;
         this.inputElement.setAttribute(attrib.name, attrib.value);
+      }
+      this._initializedAttrs = true;
     }
-    if(this._value !== undefined) this.inputElement.value = this._value;
+
+    if (this._value !== undefined) this.inputElement.value = this._value;
     this.addMutationObserver();
     return true;
   }
@@ -347,5 +353,3 @@ export class XtalTextInputMD extends XtalElement {
   }
 }
 define(XtalTextInputMD);
-
-// initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);

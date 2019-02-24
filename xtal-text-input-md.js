@@ -223,6 +223,7 @@ export class XtalTextInputMD extends XtalElement {
                 this.emitEvent();
             }
         });
+        this._initializedAttrs = false;
     }
     static get is() {
         return "xtal-text-input-md";
@@ -262,7 +263,8 @@ export class XtalTextInputMD extends XtalElement {
     onPropsChange() {
         if (!super.onPropsChange())
             return false;
-        if (this._options) {
+        if (this._options && this._options !== this._previousOptions) {
+            this._previousOptions = this._options;
             const nv = this._options;
             const dl = this.root.querySelector("#options");
             dl.innerHTML = "";
@@ -273,12 +275,15 @@ export class XtalTextInputMD extends XtalElement {
                 dl.appendChild(optionTarget);
             });
         }
-        for (let i = 0, ii = this.attributes.length; i < ii; i++) {
-            const attrib = this.attributes[i];
-            //const inp = clonedNode.querySelector('input');
-            if (attrib.name === 'type')
-                continue;
-            this.inputElement.setAttribute(attrib.name, attrib.value);
+        if (!this._initializedAttrs) {
+            for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+                const attrib = this.attributes[i];
+                //const inp = clonedNode.querySelector('input');
+                if (attrib.name === "type")
+                    continue;
+                this.inputElement.setAttribute(attrib.name, attrib.value);
+            }
+            this._initializedAttrs = true;
         }
         if (this._value !== undefined)
             this.inputElement.value = this._value;
@@ -329,4 +334,3 @@ export class XtalTextInputMD extends XtalElement {
     }
 }
 define(XtalTextInputMD);
-// initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);

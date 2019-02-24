@@ -191,14 +191,14 @@ abstract class XtalElement extends XtallatX(HTMLElement){
                 
             }
             if(rc && rc.init !== undefined){
-                if(this._initialized){
+                if(this._initialized && rc.update !== undefined){
                     rc.update!(rc, this.root);
-                }else{
+                }else if(!this._initialized){
                     rc.init(this.mainTemplate, rc, this.root, this.renderOptions);
                     //rc.update = this.update;
                 }
                 
-            }else{
+            }else if(!this._initialized){
                 this.root.appendChild(this.mainTemplate.content.cloneNode(true));
             }
             this._initialized = true;
@@ -498,7 +498,6 @@ const baseTemplateGenerator = (type: string) => /* html */ `
     <slot name="label"></slot>
   </label>
   <small class="form-element-hint">
-    <slot name="hint"></slot>
   </small>
 </div>
 <style>
@@ -689,6 +688,7 @@ const baseTemplateGenerator = (type: string) => /* html */ `
 `;
 
 const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
+
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -712,7 +712,7 @@ class XtalTextInputMD extends XtalElement {
   get mainTemplate() {
     return textInputTemplate;
   }
-  _renderContext = newRenderContext({});
+  _renderContext = {};
   get renderContext() {
     return this._renderContext;
   }
@@ -735,12 +735,13 @@ class XtalTextInputMD extends XtalElement {
   get ready() {
     return true;
   }
-
+  _value;
   get value() {
-    return this._inputElement.value;
+    return this._value;
   }
   set value(val) {
-    this._inputElement.value = val;
+    this._value = val;
+    this.onPropsChange();
   }
   selection: any;
   _options: IXtalInputOptions;
@@ -751,10 +752,12 @@ class XtalTextInputMD extends XtalElement {
     this._options = nv;
     this.onPropsChange();
   }
-
+  _previousOptions: IXtalInputOptions;
+  _initializedAttrs = false;
   onPropsChange() {
     if (!super.onPropsChange()) return false;
-    if (this._options) {
+    if (this._options && this._options !== this._previousOptions) {
+      this._previousOptions = this._options;
       const nv = this._options;
       const dl = this.root.querySelector("#options");
       dl.innerHTML = "";
@@ -765,6 +768,18 @@ class XtalTextInputMD extends XtalElement {
         dl.appendChild(optionTarget);
       });
     }
+    if (!this._initializedAttrs) {
+      for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+        const attrib = this.attributes[i];
+        //const inp = clonedNode.querySelector('input');
+        if (attrib.name === "type") continue;
+        this.inputElement.setAttribute(attrib.name, attrib.value);
+      }
+      this._initializedAttrs = true;
+    }
+
+    if (this._value !== undefined) this.inputElement.value = this._value;
+    this.addMutationObserver();
     return true;
   }
 
@@ -788,9 +803,8 @@ class XtalTextInputMD extends XtalElement {
   connectedCallback() {
     this._upgradeProperties(["value", "options"]);
     super.connectedCallback();
-    //this._inputElement = this.shadowRoot!.querySelector('input');
-    //this.addMutationObserver();
   }
+
   _observer: MutationObserver;
   addMutationObserver() {
     const config: MutationObserverInit = { attributes: true };
@@ -803,7 +817,7 @@ class XtalTextInputMD extends XtalElement {
             this.options = JSON.parse(attrVal);
             break;
           default:
-            this._inputElement.setAttribute(attrName, attrVal);
+            this.inputElement.setAttribute(attrName, attrVal);
         }
         attrName;
       });
@@ -815,24 +829,6 @@ class XtalTextInputMD extends XtalElement {
   }
 }
 define(XtalTextInputMD);
-// const basePath = getBasePath(XtalTextInputMD.is);
-// initCE(XtalTextInputMD.is, XtalTextInputMD, basePath  + '/text-input');
-// /**
-//  * `xtal-email-input-md`
-//  *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
-//  *
-//  * @customElement
-//  * @polymer
-//  * @demo demo/index.html
-//  */
-// export class XtalEmailInputMD extends XtalTextInputMD{
-//     static get is() { return 'xtal-email-input-md'; }
-//     looksLike(){
-//         return XtalTextInputMD.is;
-//     }
-// }
-
-// initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
 
     })();  
         
