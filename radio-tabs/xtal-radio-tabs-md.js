@@ -53,4 +53,3 @@ export class XtalRadioTabsMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalRadioTabsMD.is, XtalRadioTabsMD, getBasePath(XtalRadioTabsMD.is) + '/radio-tabs');
-//# sourceMappingURL=xtal-radio-tabs-md.js.map

@@ -37,4 +37,3 @@ export class XtalRadioGroupMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalRadioGroupMD.is, XtalRadioGroupMD, getBasePath(XtalRadioGroupMD.is) + '/radio-group');
-//# sourceMappingURL=xtal-radio-group-md.js.map

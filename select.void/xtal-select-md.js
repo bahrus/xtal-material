@@ -27,4 +27,3 @@ export class XtalSelectMD extends XtallatX(AdoptAChild) {
     }
 }
 initCE(XtalSelectMD.is, XtalSelectMD, getBasePath(XtalSelectMD.is) + '/select');
-//# sourceMappingURL=xtal-select-md.js.map

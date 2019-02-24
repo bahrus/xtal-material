@@ -2,14 +2,16 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module":"esnext",
-		"sourceMap": true,
+		"sourceMap": false,
 		"experimentalDecorators": true,
-		"newLine": "LF"
+		"newLine": "LF",
+		"watch": true
 	},
 	"exclude":[
 		"build",
 		"bower_components",
-		"node_modules"
+		"node_modules",
+		"dist"
 	]
 
 }

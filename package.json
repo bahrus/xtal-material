@@ -7,14 +7,14 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.74",
+    "trans-render": "0.0.75",
     "xtal-element": "0.0.27",
     "event-switch": "0.0.12"
   },
   "devDependencies": {
     "@types/node": "10.12.18",
     "@webcomponents/webcomponentsjs": "2.2.1",
-    "jiife": "0.0.11"
+    "jiife": "0.0.12"
   },
   "scripts": {}
 }

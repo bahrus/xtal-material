@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module":"none",
+		"sourceMap": false,
+		"experimentalDecorators": true,
+		"newLine": "LF"
+	},
+	"exclude":[
+		"build",
+		"node_modules",
+		"bower_components",
+		"demo/PolymerTests/bower_components"
+	]
+
+}

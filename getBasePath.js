@@ -18,4 +18,3 @@ export function getBasePath(tagName) {
 export function lispToSnakeCase(s) {
     return s.split('-').join('_');
 }
-//# sourceMappingURL=getBasePath.js.map

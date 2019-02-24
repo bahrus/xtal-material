@@ -29,4 +29,3 @@ export class XtalSideNav extends XtallatX(BraKet) {
     }
 }
 initCE(XtalSideNav.is, XtalSideNav, getBasePath(XtalSideNav.is) + '/side-nav');
-//# sourceMappingURL=xtal-side-nav.js.map

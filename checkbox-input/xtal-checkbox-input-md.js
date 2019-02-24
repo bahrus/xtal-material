@@ -27,4 +27,3 @@ export class XtalCheckboxInputMD extends XtalTextInputMD {
     }
 }
 initCE(XtalCheckboxInputMD.is, XtalCheckboxInputMD, getBasePath(XtalCheckboxInputMD.is) + '/checkbox-input');
-//# sourceMappingURL=xtal-checkbox-input-md.js.map

@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+    <script>
+      // Overwrites native 'firstElementChild' prototype.
+      // Adds Document & DocumentFragment support for IE9 & Safari.
+      // Returns array instead of HTMLCollection.
+      (function(constructor) {
+        if (
+          constructor &&
+          constructor.prototype &&
+          constructor.prototype.firstElementChild == null
+        ) {
+          Object.defineProperty(constructor.prototype, "firstElementChild", {
+            get: function() {
+              var node,
+                nodes = this.childNodes,
+                i = 0;
+              while ((node = nodes[i++])) {
+                if (node.nodeType === 1) {
+                  return node;
+                }
+              }
+              return null;
+            }
+          });
+        }
+      })(window.Node || window.Element);
+    </script>
   </head>
   <body>
     <div>
@@ -12,13 +38,18 @@
         <span slot="label">Name</span>
       </xtal-text-input-md>
       <script type="module" src="../text-input/xtal-text-input-md.js"></script>
+      <script
+        nomodule
+        src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"
+      ></script>
+      <script nomodule src="../dist/iife.js"></script>
       <script>
         const options = {
           data: [],
           textFld: "txt",
           keyFld: "id"
         };
-        for (let i = 0; i < 50000; i++) {
+        for (let i = 0; i < 5000; i++) {
           const item = {
             txt: i + " item",
             id: i

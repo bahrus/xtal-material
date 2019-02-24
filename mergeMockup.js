@@ -13,4 +13,3 @@ function combineFiles(root) {
 }
 combineFiles('radio-group');
 combineFiles('text-area');
-//# sourceMappingURL=mergeMockup.js.map
