@@ -1,7 +1,7 @@
-import { XtalElement } from 'xtal-element/xtal-element.js';
+import {XtalElement} from 'xtal-element/xtal-element.js';
 import { define } from 'xtal-element/define.js';
 import { createTemplate, newRenderContext } from "xtal-element/utils.js";
-const mainTemplate = createTemplate(/* html*/ `
+const mainTemplate = createTemplate(/* html*/`
 <span id="opener" style="font-size:30px;cursor:pointer">&#9776; <slot name="title"></slot></span>
 <div id="mySidenav" class="sidenav">
     <a id="closebtn">&times;</a>
@@ -57,52 +57,54 @@ const mainTemplate = createTemplate(/* html*/ `
     }
 </style>
 `);
-export class XtalSideNav extends XtalElement {
-    constructor() {
-        super(...arguments);
-        this._renderContext = newRenderContext({});
-    }
-    static get is() { return 'xtal-side-nav'; }
-    get eventContext() {
+export class XtalSideNav extends XtalElement{
+    static get is(){return 'xtal-side-nav';}
+    get eventContext(){
         return {};
     }
-    get mainTemplate() {
+    get mainTemplate(){
         return mainTemplate;
     }
+    _renderContext = newRenderContext({});
     get renderContext() {
-        return this._renderContext;
+      return this._renderContext;
     }
-    get ready() {
+    get ready(){
         return true;
     }
-    onPropsChange() {
-        if (!super.onPropsChange())
-            return false;
+    onPropsChange(){
+        if(!super.onPropsChange()) return false;
         this.initShadowRoot();
     }
-    openMenu(e) {
+    openMenu(e){
         this.setWidth(250);
     }
-    setWidth(width) {
+    setWidth(width){
         this.shadowRoot.getElementById('mySidenav').style.width = width + 'px';
     }
-    closeMenu(e) {
+    _boundOpener;
+    closeMenu(e){
         this.setWidth(0);
     }
+    _boundCloser;
+    _opener: HTMLElement;
+    _closer: HTMLElement;
+    _slot: HTMLSlotElement;
     initShadowRoot() {
-        this._opener = this.shadowRoot.getElementById('opener');
+        this._opener = this.shadowRoot.getElementById('opener') as HTMLElement;
         this._boundOpener = this.openMenu.bind(this);
         this._opener.addEventListener('click', this._boundOpener);
-        this._closer = this.shadowRoot.getElementById('closebtn');
+        this._closer = this.shadowRoot.getElementById('closebtn') as HTMLElement;
         this._boundCloser = this.closeMenu.bind(this);
         this._closer.addEventListener('click', this._boundCloser);
-        this._slot = this.shadowRoot.getElementById('slot');
+        this._slot = this.shadowRoot.getElementById('slot') as HTMLSlotElement; 
         this._slot.addEventListener('click', this._boundCloser);
     }
-    disconnectedCallback() {
+    disconnectedCallback(){
         this._opener.removeEventListener('click', this._boundOpener);
         this._closer.removeEventListener('click', this._boundCloser);
         this._slot.removeEventListener('click', this._boundCloser);
     }
 }
+
 define(XtalSideNav);
