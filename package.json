@@ -1,6 +1,6 @@
 {
   "name": "xtal-material",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "description": "Dependency Free Material Components",
   "main": "xtal-material.js",
   "repository": "https://github.com/bahrus/xtal-material",
