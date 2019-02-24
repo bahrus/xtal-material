@@ -259,12 +259,13 @@ export class XtalTextInputMD extends XtalElement {
   get ready() {
     return true;
   }
-
+  _value;
   get value() {
-    return this._inputElement.value;
+    return this._value;
   }
   set value(val) {
-    this._inputElement.value = val;
+    this._value = val;
+    this.onPropsChange();
   }
   selection: any;
   _options: IXtalInputOptions;
@@ -295,6 +296,7 @@ export class XtalTextInputMD extends XtalElement {
         if (attrib.name === 'type') continue;
         this.inputElement.setAttribute(attrib.name, attrib.value);
     }
+    if(this._value !== undefined) this.inputElement.value = this._value;
     this.addMutationObserver();
     return true;
   }
