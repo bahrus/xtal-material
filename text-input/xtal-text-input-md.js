@@ -1,6 +1,6 @@
-import { XtalElement } from 'xtal-element/xtal-element.js';
-import { define } from 'xtal-element/define.js';
-import { createTemplate, newRenderContext } from 'xtal-element/utils.js';
+import { XtalElement } from "xtal-element/xtal-element.js";
+import { define } from "xtal-element/define.js";
+import { createTemplate, newRenderContext } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 const baseTemplateGenerator = (type) => /* html */ `
 <div class="form-element form-input">
@@ -200,7 +200,7 @@ const baseTemplateGenerator = (type) => /* html */ `
   }
 </style>
 `;
-const textInputTemplate = createTemplate(baseTemplateGenerator('text'));
+const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -219,13 +219,18 @@ export class XtalTextInputMD extends XtalElement {
                 if (element && element.matches(".form-element-field")) {
                     element.classList[element.value ? "add" : "remove"]("-hasvalue");
                 }
+            },
+            input: e => {
+                this.emitEvent();
             }
         });
     }
-    static get is() { return 'xtal-text-input-md'; }
+    static get is() {
+        return "xtal-text-input-md";
+    }
     get inputElement() {
         if (this._inputElement === undefined) {
-            this._inputElement = this.root.querySelector('input');
+            this._inputElement = this.root.querySelector("input");
         }
         return this._inputElement;
     }
@@ -238,11 +243,8 @@ export class XtalTextInputMD extends XtalElement {
     get eventContext() {
         return this._eventContext;
     }
-    get ready() { return true; }
-    initShadowRoot() {
-        this.addInputListener();
-        this._inputElement.addEventListener('change', e => {
-        });
+    get ready() {
+        return true;
     }
     get value() {
         return this._inputElement.value;
@@ -255,29 +257,28 @@ export class XtalTextInputMD extends XtalElement {
     }
     set options(nv) {
         this._options = nv;
+        this.onPropsChange();
+    }
+    onPropsChange() {
+        if (!super.onPropsChange())
+            return false;
         if (this._options) {
-            const dl = this.shadowRoot.querySelector('#options');
-            dl.innerHTML = '';
+            const nv = this._options;
+            const dl = this.root.querySelector("#options");
+            dl.innerHTML = "";
             const textFld = nv.textFld;
             nv.data.forEach(item => {
-                const optionTarget = document.createElement('option');
-                optionTarget.setAttribute('value', item[textFld]);
+                const optionTarget = document.createElement("option");
+                optionTarget.setAttribute("value", item[textFld]);
                 dl.appendChild(optionTarget);
             });
         }
-    }
-    getType() {
-        return this.constructor['is'].split('-')[1];
-    }
-    addInputListener() {
-        this._inputElement.addEventListener('input', e => {
-            this.emitEvent();
-        });
+        return true;
     }
     emitEvent() {
-        const val = this._inputElement.value;
+        const val = this.inputElement.value;
         this.value = val;
-        this.de('value', {
+        this.de("value", {
             value: val
         });
         if (this._options) {
@@ -285,14 +286,14 @@ export class XtalTextInputMD extends XtalElement {
             const item = this._options.data.find(item => item[textFld] === val);
             if (item !== undefined) {
                 this.selection = item;
-                this.de('selection', {
-                    value: item,
+                this.de("selection", {
+                    value: item
                 });
             }
         }
     }
     connectedCallback() {
-        this._upgradeProperties(['value', 'options']);
+        this._upgradeProperties(["value", "options"]);
         super.connectedCallback();
         //this._inputElement = this.shadowRoot!.querySelector('input');
         //this.addMutationObserver();
@@ -304,7 +305,7 @@ export class XtalTextInputMD extends XtalElement {
                 const attrName = mutation.attributeName;
                 const attrVal = this.getAttribute(attrName);
                 switch (attrName) {
-                    case 'options':
+                    case "options":
                         this.options = JSON.parse(attrVal);
                         break;
                     default:

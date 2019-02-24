@@ -8,10 +8,25 @@
   </head>
   <body>
     <div>
-      <xtal-text-input-md placeholder="Please fill in your full name">
+      <xtal-text-input-md id="ti" placeholder="Please fill in your full name">
         <span slot="label">Name</span>
       </xtal-text-input-md>
       <script type="module" src="../text-input/xtal-text-input-md.js"></script>
+      <script>
+        const options = {
+          data: [],
+          textFld: "txt",
+          keyFld: "id"
+        };
+        for (let i = 0; i < 50000; i++) {
+          const item = {
+            txt: i + " item",
+            id: i
+          };
+          options.data.push(item);
+        }
+        ti.options = options;
+      </script>
     </div>
   </body>
 </html>

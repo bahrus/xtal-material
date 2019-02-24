@@ -1,19 +1,19 @@
-import {XtalElement} from 'xtal-element/xtal-element.js';
-import {define} from 'xtal-element/define.js';
-import {createTemplate, newRenderContext} from 'xtal-element/utils.js';
+import { XtalElement } from "xtal-element/xtal-element.js";
+import { define } from "xtal-element/define.js";
+import { createTemplate, newRenderContext } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 
 export interface IXtalInputProperties {
-    value: string;
+  value: string;
 }
 
 export interface IXtalInputOptions {
-    data: any[],
-    textFld: string,
-    keyFld: string,
+  data: any[];
+  textFld: string;
+  keyFld: string;
 }
 
-const baseTemplateGenerator = (type: string) =>/* html */`
+const baseTemplateGenerator = (type: string) => /* html */ `
 <div class="form-element form-input">
   <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder=" " required />
   <datalist id="options"></datalist>
@@ -210,9 +210,9 @@ const baseTemplateGenerator = (type: string) =>/* html */`
     margin: 0;
   }
 </style>
-`
+`;
 
-const textInputTemplate = createTemplate(baseTemplateGenerator('text'));
+const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 /**
  * `xtal-text-input-md`
  *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
@@ -222,124 +222,121 @@ const textInputTemplate = createTemplate(baseTemplateGenerator('text'));
  * @demo demo/index.html
  */
 export class XtalTextInputMD extends XtalElement {
-    static get is() { return 'xtal-text-input-md'; }
+  static get is() {
+    return "xtal-text-input-md";
+  }
 
-    _inputElement: HTMLInputElement | HTMLTextAreaElement;
-    get inputElement(){
-      if(this._inputElement === undefined){
-        this._inputElement = this.root.querySelector('input');
+  _inputElement: HTMLInputElement | HTMLTextAreaElement;
+  get inputElement() {
+    if (this._inputElement === undefined) {
+      this._inputElement = this.root.querySelector("input");
+    }
+    return this._inputElement;
+  }
+  get mainTemplate() {
+    return textInputTemplate;
+  }
+  _renderContext = newRenderContext({});
+  get renderContext() {
+    return this._renderContext;
+  }
+
+  _eventContext = newEventContext({
+    change: e => {
+      const element = this.inputElement;
+      if (element && element.matches(".form-element-field")) {
+        element.classList[element.value ? "add" : "remove"]("-hasvalue");
       }
-      return this._inputElement;
+    },
+    input: e => {
+      this.emitEvent();
     }
-    get mainTemplate(){
-        return textInputTemplate;
-    }
-    _renderContext = newRenderContext({});
-    get renderContext(){
-      return this._renderContext;
-    }
+  });
+  get eventContext() {
+    return this._eventContext;
+  }
 
-    _eventContext = newEventContext({
-      change: e =>{
-        const element = this.inputElement;
-        if (element && element.matches(".form-element-field")) {
-            element.classList[element.value ? "add" : "remove"]("-hasvalue");
-        }
+  get ready() {
+    return true;
+  }
+
+  get value() {
+    return this._inputElement.value;
+  }
+  set value(val) {
+    this._inputElement.value = val;
+  }
+  selection: any;
+  _options: IXtalInputOptions;
+  get options() {
+    return this._options;
+  }
+  set options(nv) {
+    this._options = nv;
+    this.onPropsChange();
+  }
+
+  onPropsChange() {
+    if (!super.onPropsChange()) return false;
+    if (this._options) {
+      const nv = this._options;
+      const dl = this.root.querySelector("#options");
+      dl.innerHTML = "";
+      const textFld = nv.textFld;
+      nv.data.forEach(item => {
+        const optionTarget = document.createElement("option");
+        optionTarget.setAttribute("value", item[textFld]);
+        dl.appendChild(optionTarget);
+      });
+    }
+    return true;
+  }
+
+  emitEvent() {
+    const val = this.inputElement.value;
+    this.value = val;
+    this.de("value", {
+      value: val
+    });
+    if (this._options) {
+      const textFld = this._options.textFld;
+      const item = this._options.data.find(item => item[textFld] === val);
+      if (item !== undefined) {
+        this.selection = item;
+        this.de("selection", {
+          value: item
+        });
       }
-    }) 
-    get eventContext() {
-      return this._eventContext;
     }
-
-    get ready(){return true;}
-
-
-    initShadowRoot() {
-        this.addInputListener();
-        this._inputElement.addEventListener('change', e => {
-
-        })
-    }
-    get value() {
-        return this._inputElement.value;
-    }
-    set value(val) {
-        this._inputElement.value = val;
-    }
-    selection: any;
-    _options: IXtalInputOptions;
-    get options(){
-        return this._options;
-    }
-    set options(nv){
-        this._options = nv;
-        if(this._options){
-            const dl = this.shadowRoot!.querySelector('#options');
-            dl.innerHTML = '';
-            const textFld = nv.textFld;
-            nv.data.forEach(item =>{
-                const optionTarget = document.createElement('option');
-                optionTarget.setAttribute('value', item[textFld]);
-                dl.appendChild(optionTarget);
-            })
+  }
+  connectedCallback() {
+    this._upgradeProperties(["value", "options"]);
+    super.connectedCallback();
+    //this._inputElement = this.shadowRoot!.querySelector('input');
+    //this.addMutationObserver();
+  }
+  _observer: MutationObserver;
+  addMutationObserver() {
+    const config: MutationObserverInit = { attributes: true };
+    this._observer = new MutationObserver((mutationsList: MutationRecord[]) => {
+      mutationsList.forEach(mutation => {
+        const attrName = mutation.attributeName;
+        const attrVal = this.getAttribute(attrName);
+        switch (attrName) {
+          case "options":
+            this.options = JSON.parse(attrVal);
+            break;
+          default:
+            this._inputElement.setAttribute(attrName, attrVal);
         }
-    }
-
-
-    getType() {
-        return this.constructor['is'].split('-')[1];
-    }
-    
-    addInputListener() {
-        this._inputElement.addEventListener('input', e => {
-            this.emitEvent()
-        });
-    }
-    emitEvent() {
-        const val = this._inputElement.value;
-        this.value = val;
-        this.de('value',{
-            value: val
-        });
-        if(this._options){
-            const textFld = this._options.textFld;
-            const item = this._options.data.find(item => item[textFld] === val);
-            if(item !== undefined){
-                this.selection = item;
-                this.de('selection', {
-                    value: item,
-                })
-            }
-        }
-    }
-    connectedCallback() {
-        this._upgradeProperties(['value', 'options']);
-        super.connectedCallback();
-        //this._inputElement = this.shadowRoot!.querySelector('input');
-        //this.addMutationObserver();
-    }
-    _observer: MutationObserver;
-    addMutationObserver(){
-        const config : MutationObserverInit = { attributes: true};
-        this._observer =  new MutationObserver((mutationsList: MutationRecord[]) =>{
-            mutationsList.forEach(mutation =>{
-                const attrName = mutation.attributeName;
-                const attrVal = this.getAttribute(attrName);
-                switch(attrName){
-                    case 'options':
-                        this.options = JSON.parse(attrVal);
-                        break;
-                    default:
-                        this._inputElement.setAttribute(attrName, attrVal);
-                }attrName
-               
-            })
-        });
-        this._observer.observe(<any>this as Node, config);
-    }
-    disconnectedCallback(){
-        this._observer.disconnect();
-    }
+        attrName;
+      });
+    });
+    this._observer.observe((<any>this) as Node, config);
+  }
+  disconnectedCallback() {
+    this._observer.disconnect();
+  }
 }
 define(XtalTextInputMD);
 // const basePath = getBasePath(XtalTextInputMD.is);
