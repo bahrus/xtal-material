@@ -24,19 +24,22 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                     dl.id = auto + count;
                     count++;
                     this.setAttribute('list', dl.id);
+                    dl.style.display='none';
                     document.head.appendChild(dl);
                 }
                 dl = self[this.getAttribute('list')];
                 const options = this.options as IXtalInputOptions;
                 if(options!== undefined && options !== this._previousOptions){
+                    const before = window.performance.now();
                     dl.innerHTML = '';
                     this._previousOptions = options;
                     const textFld = options.textFld;
+                    const arr = [];
                     options.data.forEach(item => {
-                        const optionTarget = document.createElement("option");
-                        optionTarget.setAttribute("value", item[textFld]);
-                        dl.appendChild(optionTarget);
+                        arr.push(/* html */`<option value="${item[textFld]}">`);
                     });
+                    dl.innerHTML = arr.join('');
+                    console.log(window.performance.now() - before);
                 }
             }
         },
