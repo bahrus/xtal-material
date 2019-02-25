@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="ti">
+    <script type="module">
+        import {autoCompletize} from '../xtal-autocomplete-decorator.js';
+        autoCompletize(ti);
+        const options = {
+          data: [],
+          textFld: "txt",
+          keyFld: "id"
+        };
+        for (let i = 0; i < 5000; i++) {
+          const item = {
+            txt: i + " item",
+            id: i
+          };
+          options.data.push(item);
+        }
+        ti.options = options;
+      </script>
+</body>
+</html>
