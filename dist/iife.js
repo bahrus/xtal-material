@@ -181,15 +181,15 @@ var __extends = (this && this.__extends) || (function () {
                     }
                 }
                 if (rc && rc.init !== undefined) {
-                    if (this._initialized) {
+                    if (this._initialized && rc.update !== undefined) {
                         rc.update(rc, this.root);
                     }
-                    else {
+                    else if (!this._initialized) {
                         rc.init(this.mainTemplate, rc, this.root, this.renderOptions);
                         //rc.update = this.update;
                     }
                 }
-                else {
+                else if (!this._initialized) {
                     this.root.appendChild(this.mainTemplate.content.cloneNode(true));
                 }
                 this._initialized = true;
@@ -389,7 +389,7 @@ var __extends = (this && this.__extends) || (function () {
             }
         }
     }
-    var baseTemplateGenerator = function (type) { /* html */ return "\n<div class=\"form-element form-input\">\n  <input id=\"input_field\" list=\"options\" type=\"" + type + "\" class=\"form-element-field\" placeholder=\" \" required />\n  <datalist id=\"options\"></datalist>\n  <div class=\"form-element-bar\"></div>\n  <label class=\"form-element-label\" for=\"input_field\">\n    <slot name=\"label\"></slot>\n  </label>\n  <small class=\"form-element-hint\">\n    <slot name=\"hint\"></slot>\n  </small>\n</div>\n<style>\n  :host {\n    display: block;\n  }\n\n  .form-element {\n    position: relative;\n    margin-top: 2.25rem;\n    margin-bottom: 2.25rem;\n  }\n\n  .form-element-hint {\n    font-weight: 400;\n    font-size: 0.6875rem;\n    color: #a6a6a6;\n    display: block;\n  }\n\n  .form-element-bar {\n    position: relative;\n    height: 1px;\n    background: #999;\n    display: block;\n  }\n\n  .form-element-bar::after {\n    content: \"\";\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    background: #337ab7;\n    height: 2px;\n    display: block;\n    transform: rotateY(90deg);\n    transition: transform 0.28s ease;\n    will-change: transform;\n  }\n\n  .form-element-label {\n    position: absolute;\n    top: 0.75rem;\n    line-height: 1.5rem;\n    pointer-events: none;\n    padding-left: 0.125rem;\n    z-index: 1;\n    font-size: 1rem;\n    font-weight: normal;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    margin: 0;\n    color: #a6a6a6;\n    transform: translateY(-50%);\n    transform-origin: left center;\n    transition: transform 0.28s ease, color 0.28s linear, opacity 0.28s linear;\n    will-change: transform, color, opacity;\n  }\n\n  .form-element-field {\n    outline: none;\n    height: 1.5rem;\n    display: block;\n    background: none;\n    padding: 0.125rem 0.125rem 0.0625rem;\n    font-size: 1rem;\n    border: 0 solid transparent;\n    line-height: 1.5;\n    width: 100%;\n    color: #333;\n    box-shadow: none;\n    opacity: 0.001;\n    transition: opacity 0.28s ease;\n    will-change: opacity;\n  }\n\n  .form-element-field:-ms-input-placeholder {\n    color: #a6a6a6;\n    transform: scale(0.9);\n    transform-origin: left top;\n  }\n\n  .form-element-field::placeholder {\n    color: #a6a6a6;\n    transform: scale(0.9);\n    transform-origin: left top;\n  }\n\n  .form-element-field:focus~.form-element-bar::after {\n    transform: rotateY(0deg);\n  }\n\n  .form-element-field:focus~.form-element-label {\n    color: #337ab7;\n  }\n\n  .form-element-field.-hasvalue,\n  .form-element-field:focus {\n    opacity: 1;\n  }\n\n  .form-element-field.-hasvalue~.form-element-label,\n  .form-element-field:focus~.form-element-label {\n    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);\n    cursor: pointer;\n    pointer-events: auto;\n  }\n\n  .form-has-error .form-element-label.form-element-label,\n  .form-has-error .form-element-hint {\n    color: #d9534f;\n  }\n\n  .form-has-error .form-element-bar,\n  .form-has-error .form-element-bar::after {\n    background: #d9534f;\n  }\n\n  .form-is-success .form-element-label.form-element-label,\n  .form-is-success .form-element-hint {\n    color: #259337;\n  }\n\n  .form-is-success .form-element-bar::after {\n    background: #259337;\n  }\n\n  input.form-element-field:not(:placeholder-shown),\n  textarea.form-element-field:not(:placeholder-shown) {\n    opacity: 1;\n  }\n\n  input.form-element-field:not(:placeholder-shown)~.form-element-label,\n  textarea.form-element-field:not(:placeholder-shown)~.form-element-label {\n    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);\n    cursor: pointer;\n    pointer-events: auto;\n  }\n\n  textarea.form-element-field {\n    height: auto;\n    min-height: 3rem;\n  }\n\n  select.form-element-field {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    cursor: pointer;\n  }\n\n  .form-select-placeholder {\n    color: #a6a6a6;\n    display: none;\n  }\n\n  .form-select .form-element-bar::before {\n    content: \"\";\n    position: absolute;\n    height: 0.5em;\n    width: 0.5em;\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n    display: block;\n    right: 0.5em;\n    bottom: 0;\n    transition: transform 0.28s ease;\n    transform: translateY(-100%) rotateX(0deg) rotate(45deg);\n    will-change: transform;\n  }\n\n  .form-select select:focus~.form-element-bar::before {\n    transform: translateY(-50%) rotateX(180deg) rotate(45deg);\n  }\n\n  .form-element-field[type=\"number\"] {\n    -moz-appearance: textfield;\n  }\n\n  .form-element-field[type=\"number\"]::-webkit-outer-spin-button,\n  .form-element-field[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n  }\n</style>\n"; };
+    var baseTemplateGenerator = function (type) { /* html */ return "\n<div class=\"form-element form-input\">\n  <input id=\"input_field\" list=\"options\" type=\"" + type + "\" class=\"form-element-field\" placeholder=\" \" required />\n  <datalist id=\"options\"></datalist>\n  <div class=\"form-element-bar\"></div>\n  <label class=\"form-element-label\" for=\"input_field\">\n    <slot name=\"label\"></slot>\n  </label>\n  <small class=\"form-element-hint\">\n  </small>\n</div>\n<style>\n  :host {\n    display: block;\n  }\n\n  .form-element {\n    position: relative;\n    margin-top: 2.25rem;\n    margin-bottom: 2.25rem;\n  }\n\n  .form-element-hint {\n    font-weight: 400;\n    font-size: 0.6875rem;\n    color: #a6a6a6;\n    display: block;\n  }\n\n  .form-element-bar {\n    position: relative;\n    height: 1px;\n    background: #999;\n    display: block;\n  }\n\n  .form-element-bar::after {\n    content: \"\";\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    background: #337ab7;\n    height: 2px;\n    display: block;\n    transform: rotateY(90deg);\n    transition: transform 0.28s ease;\n    will-change: transform;\n  }\n\n  .form-element-label {\n    position: absolute;\n    top: 0.75rem;\n    line-height: 1.5rem;\n    pointer-events: none;\n    padding-left: 0.125rem;\n    z-index: 1;\n    font-size: 1rem;\n    font-weight: normal;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    margin: 0;\n    color: #a6a6a6;\n    transform: translateY(-50%);\n    transform-origin: left center;\n    transition: transform 0.28s ease, color 0.28s linear, opacity 0.28s linear;\n    will-change: transform, color, opacity;\n  }\n\n  .form-element-field {\n    outline: none;\n    height: 1.5rem;\n    display: block;\n    background: none;\n    padding: 0.125rem 0.125rem 0.0625rem;\n    font-size: 1rem;\n    border: 0 solid transparent;\n    line-height: 1.5;\n    width: 100%;\n    color: #333;\n    box-shadow: none;\n    opacity: 0.001;\n    transition: opacity 0.28s ease;\n    will-change: opacity;\n  }\n\n  .form-element-field:-ms-input-placeholder {\n    color: #a6a6a6;\n    transform: scale(0.9);\n    transform-origin: left top;\n  }\n\n  .form-element-field::placeholder {\n    color: #a6a6a6;\n    transform: scale(0.9);\n    transform-origin: left top;\n  }\n\n  .form-element-field:focus~.form-element-bar::after {\n    transform: rotateY(0deg);\n  }\n\n  .form-element-field:focus~.form-element-label {\n    color: #337ab7;\n  }\n\n  .form-element-field.-hasvalue,\n  .form-element-field:focus {\n    opacity: 1;\n  }\n\n  .form-element-field.-hasvalue~.form-element-label,\n  .form-element-field:focus~.form-element-label {\n    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);\n    cursor: pointer;\n    pointer-events: auto;\n  }\n\n  .form-has-error .form-element-label.form-element-label,\n  .form-has-error .form-element-hint {\n    color: #d9534f;\n  }\n\n  .form-has-error .form-element-bar,\n  .form-has-error .form-element-bar::after {\n    background: #d9534f;\n  }\n\n  .form-is-success .form-element-label.form-element-label,\n  .form-is-success .form-element-hint {\n    color: #259337;\n  }\n\n  .form-is-success .form-element-bar::after {\n    background: #259337;\n  }\n\n  input.form-element-field:not(:placeholder-shown),\n  textarea.form-element-field:not(:placeholder-shown) {\n    opacity: 1;\n  }\n\n  input.form-element-field:not(:placeholder-shown)~.form-element-label,\n  textarea.form-element-field:not(:placeholder-shown)~.form-element-label {\n    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);\n    cursor: pointer;\n    pointer-events: auto;\n  }\n\n  textarea.form-element-field {\n    height: auto;\n    min-height: 3rem;\n  }\n\n  select.form-element-field {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    cursor: pointer;\n  }\n\n  .form-select-placeholder {\n    color: #a6a6a6;\n    display: none;\n  }\n\n  .form-select .form-element-bar::before {\n    content: \"\";\n    position: absolute;\n    height: 0.5em;\n    width: 0.5em;\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n    display: block;\n    right: 0.5em;\n    bottom: 0;\n    transition: transform 0.28s ease;\n    transform: translateY(-100%) rotateX(0deg) rotate(45deg);\n    will-change: transform;\n  }\n\n  .form-select select:focus~.form-element-bar::before {\n    transform: translateY(-50%) rotateX(180deg) rotate(45deg);\n  }\n\n  .form-element-field[type=\"number\"] {\n    -moz-appearance: textfield;\n  }\n\n  .form-element-field[type=\"number\"]::-webkit-outer-spin-button,\n  .form-element-field[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n  }\n</style>\n"; };
     var textInputTemplate = createTemplate(baseTemplateGenerator("text"));
     /**
      * `xtal-text-input-md`
@@ -403,7 +403,7 @@ var __extends = (this && this.__extends) || (function () {
         __extends(XtalTextInputMD, _super);
         function XtalTextInputMD() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this._renderContext = newRenderContext({});
+            _this._renderContext = {};
             _this._eventContext = newEventContext({
                 change: function (e) {
                     var element = _this.inputElement;
@@ -415,6 +415,7 @@ var __extends = (this && this.__extends) || (function () {
                     _this.emitEvent();
                 }
             });
+            _this._initializedAttrs = false;
             return _this;
         }
         Object.defineProperty(XtalTextInputMD, "is", {
@@ -464,10 +465,11 @@ var __extends = (this && this.__extends) || (function () {
         });
         Object.defineProperty(XtalTextInputMD.prototype, "value", {
             get: function () {
-                return this._inputElement.value;
+                return this._value;
             },
             set: function (val) {
-                this._inputElement.value = val;
+                this._value = val;
+                this.onPropsChange();
             },
             enumerable: true,
             configurable: true
@@ -486,7 +488,8 @@ var __extends = (this && this.__extends) || (function () {
         XtalTextInputMD.prototype.onPropsChange = function () {
             if (!_super.prototype.onPropsChange.call(this))
                 return false;
-            if (this._options) {
+            if (this._options && this._options !== this._previousOptions) {
+                this._previousOptions = this._options;
                 var nv = this._options;
                 var dl_1 = this.root.querySelector("#options");
                 dl_1.innerHTML = "";
@@ -497,6 +500,19 @@ var __extends = (this && this.__extends) || (function () {
                     dl_1.appendChild(optionTarget);
                 });
             }
+            if (!this._initializedAttrs) {
+                for (var i = 0, ii = this.attributes.length; i < ii; i++) {
+                    var attrib = this.attributes[i];
+                    //const inp = clonedNode.querySelector('input');
+                    if (attrib.name === "type")
+                        continue;
+                    this.inputElement.setAttribute(attrib.name, attrib.value);
+                }
+                this._initializedAttrs = true;
+            }
+            if (this._value !== undefined)
+                this.inputElement.value = this._value;
+            this.addMutationObserver();
             return true;
         };
         XtalTextInputMD.prototype.emitEvent = function () {
@@ -519,8 +535,6 @@ var __extends = (this && this.__extends) || (function () {
         XtalTextInputMD.prototype.connectedCallback = function () {
             this._upgradeProperties(["value", "options"]);
             _super.prototype.connectedCallback.call(this);
-            //this._inputElement = this.shadowRoot!.querySelector('input');
-            //this.addMutationObserver();
         };
         XtalTextInputMD.prototype.addMutationObserver = function () {
             var _this = this;
@@ -534,7 +548,7 @@ var __extends = (this && this.__extends) || (function () {
                             _this.options = JSON.parse(attrVal);
                             break;
                         default:
-                            _this._inputElement.setAttribute(attrName, attrVal);
+                            _this.inputElement.setAttribute(attrName, attrVal);
                     }
                     attrName;
                 });
@@ -547,21 +561,4 @@ var __extends = (this && this.__extends) || (function () {
         return XtalTextInputMD;
     }(XtalElement));
     define(XtalTextInputMD);
-    // const basePath = getBasePath(XtalTextInputMD.is);
-    // initCE(XtalTextInputMD.is, XtalTextInputMD, basePath  + '/text-input');
-    // /**
-    //  * `xtal-email-input-md`
-    //  *  Web component wrapper around Jon Uhlmann's pure CSS material design email input element. https://codepen.io/jonnitto/pen/OVmvPB
-    //  *
-    //  * @customElement
-    //  * @polymer
-    //  * @demo demo/index.html
-    //  */
-    // export class XtalEmailInputMD extends XtalTextInputMD{
-    //     static get is() { return 'xtal-email-input-md'; }
-    //     looksLike(){
-    //         return XtalTextInputMD.is;
-    //     }
-    // }
-    // initCE(XtalEmailInputMD.is, XtalEmailInputMD, basePath + '/text-input', XtalTextInputMD.is);
 })();
