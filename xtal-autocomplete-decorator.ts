@@ -38,8 +38,14 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                     options.data.forEach(item => {
                         arr.push(/* html */`<option value="${item[textFld]}">`);
                     });
+                    console.log(window.performance.now() - before);
                     dl.innerHTML = arr.join('');
                     console.log(window.performance.now() - before);
+                    const s = JSON.stringify(options);
+                    const anotherTest = window.performance.now();
+                    const opt2 = JSON.parse(s);
+                    console.log(window.performance.now() - anotherTest);
+
                 }
             }
         },
