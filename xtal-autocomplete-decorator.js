@@ -12,22 +12,24 @@ export function autoCompletize(txt, vals) {
         },
         methods: {
             onPropsChange: function () {
-                let nextSib = this.nextElementSibling;
-                if (nextSib.localName !== 'datalist') {
-                    nextSib = document.createElement('datalist');
-                    nextSib.id = auto + count;
+                let dl = null;
+                if (!this.hasAttribute('list')) {
+                    const dl = document.createElement('datalist');
+                    dl.id = auto + count;
                     count++;
-                    this.setAttribute('list', nextSib.id);
-                    this.insertAdjacentElement('afterEnd', nextSib);
+                    this.setAttribute('list', dl.id);
+                    document.head.appendChild(dl);
                 }
+                dl = self[this.getAttribute('list')];
                 const options = this.options;
                 if (options !== undefined && options !== this._previousOptions) {
+                    dl.innerHTML = '';
                     this._previousOptions = options;
                     const textFld = options.textFld;
                     options.data.forEach(item => {
                         const optionTarget = document.createElement("option");
                         optionTarget.setAttribute("value", item[textFld]);
-                        nextSib.appendChild(optionTarget);
+                        dl.appendChild(optionTarget);
                     });
                 }
             }
