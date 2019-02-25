@@ -286,11 +286,14 @@ export class XtalTextInputMD extends XtalElement {
       const dl = this.root.querySelector("#options");
       dl.innerHTML = "";
       const textFld = nv.textFld;
+      const arr = [];
       nv.data.forEach(item => {
-        const optionTarget = document.createElement("option");
-        optionTarget.setAttribute("value", item[textFld]);
-        dl.appendChild(optionTarget);
+        // const optionTarget = document.createElement("option");
+        // optionTarget.setAttribute("value", item[textFld]);
+        // dl.appendChild(optionTarget);
+        arr.push(/* html */`<option value="${item[textFld]}">`);
       });
+      dl.innerHTML = arr.join('');
     }
     if (!this._initializedAttrs) {
       for (let i = 0, ii = this.attributes.length; i < ii; i++) {
