@@ -24,6 +24,9 @@
           options.data.push(item);
         }
         ti.options = options;
+        document.body.addEventListener('selection-changed', e=>{
+            console.log(e);
+        })
       </script>
 </body>
 </html>

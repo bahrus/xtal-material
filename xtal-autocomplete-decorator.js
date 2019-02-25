@@ -7,7 +7,8 @@ export function autoCompletize(txt, vals) {
     txt.setAttribute(auto, '');
     decorate(txt, vals, {
         props: {
-            options: undefined
+            options: undefined,
+            selection: undefined
         },
         methods: {
             onPropsChange: function () {
@@ -29,7 +30,17 @@ export function autoCompletize(txt, vals) {
                         nextSib.appendChild(optionTarget);
                     });
                 }
-                console.log(this.options);
+            }
+        },
+        on: {
+            input: function (e) {
+                if (this.options === undefined)
+                    return;
+                const textFld = this.options.textFld;
+                const item = this.options.data.find(item => item[textFld] === this.value);
+                if (item !== undefined) {
+                    this.selection = item;
+                }
             }
         }
     });
