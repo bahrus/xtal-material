@@ -4,7 +4,7 @@ import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 const mainTemplate = createTemplate(/* html */ `
 <slot></slot>
-<div target></div>
+<div class="form-radio form-radio-inline" target></div>
 <style>
 :host {
   display: block; }
@@ -98,7 +98,22 @@ export class XtalRadioGroupMD extends XtalElement {
         this._renderContext = {};
         this._eventContext = newEventContext({
             slotchange: e => {
-                console.log('slotChange');
+                e.target.assignedNodes().forEach((node) => {
+                    if (node.localName === 'datalist') {
+                        const buttons = [];
+                        Array.from(node.children).forEach((option, idx) => {
+                            const rb = 
+                            /* html */ `<label class="form-radio-label">
+                                    <input name="pronoun" class="form-radio-field" type="radio" required value="${option.value}" />
+                                    <i class="form-radio-button"></i>
+                                    <span>${option.textContent || option.value}</span>
+                                    </label>`;
+                            buttons.push(rb);
+                        });
+                        this.root.querySelector('[target]').innerHTML = buttons.join('');
+                    }
+                });
+                //slot.assignedNodes().forEach((node : HTMLElement) => {
             }
             // change: e => {
             //   const element = this.inputElement;
