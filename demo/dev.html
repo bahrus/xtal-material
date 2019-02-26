@@ -28,25 +28,13 @@
         </template>
     
         <template id="radio-tabs">
-
-          <xtal-radio-tabs-md name="pronoun">
-            <div disabled data-lit data-input='["He", "She", "They", "Ze"]'>
-              <script nomodule>
-                html`
-                  <div class="tab-wrap">
-                      ${input.map((item, idx) => html`
-                      <input type="radio" name="tabs" id="tab${idx}">
-                        <div class="tab-label-content" id="tab${idx}-content">
-                            <label for="tab${idx}">${item}</label>
-                            
-                          </div>
-                      `)}
-                      <div class="slide"></div>
-                        </div>
-                    `
-              </script>
-    
-            </div>
+          <xtal-radio-tabs-md>
+            <datalist>
+              <option value="Tab1"></option>
+              <option value="Tab2"></option>
+              <option value="Tab3"></option>
+              <option value="Tab4"></option>
+            </datalist>
           </xtal-radio-tabs-md>
     
     
@@ -131,7 +119,7 @@
     <script type="module" src="../xtal-checkbox-input-md.js"></script>
     <script type="module" src="../xtal-radio-group-md.js"></script>
     <script type="module" src="../xtal-text-area-md.js"></script>
-    <script type="module" src="../radio-tabs/xtal-radio-tabs-md.js"></script>
+    <script type="module" src="../xtal-radio-tabs-md.js"></script>
     <script type="module" src="../xtal-side-nav.js"></script>
     <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
     <script type="module" src="https://unpkg.com/p-d.p-u@0.0.100/dist/p-d.p-u.iife.js"></script>
