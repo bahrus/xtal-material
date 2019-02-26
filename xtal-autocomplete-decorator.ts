@@ -14,7 +14,8 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
     decorate(txt, vals, {
         props: {
             options: undefined,
-            selection: undefined
+            selection: undefined,
+            lastVal: undefined
         },
         methods:{
             onPropsChange: function(){
@@ -29,18 +30,28 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                 }
                 dl = self[this.getAttribute('list')];
                 const options = this.options as IXtalInputOptions;
-                if(options!== undefined && options !== this._previousOptions){
-                    dl.innerHTML = '';
+                if(options !== undefined && (options !== this._previousOptions || this.value !== this._previousValue)){
                     this._previousOptions = options;
+                    this._previousValue = this.value;
+                    const viewableOptions = [];
+                    let cnt = 0;
                     const textFld = options.textFld;
+                    for(let i = 0, ii = options.data.length; i < ii; i++){
+                        const row = options.data[i];
+                        if(row[textFld].indexOf(this.value) > -1){
+                            viewableOptions.push(row);
+                            cnt++;
+                            if(cnt > 100) break;
+                        }
+                    }
                     const arr = [];
-                    options.data.forEach(item => {
+                    viewableOptions.forEach(item =>{
                         arr.push(/* html */`<option value="${item[textFld]}">`);
-                    });
+                    })
                     dl.innerHTML = arr.join('');
-
                 }
-            }
+            },
+
         },
         on: {
             input: function(e){
@@ -50,6 +61,7 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                 if (item !== undefined) {
                     this.selection = item;
                 }
+                this.lastVal = this.value;
             }
         }
 
