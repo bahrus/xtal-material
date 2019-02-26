@@ -40,7 +40,7 @@ If you look at the codepen examples these components derive from, one observes t
               <option value="She"></option>
               <option value="They"></option>
               <option value="Ze"></option>
-              <option value="A pronount not listed"></option>
+              <option value="A pronoun not listed"></option>
               <option value="No pronoun preference"></option>
             </datalist>
           </xtal-radio-group-md>
