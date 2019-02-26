@@ -1,6 +1,6 @@
 {
   "name": "xtal-material",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "Dependency Free Material Components",
   "main": "xtal-text-input-md.js",
   "module": "xtal-text-input-md",
