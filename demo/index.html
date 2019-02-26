@@ -8,58 +8,39 @@
   <title>xtal-material demo</title>
 
 
+  
 </head>
 
 <body>
     <div style="height:600px">
-        <litter-g></litter-g>
         <template id="radio-group">
           <xtal-radio-group-md name="pronoun">
-            <div data-lit disabled data-input='["He", "She", "They", "Ze", "A pronoun not listed", "No pronoun preference"]'
-              target>
-              <script nomodule>
-                html`
-                      <div class="form-radio form-radio-inline">
-                        <div class="form-radio-legend">Prefered Pronoun</div>
-                          ${input.map(item => html`
-                              <label class="form-radio-label">
-                                <input name=pronoun class="form-radio-field" type="radio" required value="${item}" />
-                                <i class="form-radio-button"></i>
-                                <span>${item}</span>
-                              </label>
-                          `)}
-                    `
-              </script>
-            </div>
+            <datalist>
+              <option value="He"></option>
+              <option value="She"></option>
+              <option value="They"></option>
+              <option value="Ze"></option>
+              <option value="A pronount not listed"></option>
+              <option value="No pronoun preference"></option>
+            </datalist>
           </xtal-radio-group-md>
         </template>
     
         <template id="radio-tabs">
-          <xtal-radio-tabs-md name="pronoun">
-            <div disabled data-lit data-input='["He", "She", "They", "Ze"]'>
-              <script nomodule>
-                html`
-                  <div class="tab-wrap">
-                      ${input.map((item, idx) => html`
-                      <input type="radio" name="tabs" id="tab${idx}">
-                        <div class="tab-label-content" id="tab${idx}-content">
-                            <label for="tab${idx}">${item}</label>
-                            
-                          </div>
-                      `)}
-                      <div class="slide"></div>
-                        </div>
-                    `
-              </script>
-    
-            </div>
+          <xtal-radio-tabs-md>
+            <datalist>
+              <option value="Tab1"></option>
+              <option value="Tab2"></option>
+              <option value="Tab3"></option>
+              <option value="Tab4"></option>
+            </datalist>
           </xtal-radio-tabs-md>
     
     
         </template>
     
         <template id="text-demos">
-          <xtal-text-input-md placeholder="Please fill in your full name">
+          <xtal-text-input-md value="Alfred E. Neuman" placeholder="Please fill in your full name">
             <span slot="label">Name</span>
           </xtal-text-input-md>
     
@@ -89,25 +70,22 @@
           </xtal-text-area-md>
           <div>Favorite Netflix Series</div>
           <xtal-deco><script nomodule>
-              ({
-                options:{
-                  data: [
-                    {txt: 'House of Cards', id:1},
-                    {txt: 'Orange is the New Black', id:2},
-                    {txt: 'Marco Polo', id:3},
-                    {txt: 'Narcos', id:4},
-                    {txt:  'The Crown', id:5},
-                    {txt:'Ozark', id: 6}
-                  ],
-                  textFld: 'txt',
-                  keyFld: 'id'
-                }
-              })
-            </script></xtal-deco>
-          <xtal-text-input-md aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series">
-              <span slot="label">Netflix Series</span>
-          </xtal-text-input-md>
-          
+            ({
+              options:{
+                data: [
+                  {txt: 'House of Cards', id:1},
+                  {txt: 'Orange is the New Black', id:2},
+                  {txt: 'Marco Polo', id:3},
+                  {txt: 'Narcos', id:4},
+                  {txt:  'The Crown', id:5},
+                  {txt:'Ozark', id: 6}
+                ],
+                textFld: 'txt',
+                keyFld: 'id'
+              }
+            })
+          </script></xtal-deco>
+          <xtal-text-input-md value="Narcos" aria-placeholder="Pick your favorite Netflix series" placeholder="Pick your favorite Netflix series"></xtal-text-input-md>
         </template>
     
 
@@ -133,33 +111,32 @@
         </xtal-side-nav>
         <p-d on="click" if="a" prop="from" val="target.dataset.template"></p-d>
         <b-c-c noshadow copy></b-c-c>
-    
-    
-        <script nomodule src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-        <script type="module" src="https://unpkg.com/xtal-material@0.0.39/dist/xtal-material.js"></script>
+        <!-- Use experimental import maps -->
+        <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.1/dist/es-module-shims.js"></script>
+        <script type="importmap-shim">
+          {
+            "imports": {
+              "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.75/",
+              "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.29/",
+              "xtal-material/":  "https://cdn.jsdelivr.net/npm/xtal-material@0.0.49/",
+              "event-switch/":  "https://cdn.jsdelivr.net/npm/event-switch@0.0.12/"            
+            }
+          }
+          </script>
+          
+        <script  type="module-shim">
+          import 'xtal-material/xtal-text-input-md.js';
+          import 'xtal-material/xtal-email-input-md.js';
+          import 'xtal-material/xtal-checkbox-input-md.js';
+          import 'xtal-material/xtal-radio-group-md.js';
+          import 'xtal-material/xtal-text-area-md.js';
+          import 'xtal-material/xtal-radio-tabs-md.js';
+          import 'xtal-material/xtal-side-nav.js';
+        </script>
         <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
         <script type="module" src="https://unpkg.com/p-d.p-u@0.0.100/dist/p-d.p-u.iife.js"></script>
-        <script type="module" src="https://unpkg.com/litter-g@0.0.18/dist/litter-g.iife.js?module"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-decorator.iife.js"></script>
-      </div>
-      <div id="test"></div>
-      <script>
-        const tim = document.createElement('xtal-text-input-md');
-        tim.options = {
-                  data: [
-                    {txt: 'House of Cards', id:1},
-                    {txt: 'Orange is the New Black', id:2},
-                    {txt: 'Marco Polo', id:3},
-                    {txt: 'Narcos', id:4},
-                    {txt:  'The Crown', id:5},
-                    {txt:'Ozark', id: 6}
-                  ],
-                  textFld: 'txt',
-                  keyFld: 'id'
-                }
-        test.appendChild(tim);
-      </script>
-      
+  </div>
 </body>
 
 </html>
