@@ -12,7 +12,9 @@ export function autoCompletize(txt, vals) {
             lastVal: undefined
         },
         methods: {
-            onPropsChange: function () {
+            onPropsChange: function (name) {
+                if (name === 'selection')
+                    return;
                 let dl = null;
                 if (!this.hasAttribute('list')) {
                     const dl = document.createElement('datalist');
@@ -30,14 +32,30 @@ export function autoCompletize(txt, vals) {
                     const viewableOptions = [];
                     let cnt = 0;
                     const textFld = options.textFld;
+                    //let exactlyOneExactMatch = false;
+                    let exactMatch = null;
                     for (let i = 0, ii = options.data.length; i < ii; i++) {
                         const row = options.data[i];
-                        if (row[textFld].indexOf(this.value) > -1) {
+                        if ((row[textFld]).toLowerCase().indexOf(this.value.toLowerCase()) > -1) {
+                            if (cnt === 0) {
+                                if (row[textFld] === this.value) {
+                                    exactMatch = row;
+                                }
+                            }
+                            else {
+                                if (row[textFld] === this.value) {
+                                    exactMatch = null;
+                                }
+                            }
                             viewableOptions.push(row);
                             cnt++;
-                            if (cnt > 100)
+                            if (cnt > 20)
                                 break;
                         }
+                    }
+                    if (exactMatch !== null) {
+                        this.selection = exactMatch;
+                        return;
                     }
                     const arr = [];
                     viewableOptions.forEach(item => {
