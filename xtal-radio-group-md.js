@@ -114,16 +114,16 @@ export class XtalRadioGroupMD extends XtalElement {
                     }
                 });
                 //slot.assignedNodes().forEach((node : HTMLElement) => {
-            }
-            // change: e => {
-            //   const element = this.inputElement;
-            //   if (element && element.matches(".form-element-field")) {
-            //     element.classList[element.value ? "add" : "remove"]("-hasvalue");
-            //   }
-            // },
-            // input: e => {
-            //   this.emitEvent();
-            // }
+            },
+            change: e => {
+                // const element = this.inputElement;
+                // if (element && element.matches(".form-element-field")) {
+                //   element.classList[element.value ? "add" : "remove"]("-hasvalue");
+                // }
+                this.de('value', {
+                    value: e.target.value
+                });
+            },
         });
     }
     static get is() {
