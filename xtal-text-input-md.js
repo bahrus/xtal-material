@@ -211,7 +211,7 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 export class XtalTextInputMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._renderContext = {};
+        this._initContext = {};
         this._eventContext = newEventContext({
             change: e => {
                 const element = this.inputElement;
@@ -237,8 +237,8 @@ export class XtalTextInputMD extends XtalElement {
     get mainTemplate() {
         return textInputTemplate;
     }
-    get renderContext() {
-        return this._renderContext;
+    get initContext() {
+        return this._initContext;
     }
     get eventContext() {
         return this._eventContext;

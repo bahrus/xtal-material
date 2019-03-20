@@ -95,7 +95,7 @@ const mainTemplate = createTemplate(/* html */ `
 export class XtalRadioGroupMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._renderContext = {};
+        this._initContext = {};
         this._eventContext = newEventContext({
             slotchange: e => {
                 e.target.assignedNodes().forEach((node) => {
@@ -132,8 +132,8 @@ export class XtalRadioGroupMD extends XtalElement {
     get mainTemplate() {
         return mainTemplate;
     }
-    get renderContext() {
-        return this._renderContext;
+    get initContext() {
+        return this._initContext;
     }
     get eventContext() {
         return this._eventContext;

@@ -60,7 +60,7 @@ const mainTemplate = createTemplate(/* html*/ `
 export class XtalSideNav extends XtalElement {
     constructor() {
         super(...arguments);
-        this._renderContext = newRenderContext({});
+        this._initContext = newRenderContext({});
     }
     static get is() { return 'xtal-side-nav'; }
     get eventContext() {
@@ -69,8 +69,8 @@ export class XtalSideNav extends XtalElement {
     get mainTemplate() {
         return mainTemplate;
     }
-    get renderContext() {
-        return this._renderContext;
+    get initContext() {
+        return this._initContext;
     }
     get ready() {
         return true;

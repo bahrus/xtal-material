@@ -65,9 +65,9 @@ export class XtalSideNav extends XtalElement{
     get mainTemplate(){
         return mainTemplate;
     }
-    _renderContext = newRenderContext({});
-    get renderContext() {
-      return this._renderContext;
+    _initContext = newRenderContext({});
+    get initContext() {
+      return this._initContext;
     }
     get ready(){
         return true;

@@ -117,9 +117,9 @@ export class XtalRadioTabsMD extends XtalElement {
   get mainTemplate() {
     return mainTemplate;
   }
-  _renderContext = {};
-  get renderContext() {
-    return this._renderContext;
+  _initContext = {};
+  get initContext() {
+    return this._initContext;
   }
 
   _eventContext = newEventContext({

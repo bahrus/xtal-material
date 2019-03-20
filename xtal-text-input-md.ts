@@ -2,6 +2,7 @@ import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "xtal-element/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
+import { RenderContext } from "../trans-render/init";
 
 export interface IXtalInputProperties {
   value: string;
@@ -236,9 +237,9 @@ export class XtalTextInputMD extends XtalElement {
   get mainTemplate() {
     return textInputTemplate;
   }
-  _renderContext = {};
-  get renderContext() {
-    return this._renderContext;
+  _initContext = {} as RenderContext;
+  get initContext() {
+    return this._initContext;
   }
 
   _eventContext = newEventContext({

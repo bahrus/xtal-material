@@ -110,7 +110,7 @@ input[type="radio"][name="tabs"]:nth-of-type(${n + 1}):checked~.slide {
 export class XtalRadioTabsMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._renderContext = {};
+        this._initContext = {};
         this._eventContext = newEventContext({
             slotchange: e => {
                 e.target
@@ -159,8 +159,8 @@ export class XtalRadioTabsMD extends XtalElement {
     get mainTemplate() {
         return mainTemplate;
     }
-    get renderContext() {
-        return this._renderContext;
+    get initContext() {
+        return this._initContext;
     }
     get eventContext() {
         return this._eventContext;
