@@ -5,8 +5,9 @@ export function autoCompletize(txt, vals) {
     if (txt.hasAttribute(auto))
         return;
     txt.setAttribute(auto, '');
-    decorate(txt, vals, {
-        props: {
+    decorate(txt, {
+        propVals: vals,
+        propDefs: {
             options: undefined,
             selection: undefined,
             lastVal: undefined

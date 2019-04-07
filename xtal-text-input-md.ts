@@ -1,8 +1,9 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
-import { define } from "xtal-element/define.js";
+import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
-import { RenderContext } from "../trans-render/init.d.js";
+import { RenderContext } from "trans-render/init.d.js";
+import {up} from "trans-render/hydrate.js";
 
 export interface IXtalInputProperties {
   value: string;
@@ -329,7 +330,7 @@ export class XtalTextInputMD extends XtalElement {
     }
   }
   connectedCallback() {
-    this._upgradeProperties(["value", "options"]);
+    this[up](["value", "options"]);
     super.connectedCallback();
   }
 

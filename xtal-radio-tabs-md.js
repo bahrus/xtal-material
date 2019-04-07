@@ -1,5 +1,5 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
-import { define } from "xtal-element/define.js";
+import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 const mainTemplate = createTemplate(/* html */ `

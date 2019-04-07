@@ -3,13 +3,13 @@
   "version": "0.0.57",
   "description": "Dependency Free Material Components",
   "main": "xtal-text-input-md.js",
-  "module": "xtal-text-input-md",
+  "module": "xtal-text-input-md.js",
   "repository": "https://github.com/bahrus/xtal-material",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.95",
-    "xtal-element": "0.0.44",
+    "trans-render": "0.0.99",
+    "xtal-element": "0.0.50",
     "event-switch": "0.0.12"
   },
   "devDependencies": {

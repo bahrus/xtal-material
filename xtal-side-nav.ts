@@ -1,5 +1,5 @@
 import {XtalElement} from 'xtal-element/xtal-element.js';
-import { define } from 'xtal-element/define.js';
+import { define } from 'trans-render/define.js';
 import { createTemplate, newRenderContext } from "xtal-element/utils.js";
 const mainTemplate = createTemplate(/* html*/`
 <span id="opener" style="font-size:30px;cursor:pointer">&#9776; <slot name="title"></slot></span>

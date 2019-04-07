@@ -11,8 +11,9 @@ const auto = '__autoCompletize__';
 export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
     if(txt.hasAttribute(auto)) return;
     txt.setAttribute(auto, '');
-    decorate(txt, vals, {
-        props: {
+    decorate(txt, {
+        propVals: vals,
+        propDefs: {
             options: undefined,
             selection: undefined,
             lastVal: undefined

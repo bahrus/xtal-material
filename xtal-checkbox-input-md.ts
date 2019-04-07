@@ -1,5 +1,5 @@
 import {XtalTextInputMD} from './xtal-text-input-md.js';
-import { define } from 'xtal-element/define.js';
+import { define } from 'trans-render/define.js';
 import { createTemplate } from "xtal-element/utils.js";
 const mainTemplate = createTemplate(/* html*/`
 <label class="form-checkbox-label">
