@@ -1,7 +1,11 @@
 import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "trans-render/define.js";
+import {repeat} from "trans-render/repeat.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
+import {RenderContext, TransformValueOptions, TransformRules} from 'trans-render/init.d.js';
+import {update} from 'trans-render/update.js';
+import {init} from 'trans-render/init.js';
 
 const mainTemplate = createTemplate(/* html */ `
 <slot></slot>
@@ -94,6 +98,18 @@ const mainTemplate = createTemplate(/* html */ `
 </style>
 `);
 
+const radioGroupTemplate = createTemplate(/* html */`
+<form></form>
+`);
+
+const itemTemplate = createTemplate(/* html */`
+<label class="form-radio-label">
+  <input name="pronoun" class="form-radio-field" type="radio" required value="." />
+  <i class="form-radio-button"></i>
+  <span></span>
+</label>
+`);
+
 export class XtalRadioGroupMD extends XtalElement {
     static get is() {
         return "xtal-radio-group-md";
@@ -110,33 +126,29 @@ export class XtalRadioGroupMD extends XtalElement {
         slotchange: e =>{
             (e.target as HTMLSlotElement).assignedNodes().forEach((node: HTMLElement) =>{
                 if(node.localName === 'datalist'){
-                    const buttons = [];
-                    Array.from(node.children).forEach((option: HTMLOptionElement, idx: number) =>{
-                        const rb = 
-                        /* html */`<label class="form-radio-label">
-                                    <input name="pronoun" class="form-radio-field" type="radio" required value="${option.value}" />
-                                    <i class="form-radio-button"></i>
-                                    <span>${option.textContent || option.value}</span>
-                                    </label>`
-                        buttons.push(rb);
-                    });
-                    this.root.querySelector('[target]').innerHTML = buttons.join('');
+                    const target = this.root.querySelector('[target]') as HTMLElement;
+                    const itemTransform = {
+                      label: ({idx}) => ({
+                        input: ({target}) => (<any>target).value = (<any>node.children[idx]).value,
+                        span: x => (node.children[idx].textContent || (<any>node).children[idx].value)
+                      })
+                    } as TransformValueOptions;
+                    const ctx = init(radioGroupTemplate, {
+                      Transform:{
+                        form: ({target, ctx}) => repeat(itemTemplate, ctx , node.children.length, target, itemTransform)
+                      } as TransformRules
+                    }, target);
+                    ctx.update = update;
+                    
                 }
             })
             //slot.assignedNodes().forEach((node : HTMLElement) => {
         },
         change: e => {
-          // const element = this.inputElement;
-          // if (element && element.matches(".form-element-field")) {
-          //   element.classList[element.value ? "add" : "remove"]("-hasvalue");
-          // }
           this.de('value', {
             value: (<any>e.target).value
           })
         },
-        // input: e => {
-        //   //this.emitEvent();
-        // }
       });
       get eventContext() {
         return this._eventContext;
