@@ -95,7 +95,7 @@ const mainTemplate = createTemplate(/* html */ `
 
 </style>
 `);
-const radioGroupTemplate = createTemplate(/* html */ `
+const formTemplate = createTemplate(/* html */ `
 <form></form>
 `);
 const itemTemplate = createTemplate(/* html */ `
@@ -120,7 +120,7 @@ export class XtalRadioGroupMD extends XtalElement {
                                 span: x => (node.children[idx].textContent || node.children[idx].value)
                             })
                         };
-                        const ctx = init(radioGroupTemplate, {
+                        const ctx = init(formTemplate, {
                             Transform: {
                                 form: ({ target, ctx }) => repeat(itemTemplate, ctx, node.children.length, target, itemTransform)
                             }
