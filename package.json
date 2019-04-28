@@ -13,7 +13,7 @@
     "event-switch": "0.0.12"
   },
   "devDependencies": {
-    "@types/node": "11.13.7",
+    "@types/node": "11.13.8",
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12"
   },
