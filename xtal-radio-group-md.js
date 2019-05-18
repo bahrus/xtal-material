@@ -112,17 +112,20 @@ export class XtalRadioGroupMD extends XtalElement {
         this._eventContext = newEventContext({
             slotchange: e => {
                 e.target.assignedNodes().forEach((node) => {
-                    if (node.localName === 'datalist') {
+                    if (node.nodeType !== 1)
+                        return;
+                    const datalist = node.localName === 'datalist' ? node : node.querySelector('datalist');
+                    if (datalist !== null) {
                         const target = this.root.querySelector('[target]');
                         const itemTransform = {
                             label: ({ idx }) => ({
-                                input: ({ target }) => target.value = node.children[idx].value,
-                                span: x => (node.children[idx].textContent || node.children[idx].value)
+                                input: ({ target }) => target.value = datalist.children[idx].value,
+                                span: x => (datalist.children[idx].textContent || datalist.children[idx].value)
                             })
                         };
                         const ctx = init(formTemplate, {
                             Transform: {
-                                form: ({ target, ctx }) => repeat(itemTemplate, ctx, node.children.length, target, itemTransform)
+                                form: ({ target, ctx }) => repeat(itemTemplate, ctx, datalist.children.length, target, itemTransform)
                             }
                         }, target);
                         ctx.update = update;
