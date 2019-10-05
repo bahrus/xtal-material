@@ -5,9 +5,9 @@
 <img src="https://badgen.net/bundlephobia/minzip/xtal-material">
 
 
-Light weight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB).  For tabs we build on Ben Mildren's [Material Design CSS Only Tabs](https://codepen.io/mildrenben/pen/bdGdOb).
+Lightweight material design V1 web components, based on Jon Uhlmann's [pure CSS material design form elements](https://codepen.io/jonnitto/pen/OVmvPB).  For tabs we build on Ben Mildren's [Material Design CSS Only Tabs](https://codepen.io/mildrenben/pen/bdGdOb).
 
-NB:  There are a number of [far](https://github.com/material-components/material-components-web-components) [more](https://vaadin.com/components/browse) [robust](https://www.webcomponents.org/collection/PolymerElements/paper-elements) [alternative](https://ionicframework.com/docs/components/) [material](https://web-padawan.github.io/aybolit/?path=/story/bootstrap--abs-button) design web components you should definitely check out.
+NB:  There are [a](https://weightless.dev/) [number](https://xy-ui.codelabo.cn/docs/#/) of [far](https://github.com/material-components/material-components-web-components) [more](https://vaadin.com/components/browse) [robust](https://www.webcomponents.org/collection/PolymerElements/paper-elements) [alternative](https://ionicframework.com/docs/components/) [material](https://web-padawan.github.io/aybolit/?path=/story/bootstrap--abs-button) design web components you should definitely check out.
 
 
 The text input also supports autocomplete / combobox functionality.  It has a property, options, which expects the following interface:

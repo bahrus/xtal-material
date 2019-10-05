@@ -2,20 +2,25 @@
   "name": "xtal-material",
   "version": "0.0.63",
   "description": "Dependency Free Material Components",
-  "main": "xtal-text-input-md.js",
-  "module": "xtal-text-input-md.js",
+  "main": "xtal-material.js",
+  "module": "xtal-material.js",
   "repository": "https://github.com/bahrus/xtal-material",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.111",
-    "xtal-element": "0.0.59",
-    "event-switch": "0.0.12"
+    "trans-render": "0.0.134",
+    "xtal-element": "0.0.85",
+    "event-switch": "0.0.12",
+    "xtal-text-input-md": "0.0.13",
+    "xtal-text-area-md": "0.0.19",
+    "xtal-radio-group-md": "0.0.2",
+    "xtal-checkbox-input-md": "0.0.4"
   },
   "devDependencies": {
-    "@types/node": "11.13.8",
+    "@types/node": "12.7.11",
     "@webcomponents/webcomponentsjs": "2.2.10",
-    "jiife": "0.0.12"
+    "jiife": "0.0.14",
+    "xtal-test": "0.0.20"
   },
   "scripts": {}
 }
