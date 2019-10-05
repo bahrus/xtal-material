@@ -170,7 +170,7 @@ export class XtalRadioTabsMD extends XtalElement {
     return this._eventContext;
   }
 
-  get ready() {
+  get readyToInit() {
     return true;
   }
 }

@@ -69,7 +69,7 @@ export class XtalSideNav extends XtalElement{
     get initContext() {
       return this._initContext;
     }
-    get ready(){
+    get readyToInit(){
         return true;
     }
     onPropsChange(){

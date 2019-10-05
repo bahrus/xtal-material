@@ -165,7 +165,7 @@ export class XtalRadioTabsMD extends XtalElement {
     get eventContext() {
         return this._eventContext;
     }
-    get ready() {
+    get readyToInit() {
         return true;
     }
 }
