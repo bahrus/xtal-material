@@ -14,13 +14,18 @@
     "xtal-text-input-md": "0.0.13",
     "xtal-text-area-md": "0.0.19",
     "xtal-radio-group-md": "0.0.2",
+    "xtal-radio-tabs-md": "0.0.1",
     "xtal-checkbox-input-md": "0.0.4"
   },
   "devDependencies": {
     "@types/node": "12.7.11",
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.14",
-    "xtal-test": "0.0.20"
+    "xtal-test": "0.0.20",
+    "es-module-shims": "0.4.5",
+    "p-et-alia": "0.0.47"
   },
-  "scripts": {}
+  "scripts": {
+    "serve": "node node_modules/xtal-test/serve.js"
+  }
 }

@@ -118,32 +118,31 @@
 
         <xtal-radio-group-md name="slotTest"></xtal-radio-group-md>
 
-    <script type="module" src="../xtal-text-input-md.js"></script>
-    <script type="module" src="../xtal-email-input-md.js"></script>
-    <script type="module" src="../xtal-checkbox-input-md.js"></script>
-    <script type="module" src="../xtal-radio-group-md.js"></script>
-    <script type="module" src="../xtal-text-area-md.js"></script>
-    <script type="module" src="../xtal-radio-tabs-md.js"></script>
-    <script type="module" src="../xtal-side-nav.js"></script>
+
     <script type="module" src="https://unpkg.com/carbon-copy@0.1.43/carbon-copy.js"></script>
-    <script type="module" src="https://unpkg.com/p-d.p-u@0.0.100/dist/p-d.p-u.iife.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-decorator.iife.js"></script>
 
     <!-- Use experimental import maps -->
-    <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.0/dist/es-module-shims.js"></script>
+    <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
     <script type="importmap-shim">
       {
         "imports": {
-          "xtal-element/":        "https://cdn.jsdelivr.net/npm/xtal-element@0.0.58/",
-          "trans-render/":        "https://cdn.jsdelivr.net/npm/trans-render@0.0.110/",
-          "xtal-sip/xtal-sip.js": "https://cdn.jsdelivr.net/npm/xtal-sip@0.0.66/xtal-sip.js",
-          "p-d.p-u/p-d.js":       "https://cdn.jsdelivr.net/npm/p-d.p-u@0.0.119/p-d.js#!"
+          "xtal-element/":        "../node_modules/xtal-element/",
+          "trans-render/":        "../node_modules/trans-render/",
+          "event-switch/":  "../node_modules/event-switch/",
+          "p-et-alia/":             "../node_modules/p-et-alia/",
+          "xtal-checkbox-input-md/": "../node_modules/xtal-checkbox-input-md/",
+          "xtal-text-input-md/":     "../node_modules/xtal-text-input-md/",
+          "xtal-radio-group-md/":    "../node_modules/xtal-radio-group-md/",
+          "xtal-text-area-md/": "../node_modules/xtal-text-area-md/",
+          "xtal-radio-tabs-md/": "../node_modules/xtal-radio-tabs-md/"
         }
       }
       </script>
     <script  type="module-shim">
-      import '../if-diff.js';
-      import 'xtal-sip/xtal-sip.js';
+      import '../xtal-material.js';
+      import 'p-et-alia/p-d.js';
+      import '../xtal-side-nav.js';
     </script>
   </div>
 </body>
