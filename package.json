@@ -12,11 +12,11 @@
     "xtal-element": "0.0.85",
     "event-switch": "0.0.12",
     "xtal-text-input-md": "0.0.13",
-    "xtal-text-area-md": "0.0.19",
-    "xtal-radio-group-md": "0.0.2",
-    "xtal-radio-tabs-md": "0.0.1",
-    "xtal-checkbox-input-md": "0.0.4",
-    "xtal-side-nav": "0.0.1"
+    "xtal-text-area-md": "0.0.20",
+    "xtal-radio-group-md": "0.0.3",
+    "xtal-radio-tabs-md": "0.0.2",
+    "xtal-checkbox-input-md": "0.0.5",
+    "xtal-side-nav": "0.0.2"
   },
   "devDependencies": {
     "@types/node": "12.7.11",
