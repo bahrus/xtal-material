@@ -1,6 +1,6 @@
 {
   "name": "xtal-material",
-  "version": "0.0.66",
+  "version": "0.0.67",
   "description": "Dependency Free Material Components",
   "main": "xtal-material.js",
   "module": "xtal-material.js",
