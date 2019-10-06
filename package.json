@@ -15,7 +15,8 @@
     "xtal-text-area-md": "0.0.19",
     "xtal-radio-group-md": "0.0.2",
     "xtal-radio-tabs-md": "0.0.1",
-    "xtal-checkbox-input-md": "0.0.4"
+    "xtal-checkbox-input-md": "0.0.4",
+    "xtal-side-nav": "0.0.1"
   },
   "devDependencies": {
     "@types/node": "12.7.11",
