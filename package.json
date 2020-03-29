@@ -8,23 +8,21 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.134",
-    "xtal-element": "0.0.85",
+    "trans-render": "0.0.143",
+    "xtal-element": "0.0.101",
     "event-switch": "0.0.12",
-    "xtal-text-input-md": "0.0.13",
-    "xtal-text-area-md": "0.0.20",
+    "xtal-text-input-md": "0.0.18",
+    "xtal-text-area-md": "0.0.21",
     "xtal-radio-group-md": "0.0.3",
     "xtal-radio-tabs-md": "0.0.2",
     "xtal-checkbox-input-md": "0.0.5",
     "xtal-side-nav": "0.0.2"
   },
   "devDependencies": {
-    "@types/node": "12.7.11",
-    "@webcomponents/webcomponentsjs": "2.2.10",
-    "jiife": "0.0.14",
-    "xtal-test": "0.0.20",
-    "es-module-shims": "0.4.5",
-    "p-et-alia": "0.0.47"
+    "@webcomponents/webcomponentsjs": "2.4.3",
+    "xtal-test": "0.0.44",
+    "es-module-shims": "0.4.6",
+    "p-et-alia": "0.0.74"
   },
   "scripts": {
     "serve": "node node_modules/xtal-test/serve.js"
